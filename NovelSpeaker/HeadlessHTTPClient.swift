@@ -1,0 +1,412 @@
+//
+//  HeadlessHTTPClient.swift
+//  NovelSpeaker
+//
+//  Created by 飯村卓司 on 2020/05/14.
+//  Copyright © 2020 IIMURA Takuji. All rights reserved.
+//
+
+import Foundation
+import WebKit
+import Erik
+import Kanna
+
+// smart-wait の ready 通知(JS→ネイティブ)を受ける専用ハンドラ。
+// HeadlessHttpClient 自体を NSObject 化せずに済むよう、ハンドラを別オブジェクトにして closure で受け渡す。
+// onMessage は1リクエストごとに張り替え、発火/タイムアウト後に nil へ戻す(client を巻き込んだ循環参照を避ける)。
+class HeadlessReadyMessageHandler: NSObject, WKScriptMessageHandler {
+    static let name = "novelSpeakerReady"
+    var onMessage: (([String: Any]) -> Void)?
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard message.name == HeadlessReadyMessageHandler.name else { return }
+        if let body = message.body as? [String: Any] { onMessage?(body) }
+    }
+}
+
+class HeadlessHttpClient {
+    var webView : WKWebView!
+    var erik:Erik!
+    var config:WKWebViewConfiguration
+    var pageLoadTimeout:TimeInterval = 60*5 // TODO: 後で「正しい値(要定義)」を設定できるようにしたい。StoryFetcher 側にも同じ値が設定されている箇所がある
+    let readyHandler = HeadlessReadyMessageHandler()
+
+    //static let shared = HeadlessHttpClient()
+
+    init(config:WKWebViewConfiguration? = nil) {
+        let wkConfig:WKWebViewConfiguration
+        if let config = config {
+            wkConfig = config
+        }else{
+            wkConfig = WKWebViewConfiguration()
+        }
+        NovelSpeakerUtility.ApplyPrivacyTrackingBlockRuleIfNeeded(to: wkConfig)
+        self.config = wkConfig
+        ReloadWebView(config: wkConfig)
+    }
+    deinit {
+        releaseCurrentWebView()
+    }
+    
+    func GenerateNSError(msg: String) -> NSError {
+        return NSError(domain: "com.limuraproducts.headlesshttpclient", code: 0, userInfo: [NSLocalizedDescriptionKey: msg])
+    }
+    
+    func ErikErrorToNSError(error:ErikError) -> NSError {
+        switch error {
+        case .htmlNotParsable(let html, let error):
+            return GenerateNSError(msg: "ErikError.htmlNotParsable: \(error.localizedDescription), html.count: \(html.count), html.firstLine: \(html.split(separator: "\n").first ?? "-")")
+        case .invalidURL(let urlString):
+            return GenerateNSError(msg: "ErikError.invalidURL: \(urlString)")
+        case .javaScriptError(let message):
+            return GenerateNSError(msg: "ErikError.javaScriptError: \(message)")
+        case .noContent:
+            return GenerateNSError(msg: NSLocalizedString("HeadlessHttpClient_ErikError_noContent", comment: "ErikError.noContent: 何も読み込めませんでした。なお、ネットワーク接続に問題がある場合などでもこのエラーが発生する場合があります。"))
+        case .timeOutError(let timeInterval):
+            return GenerateNSError(msg: "ErikError.timeOutError: \(timeInterval)")
+        //default:
+        //    return GenerateNSError(msg: "ErikError.unknown")
+        }
+    }
+    
+    static func GenerateJavaScriptNSError(javaScript:String) -> NSError {
+        return NSError(domain: "com.limuraproducts.headlesshttpclient", code: 0, userInfo: [NSLocalizedDescriptionKey: "execute JavaScript(\"\(javaScript)\") error."])
+    }
+    
+    static func NormalizeEvaluateJavaScriptResult(data:Any?, error:Error?, javaScript:String, erikErrorConverter:((ErikError)->NSError)? = nil) -> (String?, Error?) {
+        if let error = error {
+            if let error = error as? ErikError, let erikErrorConverter = erikErrorConverter {
+                return (nil, erikErrorConverter(error))
+            }
+            return (nil, error)
+        }
+        if let resultString = data as? String {
+            return (resultString, nil)
+        }
+        return (nil, GenerateJavaScriptNSError(javaScript: javaScript))
+    }
+    
+    private func releaseCurrentWebView() {
+        dispatch_sync_on_main_thread {
+            self.webView?.stopLoading()
+            self.webView?.navigationDelegate = nil
+            self.webView?.uiDelegate = nil
+            self.webView?.removeFromSuperview()
+            self.erik = nil
+            self.webView = nil
+        }
+    }
+    
+    func ReloadWebView(config:WKWebViewConfiguration){
+        releaseCurrentWebView()
+        self.config = config
+        // smart-wait の ready 通知用ハンドラを登録(冪等: 二重 add は例外になるため一旦 remove)。
+        config.userContentController.removeScriptMessageHandler(forName: HeadlessReadyMessageHandler.name)
+        config.userContentController.add(readyHandler, name: HeadlessReadyMessageHandler.name)
+        dispatch_sync_on_main_thread {
+            let frame = CGRect(x: 0, y: 0, width: 1024, height: 1366)
+            self.webView = WKWebView(frame: frame, configuration: config)
+            if #available(iOS 16.4, *) {
+                self.webView.isInspectable = NovelSpeakerUtility.IsInspectableWkWebview()
+            }
+            erik = Erik(webView: self.webView)
+            if let layoutEngine = erik.layoutEngine as? WebKitLayoutEngine {
+                layoutEngine.pageLoadTimeout = pageLoadTimeout
+            }
+            for scene in UIApplication.shared.connectedScenes {
+                if scene.activationState == .foregroundActive, let targetWindow = ((scene as? UIWindowScene)?.delegate as? UIWindowSceneDelegate)?.window, let tmpWindow = targetWindow {
+                    self.webView.alpha = 0.0001
+                    tmpWindow.insertSubview(self.webView, at: 0)
+                    break
+                }
+            }
+        }
+    }
+    
+    func dispatch_sync_on_main_thread(_ block: ()->()) {
+        if Thread.isMainThread {
+            block()
+        } else {
+            DispatchQueue.main.sync(execute: block)
+        }
+    }
+    
+    func generateUrlRequest(url:URL, postData:Data? = nil, timeoutInterval:TimeInterval = 10, cookieString:String? = nil, mainDocumentURL:URL? = nil, allowsCellularAccess:Bool = true) -> URLRequest {
+        var request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy, timeoutInterval: timeoutInterval)
+        if let cookieString = cookieString, cookieString.count > 0 {
+            request.setValue(cookieString, forHTTPHeaderField: "Cookie")
+        }
+        request.allowsCellularAccess = allowsCellularAccess
+        request.mainDocumentURL = mainDocumentURL
+        if let postData = postData {
+            request.httpMethod = "POST"
+            request.httpBody = postData
+        }
+        return request
+    }
+    
+    public func HttpRequest(url:URL, postData:Data? = nil, timeoutInterval:TimeInterval = 10, cookieString:String? = nil, mainDocumentURL:URL? = nil, allowsCellularAccess:Bool = true, successResultHandler:((Document) -> Void)? = nil, errorResultHandler:((Error) -> Void)? = nil) {
+        DispatchQueue.main.async {
+            let requestID = "HTTPRequest" + url.absoluteString
+            ActivityIndicatorManager.enable(id: requestID)
+            let request = self.generateUrlRequest(url: url, postData: postData, timeoutInterval: timeoutInterval, cookieString: cookieString, mainDocumentURL: mainDocumentURL)
+            func LoadNext() {
+                if let layoutEngine = self.erik.layoutEngine as? WebKitLayoutEngine {
+                    layoutEngine.pageLoadTimeout = timeoutInterval + 2.5
+                }
+                self.erik.load(urlRequest: request) { (document, err) in
+                    ActivityIndicatorManager.disable(id: requestID)
+                    if let err = err {
+                        if let err = err as? ErikError {
+                            print("erik.load error ErikError: \(err.localizedDescription)")
+                            errorResultHandler?(self.ErikErrorToNSError(error: err))
+                        }else{
+                            print("erik.load error not ErikError: \(err.localizedDescription)")
+                            errorResultHandler?(err)
+                        }
+                        return
+                    }
+                    guard let doc = document else {
+                        let err = NSError(domain: "com.limuraproducts.headlesshttpclient", code: 0, userInfo: [NSLocalizedDescriptionKey: "doc = nil"])
+                        errorResultHandler?(err)
+                        return
+                    }
+                    successResultHandler?(doc)
+                }
+            }
+            if url.absoluteString.contains("#"), let currentUrl = self.erik.url, url.absoluteString.replacingOccurrences(of: "#.*$", with: "", options: .regularExpression, range: nil) == currentUrl.absoluteString.replacingOccurrences(of: "#.*$", with: "", options: .regularExpression, range: nil) {
+                //print("about:blank を挟みます: \(url.absoluteString.replacingOccurrences(of: "#.*$", with: "", options: .regularExpression, range: nil))")
+                self.erik.visit(urlString: "about:blank") { (document, error) in
+                    LoadNext()
+                }
+            }else{
+                //print("about:blank は挟みません:\n\(url.absoluteString.replacingOccurrences(of: "#.*$", with: "", options: .regularExpression, range: nil))\n")
+                LoadNext()
+            }
+        }
+    }
+    
+    // erik.load(= WKWebView の load イベント=didFinish 待ち)を通さずにページを読み込む。
+    // load イベントはメイン文書中の広告/トラッカー等のサブリソースが全部終わるまで発火しないため、
+    // それが終わらないページでは Erik の完了待ち(LayoutEngine の while ビジーウェイト)が永遠に終わらず、
+    // 本文DOMが揃っているのに取得がハングして noContent になる(2026-06 調査・DESIGN_取得状態機械とheadlessReady判定.md)。
+    // 本文は DOMContentLoaded の時点で揃うので、load イベントではなく DOMContentLoaded(readyState != 'loading')
+    // 到達を完了条件にする。直接 webView.load するため Erik の navigate フラグは立たず、後続の GetCurrentContent
+    // (erik.currentContent)も待たずに即返る(= Erik のビジーウェイト経路を一切通らない)。
+    public func LoadUntilDOMContentLoaded(url:URL, postData:Data? = nil, timeoutInterval:TimeInterval = 10, cookieString:String? = nil, mainDocumentURL:URL? = nil, allowsCellularAccess:Bool = true, completion:@escaping (Error?)->Void) {
+        DispatchQueue.main.async {
+            let requestID = "HeadlessLoadDCL" + url.absoluteString
+            ActivityIndicatorManager.enable(id: requestID)
+            let request = self.generateUrlRequest(url: url, postData: postData, timeoutInterval: timeoutInterval, cookieString: cookieString, mainDocumentURL: mainDocumentURL, allowsCellularAccess: allowsCellularAccess)
+            var finished = false
+            func finish(_ error: Error?) {
+                if finished { return }
+                finished = true
+                ActivityIndicatorManager.disable(id: requestID)
+                completion(error)
+            }
+            // ナビが始まらない/失敗する(=DOMContentLoaded に永遠に達しない)場合の保険。
+            // 従来 erik.load が使っていた pageLoadTimeout と同じ上限なので、待ちの上限は従来より悪化しない。
+            // (ネットワーク失敗時は従来 didFailProvisional で早く失敗していたが、本経路は delegate を持たないため
+            //  この上限まで待つ。直すなら custom navigationDelegate が要る=別課題。)
+            let hardCap = timeoutInterval + 2.5
+            DispatchQueue.main.asyncAfter(deadline: .now() + hardCap) {
+                finish(self.GenerateNSError(msg: NSLocalizedString("HeadlessHttpClient_ErikError_noContent", comment: "ErikError.noContent: 何も読み込めませんでした。なお、ネットワーク接続に問題がある場合などでもこのエラーが発生する場合があります。")))
+            }
+            // DOMContentLoaded(readyState が 'interactive' か 'complete')到達まで軽くポーリングする。
+            // load イベント(全サブリソース完了)は待たない=ハング回避。0.15秒間隔の非同期チェックで CPU はほぼ消費しない
+            // (本文出現の本待ちは後続 headlessWaitThenContent の MutationObserver smart-wait が担当)。
+            //
+            // ★重要: webView は取得をまたいで使い回されるため、load 直後はまだ「前のページ」または "about:blank" が
+            //   残っており、その readyState は既に 'complete'。それを見て早すぎる確定をすると空ドキュメントを掴んで
+            //   noContent になる(2026-06 検証で確認)。そこで「ロード前に現ドキュメントへマーカー window.__nsNavMark を
+            //   打ち、ナビで文書が置換されてマーカーが消えた後の readyState」を見ることで、確実に『新しくコミットされた
+            //   目的ページ』だけを掴む。リダイレクトや同一URL再読込でも新文書になるので確実に判定できる。
+            func startPolling() {
+                func waitDOMContentLoaded() {
+                    if finished { return }
+                    // 新文書なら __nsNavMark は無い。about:blank は除外。それ以外で readyState が loading を抜けたら確定。
+                    let js = "(window.__nsNavMark===true)?'old':((location.href==='about:blank')?'blank':document.readyState)"
+                    self.webView.evaluateJavaScript(js) { result, _ in
+                        if finished { return }
+                        if let s = result as? String, (s == "interactive" || s == "complete") {
+                            finish(nil)
+                            return
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) { waitDOMContentLoaded() }
+                    }
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { waitDOMContentLoaded() }
+            }
+            // 現ドキュメントにマーカーを打ってから load する(打ち終えてから load を呼ぶことで取りこぼしを防ぐ)。
+            self.webView.evaluateJavaScript("window.__nsNavMark=true;true") { _, _ in
+                let stripFragment: (String) -> String = { $0.replacingOccurrences(of: "#.*$", with: "", options: .regularExpression, range: nil) }
+                if url.absoluteString.contains("#"), let currentUrl = self.webView.url,
+                   stripFragment(url.absoluteString) == stripFragment(currentUrl.absoluteString) {
+                    // 同一ページ内アンカー(# のみ変更)は WKWebView がナビゲーション(=新文書)を起こさず
+                    // __nsNavMark が消えないため、既存 HttpRequest と同様に about:blank を挟んで強制的に新文書にする。
+                    self.webView.load(URLRequest(url: URL(string: "about:blank")!))
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
+                        self.webView.load(request)
+                        startPolling()
+                    }
+                } else {
+                    self.webView.load(request)
+                    startPolling()
+                }
+            }
+        }
+    }
+
+    public func GetCurrentContent(completionHandler:((Document?, Error?)->Void)?) {
+        DispatchQueue.main.async {
+            self.erik.currentContent(completionHandler: { (doc, err) in
+                if let err = err as? ErikError {
+                    completionHandler?(doc, self.ErikErrorToNSError(error: err))
+                    return
+                }
+                completionHandler?(doc, err)
+            })
+        }
+    }
+    
+    public func GetCurrentURL() -> URL? {
+        var result:URL? = nil
+        dispatch_sync_on_main_thread {
+            result = self.erik.url
+        }
+        return result
+    }
+    
+    public func GetCurrentCookieString(resultHandler:((String?, Error?)->Void)?) {
+        ExecuteJavaScript(javaScript: "document.cookie", resultHandler: resultHandler)
+    }
+    // 怪しく末尾までスクロールさせます
+    public func ScrollToButtom(resultHandler:((String?, Error?)->Void)?){
+        ExecuteJavaScript(javaScript: "window.scroll(0, document.documentElement.scrollHeight)", resultHandler: resultHandler)
+    }
+    public func ExecuteJavaScript(javaScript:String, resultHandler:((String?, Error?)->Void)?){
+        DispatchQueue.main.async {
+            self.erik.evaluate(javaScript: javaScript) { (data, error) in
+                let (resultString, resultError) = HeadlessHttpClient.NormalizeEvaluateJavaScriptResult(data: data, error: error, javaScript: javaScript) { erikError in
+                    self.ErikErrorToNSError(error: erikError)
+                }
+                resultHandler?(resultString, resultError)
+            }
+        }
+    }
+
+
+    public func LoadAboutPage() {
+        DispatchQueue.main.async {
+            self.erik.visit(urlString: "about:blank", completionHandler: nil)
+        }
+    }
+    
+    // ErikのUserAgentを取得します。
+    // WARN: 一回取得したら起動している間は無闇にJavaScriptを呼び出さないようにしています。
+    // そのため、WKWebViewConfiguration で UserAgent を上書きしたりする運用をしている場合には誤動作します。
+    static var userAgentCache:String? = nil
+    public func GetUserAgent(resultHandler:((String?, Error?)->Void)?) {
+        if let userAgent = HeadlessHttpClient.userAgentCache {
+            resultHandler?(userAgent, nil)
+            return
+        }
+        ExecuteJavaScript(javaScript: "navigator.userAgent", resultHandler: { (userAgent, err) in
+            if let userAgent = userAgent {
+                HeadlessHttpClient.userAgentCache = userAgent
+            }
+            resultHandler?(userAgent, err)
+        })
+    }
+    
+    func getAllCookies(completionHandler:@escaping (([HTTPCookie]?)->Void)) {
+        if #available(iOS 11.0, *) {
+            self.config.websiteDataStore.httpCookieStore.getAllCookies(completionHandler)
+        } else {
+            completionHandler(nil)
+        }
+    }
+    
+    func injectCookie(cookie:HTTPCookie, completionHandler:(()->Void)? = nil) -> Bool {
+        if #available(iOS 11.0, *) {
+            let cookieStore = self.config.websiteDataStore.httpCookieStore
+            cookieStore.setCookie(cookie, completionHandler: completionHandler)
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func AssignCookieArray(cookieArray:[HTTPCookie], completionHandler:(()->Void)? = nil) {
+        if cookieArray.count <= 0 {
+            completionHandler?()
+            return
+        }
+        DispatchQueue.main.async {
+            let semaphore = DispatchSemaphore(value: cookieArray.count)
+            for cookie in cookieArray {
+                DispatchQueue.main.async {
+                    if self.injectCookie(cookie: cookie, completionHandler: {semaphore.signal()}) == false {
+                        semaphore.signal()
+                    }
+                }
+            }
+            semaphore.wait()
+            completionHandler?()
+        }
+    }
+    
+    func dumpAllCookies() {
+        getAllCookies { (cookieArray) in
+            guard let cookieArray = cookieArray else {
+                print("getAllCookies return error.")
+                return
+            }
+            for cookie in cookieArray {
+                print(cookie.description)
+            }
+        }
+    }
+    
+    func removeAllCookies(completionHandler:(()->Void)? = nil) {
+        self.getAllCookies { (cookieArray) in
+            guard let cookieArray = cookieArray else {
+                print("removeAllCookies getAllCookies failed.")
+                completionHandler?()
+                return
+            }
+            if cookieArray.count <= 0 {
+                print("removeAllCookies cookieArray.count <= 0")
+                completionHandler?()
+                return
+            }
+            if #available(iOS 11.0, *) {
+                let cookieStore = self.config.websiteDataStore.httpCookieStore
+                DispatchQueue.main.async {
+                    let semaphore = DispatchSemaphore(value: cookieArray.count)
+                    for cookie in cookieArray {
+                        cookieStore.delete(cookie, completionHandler: { semaphore.signal()})
+                    }
+                    semaphore.wait()
+                    completionHandler?()
+                }
+            }else{
+                print("removeAllCookies error. iOS 11.0 >= self")
+                completionHandler?()
+            }
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    func takeSnapshot(snapshotConfiguration:WKSnapshotConfiguration? = nil, completionHandler: @escaping ((UIImage?, Error?)->Void)) {
+        self.webView.takeSnapshot(with: snapshotConfiguration, completionHandler: completionHandler)
+    }
+    
+    // UserAgent を指定されたものに変更します。
+    // userAgentString に nil を与えると標準の値を使うようになります。
+    func overrideUserAgent(userAgentString:String?) {
+        NiftyUtility.DispatchSyncMainQueue {
+            self.webView.customUserAgent = userAgentString
+        }
+    }
+}

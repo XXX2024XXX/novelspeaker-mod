@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "0E987783-06A9-4FC3-9591-713E177FA906",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:novelspeaker.xcodeproj",
+        "identifier" : "21F054E91917E0F200CC6BA9",
+        "name" : "NovelSpeakerTests"
+      }
+    }
+  ],
+  "version" : 1
+}

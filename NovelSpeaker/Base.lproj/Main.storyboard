@@ -1,0 +1,1818 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Ktg-AW-K7m">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24504"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Debug Log View Controller Swift-->
+        <scene sceneID="1sr-gi-zeQ">
+            <objects>
+                <viewController id="WI3-lq-RQn" customClass="DebugLogViewControllerSwift" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="l03-Ng-qdH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gQM-YC-Qn8">
+                                <rect key="frame" x="0.0" y="74" width="320" height="411"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Mzu-ia-Ii4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="gQM-YC-Qn8" secondAttribute="trailing" constant="-16" id="Cza-lx-hvB"/>
+                            <constraint firstItem="gQM-YC-Qn8" firstAttribute="bottom" secondItem="l03-Ng-qdH" secondAttribute="bottomMargin" id="avF-H3-1hF"/>
+                            <constraint firstItem="gQM-YC-Qn8" firstAttribute="leading" secondItem="l03-Ng-qdH" secondAttribute="leadingMargin" constant="-16" id="c3I-ff-FUp"/>
+                            <constraint firstItem="gQM-YC-Qn8" firstAttribute="top" secondItem="l03-Ng-qdH" secondAttribute="topMargin" id="fMZ-Kk-X6C"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="FcK-cJ-voF">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Clear" id="Lc6-vn-0oR">
+                                <connections>
+                                    <action selector="clearButtonClicked:" destination="WI3-lq-RQn" id="2bD-3o-ZES"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Copy" id="Cfl-Pm-T6O">
+                                <connections>
+                                    <action selector="copyButtonClicked:" destination="WI3-lq-RQn" id="iNe-uJ-Pea"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Filter" id="tWi-pl-CUi">
+                                <connections>
+                                    <action selector="searchButtonClicked:" destination="WI3-lq-RQn" id="jEc-In-QrM"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="logTextView" destination="gQM-YC-Qn8" id="j9N-jG-RWp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VU5-Wx-PIG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-823" y="1592"/>
+        </scene>
+        <!--文字の大きさ-->
+        <scene sceneID="KxK-FQ-fPF">
+            <objects>
+                <viewController id="Pb4-1M-Lvn" customClass="TextSizeSettingViewControllerSwift" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OW2-Cz-epG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="50" minValue="1" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Fkj-1l-L3c">
+                                <rect key="frame" x="72" y="82" width="176" height="34"/>
+                                <connections>
+                                    <action selector="textSizeSliderChanged:" destination="Pb4-1M-Lvn" eventType="valueChanged" id="dUE-qK-TOH"/>
+                                </connections>
+                            </slider>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="26" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="9GS-ku-xOY">
+                                <rect key="frame" x="72" y="123" width="176" height="34"/>
+                                <connections>
+                                    <action selector="lineSpacingSliderChanged:" destination="Pb4-1M-Lvn" eventType="valueChanged" id="OmG-S4-ijv"/>
+                                    <action selector="textSizeSliderChanged:" destination="Pb4-1M-Lvn" eventType="valueChanged" id="WNM-Xu-eiu"/>
+                                </connections>
+                            </slider>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vgK-qt-EeE">
+                                <rect key="frame" x="16" y="164.5" width="288" height="312.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <string key="text">メロスは両手で老爺のからだをゆすぶって質問を重ねた。老爺は、あたりをはばかる低声で、わずか答えた。
+「王様は、人を殺します。」
+「なぜ殺すのだ。」
+「悪心を抱いている、というのですが、誰もそんな、悪心を持っては居りませぬ。」
+「たくさんの人を殺したのか。」
+「はい、はじめは王様の妹婿さまを。それから、御自身のお世嗣を。それから、妹さまを。それから、妹さまの御子さまを。それから、皇后さまを。それから、賢臣のアレキス様を。」
+「おどろいた。国王は乱心か。」
+「いいえ、乱心ではございませぬ。人を、信ずる事が出来ぬ、というのです。このごろは、臣下の心をも、お疑いになり、少しく派手な暮しをしている者には、人質ひとりずつ差し出すことを命じて居ります。御命令を拒めば十字架にかけられて、殺されます。きょうは、六人殺されました。」
+　聞いて、メロスは激怒した。「呆れた王だ。生かして置けぬ。」
+　メロスは、単純な男であった。買い物を、背負ったままで、のそのそ王城にはいって行った。たちまち彼は、巡邏の警吏に捕縛された。調べられて、メロスの懐中からは短剣が出て来たので、騒ぎが大きくなってしまった。メロスは、王の前に引き出された。
+「この短刀で何をするつもりであったか。言え！」暴君ディオニスは静かに、けれども威厳を以て問いつめた。その王の顔は蒼白で、眉間の皺しわは、刻み込まれたように深かった。  太宰治 走れメロスより</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kPq-1m-MJA">
+                                <rect key="frame" x="16" y="87" width="48" height="24"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x86-3r-9UU">
+                                <rect key="frame" x="256" y="128" width="48" height="24"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="47T-9e-HPO">
+                                <rect key="frame" x="16" y="128" width="48" height="24"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Kp-3v-34N">
+                                <rect key="frame" x="256" y="87" width="48" height="24"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="WC8-P8-5Yg"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="9Kp-3v-34N" firstAttribute="leading" secondItem="Fkj-1l-L3c" secondAttribute="trailing" constant="8" symbolic="YES" id="2a8-Vr-5yv"/>
+                            <constraint firstItem="vgK-qt-EeE" firstAttribute="leading" secondItem="OW2-Cz-epG" secondAttribute="leadingMargin" id="4QT-7q-iiY"/>
+                            <constraint firstItem="kPq-1m-MJA" firstAttribute="leading" secondItem="WC8-P8-5Yg" secondAttribute="leading" constant="16" id="6q0-9K-kHW"/>
+                            <constraint firstItem="Fkj-1l-L3c" firstAttribute="leading" secondItem="kPq-1m-MJA" secondAttribute="trailing" constant="8" symbolic="YES" id="84K-FB-hcc"/>
+                            <constraint firstItem="vgK-qt-EeE" firstAttribute="top" secondItem="9GS-ku-xOY" secondAttribute="bottom" constant="7.5" id="85R-uO-fvh"/>
+                            <constraint firstItem="9GS-ku-xOY" firstAttribute="leading" secondItem="47T-9e-HPO" secondAttribute="trailing" constant="8" symbolic="YES" id="AAT-sh-aDx"/>
+                            <constraint firstItem="x86-3r-9UU" firstAttribute="centerY" secondItem="9GS-ku-xOY" secondAttribute="centerY" id="BQr-Ld-xZg"/>
+                            <constraint firstItem="47T-9e-HPO" firstAttribute="leading" secondItem="WC8-P8-5Yg" secondAttribute="leading" constant="16" id="Hkn-bI-tOi"/>
+                            <constraint firstItem="Fkj-1l-L3c" firstAttribute="top" secondItem="WC8-P8-5Yg" secondAttribute="top" constant="8" id="Jh6-lD-Fzh"/>
+                            <constraint firstItem="9GS-ku-xOY" firstAttribute="centerY" secondItem="47T-9e-HPO" secondAttribute="centerY" id="U9d-it-fi8"/>
+                            <constraint firstItem="Fkj-1l-L3c" firstAttribute="centerY" secondItem="kPq-1m-MJA" secondAttribute="centerY" id="We7-Ot-IaO"/>
+                            <constraint firstItem="WC8-P8-5Yg" firstAttribute="trailing" secondItem="x86-3r-9UU" secondAttribute="trailing" constant="16" id="ZZn-Ju-eJQ"/>
+                            <constraint firstItem="kPq-1m-MJA" firstAttribute="top" secondItem="WC8-P8-5Yg" secondAttribute="top" constant="13" id="bfk-3l-LFW"/>
+                            <constraint firstItem="9Kp-3v-34N" firstAttribute="centerY" secondItem="Fkj-1l-L3c" secondAttribute="centerY" id="ev5-l6-Ei5"/>
+                            <constraint firstItem="WC8-P8-5Yg" firstAttribute="trailing" secondItem="9Kp-3v-34N" secondAttribute="trailing" constant="16" id="fvX-nH-ogi"/>
+                            <constraint firstItem="x86-3r-9UU" firstAttribute="leading" secondItem="9GS-ku-xOY" secondAttribute="trailing" constant="8" symbolic="YES" id="gNA-Id-yYe"/>
+                            <constraint firstItem="47T-9e-HPO" firstAttribute="top" secondItem="kPq-1m-MJA" secondAttribute="bottom" constant="17" id="lbo-Dl-mBZ"/>
+                            <constraint firstItem="vgK-qt-EeE" firstAttribute="trailing" secondItem="OW2-Cz-epG" secondAttribute="trailingMargin" id="niZ-fU-RjM"/>
+                            <constraint firstItem="WC8-P8-5Yg" firstAttribute="bottom" secondItem="vgK-qt-EeE" secondAttribute="bottom" constant="8" id="ui5-qs-9yA"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="文字の大きさ" id="PxM-wl-qYW"/>
+                    <connections>
+                        <outlet property="fontSizeLabel" destination="kPq-1m-MJA" id="jQB-MV-xdf"/>
+                        <outlet property="fontSizeValueLabel" destination="9Kp-3v-34N" id="Qsb-nZ-Ge3"/>
+                        <outlet property="lineSpacingLabel" destination="47T-9e-HPO" id="qLw-yN-Wi3"/>
+                        <outlet property="lineSpacingSlider" destination="9GS-ku-xOY" id="DRn-MO-nZ1"/>
+                        <outlet property="lineSpacingValueLabel" destination="x86-3r-9UU" id="UPZ-Af-5VM"/>
+                        <outlet property="sampleTextTextView" destination="vgK-qt-EeE" id="hVV-5j-25g"/>
+                        <outlet property="textSizeSlider" destination="Fkj-1l-L3c" id="Giq-B6-e0p"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u55-Il-lHZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="717.60000000000002" y="1591.7541229385308"/>
+        </scene>
+        <!--Bug Report View Controller-->
+        <scene sceneID="r9Q-T3-N95">
+            <objects>
+                <viewController id="AU1-Xg-sfF" customClass="BugReportViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6ia-66-EXl">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Zpy-8L-X86"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="HfT-tu-afw"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K9T-nr-cHp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2212" y="1592"/>
+        </scene>
+        <!--読みの修正-->
+        <scene sceneID="FXd-0y-Yzq">
+            <objects>
+                <tableViewController id="DcS-zk-4zM" customClass="SpeechModSettingsTableViewControllerSwift" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IYP-gH-U8o">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="sectionIndexBackgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="speechModSettingsTableViewDefaultCell" id="W85-N7-Sen">
+                                <rect key="frame" x="0.0" y="50.5" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="W85-N7-Sen" id="ZbH-ye-pyG">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="DcS-zk-4zM" id="bz3-9e-mGT"/>
+                            <outlet property="delegate" destination="DcS-zk-4zM" id="zlT-Qt-0MW"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="読みの修正" id="iy0-Ki-xeS"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0sO-5g-pqB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1511" y="1592"/>
+        </scene>
+        <!--設定-->
+        <scene sceneID="cAk-Lp-8bt">
+            <objects>
+                <viewController title="設定" id="ycr-eS-jqH" customClass="SettingsViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="f1k-ts-e6k">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="uJV-8y-Mc6"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="設定" id="IR0-u3-ueb"/>
+                    <connections>
+                        <segue destination="DcS-zk-4zM" kind="push" identifier="speechModSettingSegue" id="whQ-HQ-5wp"/>
+                        <segue destination="Pb4-1M-Lvn" kind="push" identifier="textSizeSettingSegue" id="VCs-2X-42w"/>
+                        <segue destination="WI3-lq-RQn" kind="push" identifier="debugLogViewSegue" id="9Ud-mr-cit"/>
+                        <segue destination="dCR-kh-Ivz" kind="push" identifier="CreateNewUserTextSegue" id="uw4-9z-dhB"/>
+                        <segue destination="NmR-c8-ccH" kind="push" identifier="CreditPageSegue" id="AaG-TX-X4l"/>
+                        <segue destination="AU1-Xg-sfF" kind="push" identifier="BugReportViewSegue" id="g4z-6o-Wai"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="brw-Rq-p2L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="720" y="832.0839580209896"/>
+        </scene>
+        <!--Web取込-->
+        <scene sceneID="rme-vM-df2">
+            <objects>
+                <viewController storyboardIdentifier="WebImportViewController" id="Ntb-XE-J32" customClass="ImportFromWebPageViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" restorationIdentifier="WebImportView" id="HZc-ku-Gaa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="b2P-LC-lhM">
+                                <rect key="frame" x="0.0" y="441" width="320" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="UeJ-p7-GT3"/>
+                                </constraints>
+                            </progressView>
+                            <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="LSE-Fd-akM">
+                                <rect key="frame" x="10" y="20" width="300" height="30"/>
+                                <color key="backgroundColor" systemColor="secondarySystemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="nNY-OD-eoC"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="addressBarUITextViewEditingDidBeginEvent:" destination="Ntb-XE-J32" eventType="editingDidBegin" id="Zds-kh-dzT"/>
+                                    <action selector="addressBarUITextViewEditingDidEndOnExitEvent:" destination="Ntb-XE-J32" eventType="editingDidEndOnExit" id="3hH-FW-phB"/>
+                                </connections>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jPI-Bj-SFc">
+                                <rect key="frame" x="0.0" y="450" width="320" height="34.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Rg-jR-Szr">
+                                        <rect key="frame" x="0.0" y="0.0" width="24" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="fFe-Mk-viT"/>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="zbI-xz-CgK"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="arrowtriangle.left.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="backButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="1a8-fg-WDP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxD-9o-1wB">
+                                        <rect key="frame" x="24" y="0.0" width="46" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="ipU-AM-IXy"/>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="o23-nd-aC4"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="arrowtriangle.right.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="forwardButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="NFE-Jl-Y0p"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1" verticalHuggingPriority="1" horizontalCompressionResistancePriority="1" verticalCompressionResistancePriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="Clc-Qq-kGq">
+                                        <rect key="frame" x="70" y="0.0" width="0.0" height="34.5"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jbG-dd-LtA">
+                                        <rect key="frame" x="70" y="0.0" width="46" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="BLE-Bm-7bo"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="o4R-1k-JSY"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="globe.europe.africa.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="safariButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="hlY-qb-ygJ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cDS-dO-6l9">
+                                        <rect key="frame" x="116" y="0.0" width="46" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="dOv-ep-WEb"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="jfK-Ic-XuO"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="house.fill" catalog="system"/>
+                                        <connections>
+                                            <action selector="homeButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="C2D-Qx-cbq"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkW-cG-772">
+                                        <rect key="frame" x="162" y="0.0" width="46" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="MqY-1V-qEd"/>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="cNR-Kb-Krv"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="bookmark" catalog="system"/>
+                                        <connections>
+                                            <action selector="bookmarkButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="Kr1-qQ-kES"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="749" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7rh-GO-tKu">
+                                        <rect key="frame" x="208" y="0.0" width="24" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="6WV-b3-U6f"/>
+                                            <constraint firstAttribute="width" priority="750" constant="46" id="Tev-Wn-DbS"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" image="arrow.clockwise" catalog="system"/>
+                                        <connections>
+                                            <action selector="reloadButtonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="58Q-Ot-5g3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vh2-76-vJt">
+                                        <rect key="frame" x="232" y="0.0" width="88" height="34.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" priority="800" constant="88" id="f8T-5p-jSh"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="24" id="wVx-IU-g9w"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="取り込む"/>
+                                        <connections>
+                                            <action selector="importButonClicked:" destination="Ntb-XE-J32" eventType="touchUpInside" id="ePn-Uc-OC5"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7Se-Bl-rd5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="LSE-Fd-akM" firstAttribute="leading" secondItem="7Se-Bl-rd5" secondAttribute="leading" constant="10" id="53A-al-MMq"/>
+                            <constraint firstItem="b2P-LC-lhM" firstAttribute="leading" secondItem="7Se-Bl-rd5" secondAttribute="leading" id="6aK-cA-78r"/>
+                            <constraint firstItem="7Se-Bl-rd5" firstAttribute="trailing" secondItem="LSE-Fd-akM" secondAttribute="trailing" constant="10" id="Fnf-CU-MLP"/>
+                            <constraint firstItem="jPI-Bj-SFc" firstAttribute="trailing" secondItem="7Se-Bl-rd5" secondAttribute="trailing" id="IVc-C7-fOE"/>
+                            <constraint firstItem="LSE-Fd-akM" firstAttribute="top" secondItem="7Se-Bl-rd5" secondAttribute="top" id="LPa-aY-WMT"/>
+                            <constraint firstAttribute="trailing" secondItem="jPI-Bj-SFc" secondAttribute="trailing" id="SN9-eI-HzJ"/>
+                            <constraint firstItem="jPI-Bj-SFc" firstAttribute="leading" secondItem="7Se-Bl-rd5" secondAttribute="leading" id="a18-NA-jrE"/>
+                            <constraint firstItem="7Se-Bl-rd5" firstAttribute="bottom" secondItem="jPI-Bj-SFc" secondAttribute="bottom" constant="0.5" id="dye-fq-3vg"/>
+                            <constraint firstItem="jPI-Bj-SFc" firstAttribute="leading" secondItem="7Se-Bl-rd5" secondAttribute="leading" id="gEv-Um-8vd"/>
+                            <constraint firstItem="jPI-Bj-SFc" firstAttribute="top" secondItem="b2P-LC-lhM" secondAttribute="bottom" constant="7" id="itJ-cn-uZQ"/>
+                            <constraint firstItem="7Se-Bl-rd5" firstAttribute="trailing" secondItem="b2P-LC-lhM" secondAttribute="trailing" id="wQK-bS-Qsi"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Web取込" image="globe.europe.africa.fill" catalog="system" id="DHc-nq-yTa"/>
+                    <connections>
+                        <outlet property="addressBarUITextField" destination="LSE-Fd-akM" id="n5w-lt-aJL"/>
+                        <outlet property="backButton" destination="7Rg-jR-Szr" id="Cea-LL-26b"/>
+                        <outlet property="bookmarkButton" destination="zkW-cG-772" id="roA-8H-oz5"/>
+                        <outlet property="controlStackView" destination="jPI-Bj-SFc" id="nyw-bI-vY4"/>
+                        <outlet property="forwardButton" destination="ZxD-9o-1wB" id="XIE-Eg-Ga0"/>
+                        <outlet property="homeButton" destination="cDS-dO-6l9" id="Wy3-4k-ULU"/>
+                        <outlet property="importButton" destination="Vh2-76-vJt" id="ugW-0D-R4L"/>
+                        <outlet property="progressView" destination="b2P-LC-lhM" id="mjw-Tw-BOx"/>
+                        <outlet property="refreshButton" destination="7rh-GO-tKu" id="gJn-Jh-b24"/>
+                        <outlet property="safariButton" destination="jbG-dd-LtA" id="Qgl-1K-6p0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zER-k9-zQN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2164" y="832"/>
+        </scene>
+        <!--クレジット-->
+        <scene sceneID="g6V-SU-Uql">
+            <objects>
+                <viewController id="NmR-c8-ccH" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HG2-YY-ylY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="em1-qg-D62">
+                                <rect key="frame" x="0.0" y="74" width="320" height="411"/>
+                                <string key="text">
+
+------ NovelSpeaker アイコン ------
+
+作成者: Mattz-P @ GitHub (https://github.com/Mattz-P)
+
+アイコン内素材:
+SHARED BY: MOHAMED IBRAHIM 04-05-2008 (http://www.clker.com/profile-9.html)
+
+
+
+
+------- SZTextView -------
+Copyright (c) 2013 glaszig &lt;glaszig@gmail.com&gt;
+
+MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+--------- EasyDialogs ---------
+
+//  Created by Junior B. on 12.12.16.
+//  Copyright © 2016 Bonto.ch.
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
+
+
+-------- eureka --------
+
+The MIT License (MIT)
+
+Copyright (c) 2015 XMARTLABS
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+
+--------- 本をめくる音１ --------
+
+from 
+http://commons.nicovideo.jp/material/nc48625
+作者名：赤バンダナ犬
+
+
+-------- SSZipArchive --------
+
+Copyright (c) 2010-2015, Sam Soffes, https://soff.es
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------- FTLinearActivityIndicator --------
+Copyright (c) 2018 Ortwin Gentz, FutureTap GmbH
+
+This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+
+-------- Kanna --------
+The MIT License (MIT)
+
+Copyright (c) 2014 - 2015 Atsushi Kiwaki (@_tid_)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+-------- Erik --------
+The MIT License (MIT)
+
+Copyright (c) 2015 Eric Marchand (phimage)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+-------- RATreeView --------
+The MIT License (MIT)
+
+Copyright (c) 2013 Rafał Augustyniak
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+-------- Realm --------
+TABLE OF CONTENTS
+
+1. Apache License version 2.0
+2. Realm Components
+3. Export Compliance
+
+1. -------------------------------------------------------------------------------
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+2. -------------------------------------------------------------------------------
+
+REALM COMPONENTS
+
+This software contains components with separate copyright and license terms.
+Your use of these components is subject to the terms and conditions of the
+following licenses.
+
+For the Realm Platform Extensions component
+
+  Realm Platform Extensions License
+
+  Copyright (c) 2011-2017 Realm Inc All rights reserved
+
+  Redistribution and use in binary form, with or without modification, is
+  permitted provided that the following conditions are met:
+
+  1. You agree not to attempt to decompile, disassemble, reverse engineer or
+  otherwise discover the source code from which the binary code was derived.
+  You may, however, access and obtain a separate license for most of the
+  source code from which this Software was created, at
+  http://realm.io/pricing/.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+
+3. -------------------------------------------------------------------------------
+
+EXPORT COMPLIANCE
+
+You understand that the Software may contain cryptographic functions that may be
+subject to export restrictions, and you represent and warrant that you are not
+(i) located in a jurisdiction that is subject to United States economic
+sanctions (“Prohibited Jurisdiction”), including Cuba, Iran, North Korea,
+Sudan, Syria or the Crimea region, (ii) a person listed on any U.S. government
+blacklist (to include the List of Specially Designated Nationals and Blocked
+Persons or the Consolidated Sanctions List administered by the U.S. Department
+of the Treasury’s Office of Foreign Assets Control, or the Denied Persons List
+or Entity List administered by the U.S. Department of Commerce)
+(“Sanctioned Person”), or (iii) controlled or 50% or more owned by a Sanctioned
+Person.
+
+You agree to comply with all export, re-export and import restrictions and
+regulations of the U.S. Department of Commerce or other agency or authority of
+the United States or other applicable countries. You also agree not to transfer,
+or authorize the transfer of, directly or indirectly, of the Software to any
+Prohibited Jurisdiction, or otherwise in violation of any such restrictions or
+regulations.
+
+
+-------- RealmSwift --------
+TABLE OF CONTENTS
+
+1. Apache License version 2.0
+2. Realm Components
+3. Export Compliance
+
+1. -------------------------------------------------------------------------------
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+2. -------------------------------------------------------------------------------
+
+REALM COMPONENTS
+
+This software contains components with separate copyright and license terms.
+Your use of these components is subject to the terms and conditions of the
+following licenses.
+
+For the Realm Platform Extensions component
+
+  Realm Platform Extensions License
+
+  Copyright (c) 2011-2017 Realm Inc All rights reserved
+
+  Redistribution and use in binary form, with or without modification, is
+  permitted provided that the following conditions are met:
+
+  1. You agree not to attempt to decompile, disassemble, reverse engineer or
+  otherwise discover the source code from which the binary code was derived.
+  You may, however, access and obtain a separate license for most of the
+  source code from which this Software was created, at
+  http://realm.io/pricing/.
+
+  2. Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+  3. Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from this
+  software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  POSSIBILITY OF SUCH DAMAGE.
+
+3. -------------------------------------------------------------------------------
+
+EXPORT COMPLIANCE
+
+You understand that the Software may contain cryptographic functions that may be
+subject to export restrictions, and you represent and warrant that you are not
+(i) located in a jurisdiction that is subject to United States economic
+sanctions (“Prohibited Jurisdiction”), including Cuba, Iran, North Korea,
+Sudan, Syria or the Crimea region, (ii) a person listed on any U.S. government
+blacklist (to include the List of Specially Designated Nationals and Blocked
+Persons or the Consolidated Sanctions List administered by the U.S. Department
+of the Treasury’s Office of Foreign Assets Control, or the Denied Persons List
+or Entity List administered by the U.S. Department of Commerce)
+(“Sanctioned Person”), or (iii) controlled or 50% or more owned by a Sanctioned
+Person.
+
+You agree to comply with all export, re-export and import restrictions and
+regulations of the U.S. Department of Commerce or other agency or authority of
+the United States or other applicable countries. You also agree not to transfer,
+or authorize the transfer of, directly or indirectly, of the Software to any
+Prohibited Jurisdiction, or otherwise in violation of any such restrictions or
+regulations.
+
+
+-------- IceCream --------
+Copyright (c) 2017 caiyue1993 &lt;yuecai.nju@gmail.com&gt;
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+
+
+---------- DataCompression ----------
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      "License" shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      "Licensor" shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      "Legal Entity" shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      "control" means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      "You" (or "Your") shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      "Source" form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      "Object" form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      "Work" shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      "Derivative Works" shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      "Contribution" shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, "submitted"
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as "Not a Contribution."
+
+      "Contributor" shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a "NOTICE" text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets "{}"
+      replaced with your own identifying information. (Don't include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same "printed page" as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright {yyyy} {name of copyright owner}
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+</string>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Kai-Tt-fHY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="em1-qg-D62" firstAttribute="top" secondItem="Kai-Tt-fHY" secondAttribute="top" id="AgH-9b-pNs"/>
+                            <constraint firstItem="em1-qg-D62" firstAttribute="bottom" secondItem="Kai-Tt-fHY" secondAttribute="bottom" id="WVw-cq-ie2"/>
+                            <constraint firstItem="em1-qg-D62" firstAttribute="leading" secondItem="Kai-Tt-fHY" secondAttribute="leading" id="lWh-td-Hf2"/>
+                            <constraint firstItem="em1-qg-D62" firstAttribute="trailing" secondItem="Kai-Tt-fHY" secondAttribute="trailing" id="xzt-me-K9N"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="クレジット" id="dcE-Gm-Rdn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bLn-TN-oKG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36" y="1591.7541229385308"/>
+        </scene>
+        <!--設定-->
+        <scene sceneID="jLN-GL-WMq">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="SVO-uL-7kp" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="設定" image="gearshape" catalog="system" id="RLW-4z-oWd"/>
+                    <navigationItem key="navigationItem" id="n1k-4X-225"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mIp-pB-YHg">
+                        <rect key="frame" x="0.0" y="20" width="320" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ycr-eS-jqH" kind="relationship" relationship="rootViewController" id="irm-Vy-DOo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ejC-0w-H3j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-822.39999999999998" y="832.0839580209896"/>
+        </scene>
+        <!--詳細-->
+        <scene sceneID="aH6-Zh-bCN">
+            <objects>
+                <viewController id="ubt-4C-R8U" customClass="NarouSearchResultDetailViewControllerSwift" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="pzR-lv-fks">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <viewLayoutGuide key="safeArea" id="KWG-GU-LqD"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="詳細" id="XJd-XT-qbJ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GuK-Ec-by5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1726" y="98"/>
+        </scene>
+        <!--Web検索-->
+        <scene sceneID="fIy-nG-msd">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="LfY-GE-Mgm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Web検索" image="booksearch.png" id="ZSv-78-9lg"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6vb-08-2I9">
+                        <rect key="frame" x="0.0" y="20" width="320" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="vgt-bB-KL1" kind="relationship" relationship="rootViewController" id="D6S-Lb-d63"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Rw-Gd-sqq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-822.39999999999998" y="98.050974512743636"/>
+        </scene>
+        <!--Web検索-->
+        <scene sceneID="ctc-as-wQE">
+            <objects>
+                <viewController id="vgt-bB-KL1" customClass="NovelSearchViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="zZP-gD-Q37">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="fgh-3a-YAA"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Web検索" id="aTj-OP-UCn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GIB-KR-GU5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36" y="98"/>
+        </scene>
+        <!--Trait Override Tab Bar Controller-->
+        <scene sceneID="764-8b-jS0">
+            <objects>
+                <tabBarController definesPresentationContext="YES" id="Ktg-AW-K7m" customClass="TraitOverrideTabBarController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="vA1-b7-MqS">
+                        <rect key="frame" x="129" y="330" width="163" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="v42-xJ-9mb" kind="relationship" relationship="viewControllers" id="ktK-js-zfL"/>
+                        <segue destination="LfY-GE-Mgm" kind="relationship" relationship="viewControllers" id="BMz-0y-0Ux"/>
+                        <segue destination="Ntb-XE-J32" kind="relationship" relationship="viewControllers" id="L91-U5-uSV"/>
+                        <segue destination="SVO-uL-7kp" kind="relationship" relationship="viewControllers" id="4ul-nd-jaO"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="miF-Ra-PIu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2163.1999999999998" y="98.050974512743636"/>
+        </scene>
+        <!--本棚-->
+        <scene sceneID="fHI-C2-mKL">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="v42-xJ-9mb" customClass="BarStyleOverrideNavigationController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="本棚" image="soundbook.png" id="48f-BN-UmV"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="kzS-si-TDC">
+                        <rect key="frame" x="0.0" y="20" width="320" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="qdr-YW-SRT" kind="relationship" relationship="rootViewController" id="lw0-xX-U4f"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pmo-cD-y4U" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-823" y="-645"/>
+        </scene>
+        <!--本棚-->
+        <scene sceneID="68N-Rw-P3B">
+            <objects>
+                <viewController title="本棚" id="qdr-YW-SRT" customClass="BookShelfTreeViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="BIV-fi-F7U"/>
+                    <connections>
+                        <segue destination="WIX-4N-ZvP" kind="push" identifier="bookShelfToReaderSegue" id="4ue-Q8-dhm"/>
+                        <segue destination="svA-Jn-EMv" kind="push" identifier="bookShelfToWebViewReaderSegue" id="mMg-NC-jGi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s1q-9t-Dmj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-36" y="-645"/>
+        </scene>
+        <!--Web Speech View Controller-->
+        <scene sceneID="lUG-Y3-yqC">
+            <objects>
+                <viewController id="svA-Jn-EMv" customClass="WebSpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WkN-NK-AWW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="xp9-JX-MkO"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Ucb-Uj-MZA"/>
+                    <connections>
+                        <segue destination="QLu-9c-OBu" kind="push" identifier="WebViewReaderToNovelDetailViewPushSegue" id="zcY-Ej-AY3"/>
+                        <segue destination="dCR-kh-Ivz" kind="push" identifier="WebViewToEditUserTextSegue" id="IyG-FH-EcD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="J8R-gn-e6f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="721" y="-1335"/>
+        </scene>
+        <!--Speech View Controller-->
+        <scene sceneID="fJw-k5-rSc">
+            <objects>
+                <viewController id="WIX-4N-ZvP" customClass="SpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="k6I-a5-mQk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OiG-7z-gqj" customClass="CustomUITextView" customModule="NovelSpeaker" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="74" width="320" height="364"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RsE-pW-sT4">
+                                <rect key="frame" x="0.0" y="439" width="30" height="46"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="◀"/>
+                                <connections>
+                                    <action selector="previousChapterButtonClicked:" destination="WIX-4N-ZvP" eventType="touchUpInside" id="vwS-82-YMh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Atz-vc-WDz">
+                                <rect key="frame" x="290" y="438" width="30" height="48"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="▶"/>
+                                <connections>
+                                    <action selector="nextChapterButtonClicked:" destination="WIX-4N-ZvP" eventType="touchUpInside" id="Gih-Mw-HwC"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="?/?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4K-uK-bhG">
+                                <rect key="frame" x="255" y="451.5" width="27" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="27" id="InC-Ax-NTQ"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="xzg-Fa-5p1">
+                                <rect key="frame" x="38" y="445" width="209" height="34"/>
+                                <connections>
+                                    <action selector="chapterSliderValueChanged:" destination="WIX-4N-ZvP" eventType="valueChanged" id="Gxw-oT-our"/>
+                                </connections>
+                            </slider>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ZHI-m6-f76"/>
+                        <constraints>
+                            <constraint firstItem="Atz-vc-WDz" firstAttribute="leading" secondItem="P4K-uK-bhG" secondAttribute="trailing" constant="8" id="Ctr-Od-bva"/>
+                            <constraint firstItem="RsE-pW-sT4" firstAttribute="top" secondItem="OiG-7z-gqj" secondAttribute="bottom" constant="1" id="DGl-hw-Lqv"/>
+                            <constraint firstItem="ZHI-m6-f76" firstAttribute="bottom" secondItem="Atz-vc-WDz" secondAttribute="bottom" constant="-1" id="EzX-e7-p4g"/>
+                            <constraint firstItem="RsE-pW-sT4" firstAttribute="leading" secondItem="ZHI-m6-f76" secondAttribute="leading" id="I1N-PN-iuW"/>
+                            <constraint firstItem="Atz-vc-WDz" firstAttribute="trailing" secondItem="ZHI-m6-f76" secondAttribute="trailing" id="OXR-VO-Zov"/>
+                            <constraint firstItem="P4K-uK-bhG" firstAttribute="leading" secondItem="xzg-Fa-5p1" secondAttribute="trailing" constant="8" id="Ucv-Wk-fDc"/>
+                            <constraint firstItem="Atz-vc-WDz" firstAttribute="centerY" secondItem="RsE-pW-sT4" secondAttribute="centerY" id="XZp-74-Nuh"/>
+                            <constraint firstItem="P4K-uK-bhG" firstAttribute="centerY" secondItem="RsE-pW-sT4" secondAttribute="centerY" id="XbK-1M-jUt"/>
+                            <constraint firstItem="OiG-7z-gqj" firstAttribute="leading" secondItem="ZHI-m6-f76" secondAttribute="leading" id="apF-YW-5gK"/>
+                            <constraint firstItem="OiG-7z-gqj" firstAttribute="top" secondItem="ZHI-m6-f76" secondAttribute="top" id="kXH-5s-A4G"/>
+                            <constraint firstItem="Atz-vc-WDz" firstAttribute="top" secondItem="OiG-7z-gqj" secondAttribute="bottom" id="lSd-mv-2o0"/>
+                            <constraint firstItem="xzg-Fa-5p1" firstAttribute="leading" secondItem="RsE-pW-sT4" secondAttribute="trailing" constant="8" id="mL0-1x-qto"/>
+                            <constraint firstItem="OiG-7z-gqj" firstAttribute="trailing" secondItem="ZHI-m6-f76" secondAttribute="trailing" id="mlp-SC-LVI"/>
+                            <constraint firstItem="xzg-Fa-5p1" firstAttribute="centerY" secondItem="RsE-pW-sT4" secondAttribute="centerY" id="oVH-3O-e1L"/>
+                            <constraint firstItem="RsE-pW-sT4" firstAttribute="bottom" secondItem="ZHI-m6-f76" secondAttribute="bottom" id="zPZ-xE-Ucs"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="D8u-t9-uNo"/>
+                    <connections>
+                        <outlet property="chapterPositionLabel" destination="P4K-uK-bhG" id="z5l-d3-Pfp"/>
+                        <outlet property="chapterPositionLabelWidthConstraint" destination="InC-Ax-NTQ" id="FXK-VS-2Fa"/>
+                        <outlet property="chapterSlider" destination="xzg-Fa-5p1" id="Jh3-eC-i9D"/>
+                        <outlet property="nextChapterButton" destination="Atz-vc-WDz" id="oJ9-jI-f2u"/>
+                        <outlet property="previousChapterButton" destination="RsE-pW-sT4" id="ngv-rr-TVz"/>
+                        <outlet property="textView" destination="OiG-7z-gqj" id="518-jx-H0s"/>
+                        <segue destination="dCR-kh-Ivz" kind="push" identifier="EditUserTextSegue" id="FvL-jm-emj"/>
+                        <segue destination="QLu-9c-OBu" kind="push" identifier="NovelDetailViewPushSegue" id="wOu-8d-Sto"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k1r-z4-J82" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="718" y="-645"/>
+        </scene>
+        <!--Novel Detail View Controller-->
+        <scene sceneID="O3Q-XY-oAW">
+            <objects>
+                <viewController id="QLu-9c-OBu" customClass="NovelDetailViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Wuf-KC-jPq">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="0I4-IU-VQJ"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="U6G-A9-LTB"/>
+                    <connections>
+                        <segue destination="DcS-zk-4zM" kind="push" identifier="speechModSettingSegue" id="DiM-k6-LVA"/>
+                        <segue destination="dCR-kh-Ivz" kind="push" identifier="EditUserTextSegue" id="xAC-6a-6U9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qnL-F1-ydf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="718" y="98"/>
+        </scene>
+        <!--UserText-->
+        <scene sceneID="izP-cz-ef9">
+            <objects>
+                <viewController id="dCR-kh-Ivz" customClass="EditBookViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UOv-Sk-8f5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7U0-Lh-pyC">
+                                <rect key="frame" x="57" y="84.5" width="198" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" adjustsFontForContentSizeCategory="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E9W-uo-JHC">
+                                <rect key="frame" x="85.5" y="127.5" width="170.5" height="34"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hYi-6O-tpR">
+                                <rect key="frame" x="16" y="91" width="33" height="20.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SubTitle" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e7g-ge-9mz">
+                                <rect key="frame" x="16" y="134" width="61.5" height="21"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wMt-h0-xpF">
+                                <rect key="frame" x="263" y="85" width="52" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="52" id="IPa-mV-vhY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Entry"/>
+                                <connections>
+                                    <action selector="entryButtonClicked:" destination="dCR-kh-Ivz" eventType="touchUpInside" id="BHz-Xr-Oli"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cM0-Wf-FN8">
+                                <rect key="frame" x="2" y="202.5" width="55" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="a61-DH-2Zr"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="◀"/>
+                                <connections>
+                                    <action selector="movePreviousButtonClicked:" destination="dCR-kh-Ivz" eventType="touchUpInside" id="PRV-A0-kyB"/>
+                                </connections>
+                            </button>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="1" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="ZfF-jG-c09">
+                                <rect key="frame" x="60" y="208.5" width="151" height="34"/>
+                                <connections>
+                                    <action selector="chapterSliderChanged:" destination="dCR-kh-Ivz" eventType="valueChanged" id="OvC-GN-7NX"/>
+                                </connections>
+                            </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1/1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LN3-sB-fzm">
+                                <rect key="frame" x="216" y="215.5" width="52" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="52" id="asR-5m-zfM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XX2-ka-OrJ" customClass="SZTextView">
+                                <rect key="frame" x="0.0" y="259.5" width="320" height="225.5"/>
+                                <color key="textColor" systemColor="labelColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E2C-GJ-Of6">
+                                <rect key="frame" x="108" y="168" width="97" height="33"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Add Chapter"/>
+                                <connections>
+                                    <action selector="addChapterButtonClicked:" destination="dCR-kh-Ivz" eventType="touchUpInside" id="dUE-av-Csu"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KLa-F4-FYq">
+                                <rect key="frame" x="215" y="168" width="91" height="33"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                <state key="normal" title="Del Chapter"/>
+                                <connections>
+                                    <action selector="deleteChapterButtonClicked:" destination="dCR-kh-Ivz" eventType="touchUpInside" id="A3U-l7-C2m"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dd3-il-QVF">
+                                <rect key="frame" x="266" y="202.5" width="51" height="46"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="51" id="tck-oG-aNy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                <state key="normal" title="▶"/>
+                                <connections>
+                                    <action selector="moveNextButtonClicked:" destination="dCR-kh-Ivz" eventType="touchUpInside" id="0Fx-sR-3WK"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xDU-vX-wUV">
+                                <rect key="frame" x="18" y="171.5" width="26" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="Y2V-CV-gjo"/>
+                                    <constraint firstAttribute="height" constant="26" id="dVl-8f-fj9"/>
+                                </constraints>
+                                <state key="normal" image="arrow.left" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zXR-3Z-eDe">
+                                <rect key="frame" x="56" y="171.5" width="26" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="6qB-EJ-3rU"/>
+                                    <constraint firstAttribute="height" constant="26" id="9R3-gQ-PSi"/>
+                                </constraints>
+                                <state key="normal" image="arrow.down" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xL0-AJ-k2q">
+                                <rect key="frame" x="98" y="171.5" width="26" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="YxY-Q3-SL5"/>
+                                    <constraint firstAttribute="height" constant="26" id="hQm-cY-g9a"/>
+                                </constraints>
+                                <state key="normal" image="arrow.up" catalog="system"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PsX-PP-Y9K">
+                                <rect key="frame" x="139" y="171.5" width="26" height="26"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="26" id="Ixb-u9-BSV"/>
+                                    <constraint firstAttribute="height" constant="26" id="mPY-XW-wZD"/>
+                                </constraints>
+                                <state key="normal" image="arrow.right" catalog="system"/>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="izM-98-7u2">
+                                <rect key="frame" x="263" y="128" width="52" height="33"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="G7J-8n-cqw"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="izM-98-7u2" firstAttribute="leading" secondItem="E9W-uo-JHC" secondAttribute="trailing" constant="7" id="2YJ-nA-Wg4"/>
+                            <constraint firstItem="izM-98-7u2" firstAttribute="centerY" secondItem="E9W-uo-JHC" secondAttribute="centerY" id="2jN-nD-fa3"/>
+                            <constraint firstItem="XX2-ka-OrJ" firstAttribute="trailing" secondItem="G7J-8n-cqw" secondAttribute="trailing" id="2vK-Vr-A4l"/>
+                            <constraint firstItem="KLa-F4-FYq" firstAttribute="leading" secondItem="E2C-GJ-Of6" secondAttribute="trailing" constant="10" id="4os-Mk-9Kr"/>
+                            <constraint firstItem="XX2-ka-OrJ" firstAttribute="bottom" secondItem="G7J-8n-cqw" secondAttribute="bottom" id="5gX-QE-61G"/>
+                            <constraint firstItem="LN3-sB-fzm" firstAttribute="centerY" secondItem="cM0-Wf-FN8" secondAttribute="centerY" id="6Jk-Yt-Hbf"/>
+                            <constraint firstItem="xL0-AJ-k2q" firstAttribute="centerY" secondItem="xDU-vX-wUV" secondAttribute="centerY" id="8zy-P4-E37"/>
+                            <constraint firstItem="ZfF-jG-c09" firstAttribute="centerY" secondItem="cM0-Wf-FN8" secondAttribute="centerY" id="9Ig-df-WLj"/>
+                            <constraint firstItem="E9W-uo-JHC" firstAttribute="centerY" secondItem="e7g-ge-9mz" secondAttribute="centerY" id="9Ti-bm-Egg"/>
+                            <constraint firstItem="wMt-h0-xpF" firstAttribute="leading" secondItem="7U0-Lh-pyC" secondAttribute="trailing" constant="8" symbolic="YES" id="9kP-bT-t8f"/>
+                            <constraint firstItem="KLa-F4-FYq" firstAttribute="centerY" secondItem="xDU-vX-wUV" secondAttribute="centerY" id="BFx-49-xPY"/>
+                            <constraint firstItem="PsX-PP-Y9K" firstAttribute="leading" secondItem="xL0-AJ-k2q" secondAttribute="trailing" constant="15" id="BXr-cY-dSe"/>
+                            <constraint firstItem="wMt-h0-xpF" firstAttribute="centerY" secondItem="hYi-6O-tpR" secondAttribute="centerY" id="CNo-8S-6An"/>
+                            <constraint firstItem="7U0-Lh-pyC" firstAttribute="leading" secondItem="hYi-6O-tpR" secondAttribute="trailing" constant="8" symbolic="YES" id="Frm-DN-IGb"/>
+                            <constraint firstItem="XX2-ka-OrJ" firstAttribute="leading" secondItem="G7J-8n-cqw" secondAttribute="leading" id="JI8-3d-Uas"/>
+                            <constraint firstItem="e7g-ge-9mz" firstAttribute="top" secondItem="hYi-6O-tpR" secondAttribute="bottom" constant="22.5" id="JSR-Ak-mAg"/>
+                            <constraint firstItem="PsX-PP-Y9K" firstAttribute="centerY" secondItem="xDU-vX-wUV" secondAttribute="centerY" id="JVN-f9-KVk"/>
+                            <constraint firstItem="G7J-8n-cqw" firstAttribute="trailing" secondItem="LN3-sB-fzm" secondAttribute="trailing" constant="52" id="Lqr-Wp-gbY"/>
+                            <constraint firstItem="XX2-ka-OrJ" firstAttribute="top" secondItem="cM0-Wf-FN8" secondAttribute="bottom" constant="11" id="MWj-J3-qQQ"/>
+                            <constraint firstItem="xL0-AJ-k2q" firstAttribute="leading" secondItem="zXR-3Z-eDe" secondAttribute="trailing" constant="16" id="MuP-Hc-WcV"/>
+                            <constraint firstItem="izM-98-7u2" firstAttribute="height" secondItem="wMt-h0-xpF" secondAttribute="height" id="NSc-zs-Hyn"/>
+                            <constraint firstItem="xDU-vX-wUV" firstAttribute="top" secondItem="e7g-ge-9mz" secondAttribute="bottom" constant="16.5" id="PY8-LA-MYa"/>
+                            <constraint firstItem="cM0-Wf-FN8" firstAttribute="leading" secondItem="G7J-8n-cqw" secondAttribute="leading" constant="2" id="QTz-qO-Ccb"/>
+                            <constraint firstItem="cM0-Wf-FN8" firstAttribute="top" secondItem="xDU-vX-wUV" secondAttribute="bottom" constant="5" id="SzK-9y-Dla"/>
+                            <constraint firstItem="zXR-3Z-eDe" firstAttribute="leading" secondItem="xDU-vX-wUV" secondAttribute="trailing" constant="12" id="VUX-Wl-CF2"/>
+                            <constraint firstItem="G7J-8n-cqw" firstAttribute="trailing" secondItem="wMt-h0-xpF" secondAttribute="trailing" constant="5" id="WXX-UR-ngH"/>
+                            <constraint firstItem="Dd3-il-QVF" firstAttribute="centerY" secondItem="cM0-Wf-FN8" secondAttribute="centerY" id="X6q-EP-t41"/>
+                            <constraint firstItem="G7J-8n-cqw" firstAttribute="trailing" secondItem="KLa-F4-FYq" secondAttribute="trailing" constant="14" id="YJA-o4-T9K"/>
+                            <constraint firstItem="G7J-8n-cqw" firstAttribute="trailing" secondItem="izM-98-7u2" secondAttribute="trailing" constant="5" id="ala-Ij-ke8"/>
+                            <constraint firstItem="hYi-6O-tpR" firstAttribute="leading" secondItem="G7J-8n-cqw" secondAttribute="leading" constant="16" id="cAc-3R-WW9"/>
+                            <constraint firstItem="E9W-uo-JHC" firstAttribute="leading" secondItem="e7g-ge-9mz" secondAttribute="trailing" constant="8" symbolic="YES" id="dD0-eZ-EOu"/>
+                            <constraint firstItem="G7J-8n-cqw" firstAttribute="trailing" secondItem="Dd3-il-QVF" secondAttribute="trailing" constant="3" id="gh1-ar-4o1"/>
+                            <constraint firstItem="7U0-Lh-pyC" firstAttribute="centerY" secondItem="hYi-6O-tpR" secondAttribute="centerY" id="ixj-6X-660"/>
+                            <constraint firstItem="zXR-3Z-eDe" firstAttribute="centerY" secondItem="xDU-vX-wUV" secondAttribute="centerY" id="lqL-6V-Jz6"/>
+                            <constraint firstItem="izM-98-7u2" firstAttribute="width" secondItem="wMt-h0-xpF" secondAttribute="width" id="mba-7z-Y8S"/>
+                            <constraint firstItem="E9W-uo-JHC" firstAttribute="leading" secondItem="e7g-ge-9mz" secondAttribute="trailing" constant="8" symbolic="YES" id="qTB-m3-rAH"/>
+                            <constraint firstItem="xDU-vX-wUV" firstAttribute="leading" secondItem="G7J-8n-cqw" secondAttribute="leading" constant="18" id="rof-ZH-qDw"/>
+                            <constraint firstItem="E2C-GJ-Of6" firstAttribute="centerY" secondItem="xDU-vX-wUV" secondAttribute="centerY" id="txb-ti-Ett"/>
+                            <constraint firstItem="ZfF-jG-c09" firstAttribute="leading" secondItem="cM0-Wf-FN8" secondAttribute="trailing" constant="3" id="ukR-qv-cJL"/>
+                            <constraint firstItem="LN3-sB-fzm" firstAttribute="leading" secondItem="ZfF-jG-c09" secondAttribute="trailing" constant="5" id="vIu-Pf-faS"/>
+                            <constraint firstItem="hYi-6O-tpR" firstAttribute="top" secondItem="G7J-8n-cqw" secondAttribute="top" constant="17" id="wGL-sb-KWX"/>
+                            <constraint firstItem="e7g-ge-9mz" firstAttribute="leading" secondItem="G7J-8n-cqw" secondAttribute="leading" constant="16" id="zOS-TG-Jou"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="UserText" id="veu-sd-mPo"/>
+                    <connections>
+                        <outlet property="addChapterButton" destination="E2C-GJ-Of6" id="p3j-FW-gsu"/>
+                        <outlet property="chapterNumberIndicatorLabel" destination="LN3-sB-fzm" id="lox-zl-cOK"/>
+                        <outlet property="chapterNumberIndicatorLabelWidthConstraint" destination="asR-5m-zfM" id="jpf-PN-Ehk"/>
+                        <outlet property="chapterSlider" destination="ZfF-jG-c09" id="Gw2-h9-Zd2"/>
+                        <outlet property="cursorMoveDownButton" destination="zXR-3Z-eDe" id="MFK-RX-F3e"/>
+                        <outlet property="cursorMoveLeftButton" destination="xDU-vX-wUV" id="eJF-JP-eoH"/>
+                        <outlet property="cursorMoveRightButton" destination="PsX-PP-Y9K" id="4yE-kJ-pNb"/>
+                        <outlet property="cursorMoveUpButton" destination="xL0-AJ-k2q" id="IaU-SZ-C7m"/>
+                        <outlet property="deleteChapterButton" destination="KLa-F4-FYq" id="wo7-O1-2l0"/>
+                        <outlet property="entryButton" destination="wMt-h0-xpF" id="pSK-oX-hrW"/>
+                        <outlet property="moveNextButton" destination="Dd3-il-QVF" id="wor-OF-Mli"/>
+                        <outlet property="movePreviousButton" destination="cM0-Wf-FN8" id="1Re-ZR-OF9"/>
+                        <outlet property="storyTextView" destination="XX2-ka-OrJ" id="bao-dY-cSZ"/>
+                        <outlet property="subTitleTextField" destination="E9W-uo-JHC" id="RBm-4r-VHh"/>
+                        <outlet property="titleTextField" destination="7U0-Lh-pyC" id="UB0-AR-tsF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jyr-j8-uwe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1725.5999999999999" y="-645.42728635682158"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="FvL-jm-emj"/>
+        <segue reference="wOu-8d-Sto"/>
+        <segue reference="DiM-k6-LVA"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <image name="arrow.clockwise" catalog="system" width="110" height="128"/>
+        <image name="arrow.down" catalog="system" width="118" height="128"/>
+        <image name="arrow.left" catalog="system" width="128" height="95"/>
+        <image name="arrow.right" catalog="system" width="128" height="95"/>
+        <image name="arrow.up" catalog="system" width="118" height="128"/>
+        <image name="arrowtriangle.left.fill" catalog="system" width="128" height="113"/>
+        <image name="arrowtriangle.right.fill" catalog="system" width="128" height="113"/>
+        <image name="bookmark" catalog="system" width="110" height="128"/>
+        <image name="booksearch.png" width="9.8742856979370117" height="9.8742856979370117"/>
+        <image name="gearshape" catalog="system" width="128" height="123"/>
+        <image name="globe.europe.africa.fill" catalog="system" width="128" height="123"/>
+        <image name="house.fill" catalog="system" width="128" height="104"/>
+        <image name="soundbook.png" width="9.8742856979370117" height="9.8742856979370117"/>
+        <systemColor name="labelColor">
+            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="secondarySystemBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

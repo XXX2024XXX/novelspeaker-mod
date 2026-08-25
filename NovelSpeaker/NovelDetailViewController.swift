@@ -1,0 +1,749 @@
+//
+//  NovelDetailViewController.swift
+//  NovelSpeaker
+//
+//  Created by 飯村卓司 on 2019/06/02.
+//  Copyright © 2019 IIMURA Takuji. All rights reserved.
+//
+
+import UIKit
+import Eureka
+import RealmSwift
+import SwiftUI
+
+class NovelDetailViewController: FormViewController, RealmObserverResetDelegate {
+    public var novelID = ""
+    var speakerSettingObserverToken:NotificationToken? = nil
+    var speechSectionConfigObserverToken:NotificationToken? = nil
+    var novelObserverToken:NotificationToken? = nil
+    var tagObserverToken:NotificationToken? = nil
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.title = NSLocalizedString("NovelDetailViewController_PageTitle", comment: "小説の詳細")
+        createCells()
+        observeNovel()
+        observeSpeakerSetting()
+        observeSpeechSectionConfig()
+        observeTag()
+        registNotificationCenter()
+        RealmObserverHandler.shared.AddDelegate(delegate: self)
+    }
+    
+    deinit {
+        RealmObserverHandler.shared.RemoveDelegate(delegate: self)
+        self.unregistNotificationCenter()
+    }
+    
+    func StopObservers() {
+        speakerSettingObserverToken = nil
+        speechSectionConfigObserverToken = nil
+        novelObserverToken = nil
+        tagObserverToken = nil
+    }
+    func RestartObservers() {
+        StopObservers()
+        observeNovel()
+        observeSpeakerSetting()
+        observeSpeechSectionConfig()
+        observeTag()
+    }
+    
+    func registNotificationCenter() {
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: Notification.Name.NovelSpeaker.RealmSettingChanged, queue: .main) { (notification) in
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+    }
+    func unregistNotificationCenter() {
+        NovelSpeakerNotificationTool.removeObserver(selfObject: ObjectIdentifier(self))
+    }
+
+    func observeNovel() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID) else { return }
+            self.novelObserverToken = novel.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .error(_):
+                    break
+                case .change(_, let properties):
+                    for property in properties {
+                        if property.name == "defaultSpeakerID", let newValue = property.newValue as? String, let oldValue = property.oldValue as? String, newValue != oldValue {
+                            DispatchQueue.main.async {
+                                self.form.removeAll()
+                                self.createCells()
+                            }
+                            return
+                        }
+                        if ["writer", "title"].contains(property.name) {
+                            DispatchQueue.main.async {
+                                self.form.removeAll()
+                                self.createCells()
+                            }
+                            return
+                        }
+                    }
+                case .deleted:
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
+            })
+        }
+    }
+
+    func observeSpeakerSetting() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let speakerSettingList = RealmSpeakerSetting.GetAllObjectsWith(realm: realm) else { return }
+            self.speakerSettingObserverToken = speakerSettingList.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .initial(_):
+                    break
+                case .update(_, _, _, _):
+                    DispatchQueue.main.async {
+                        print("observeSpeakerSetting() reload all.")
+                        self.form.removeAll()
+                        self.createCells()
+                    }
+                case .error(_):
+                    break
+                }
+            })
+        }
+    }
+    func observeSpeechSectionConfig() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let sectionConfigList = RealmSpeechSectionConfig.GetAllObjectsWith(realm: realm) else { return }
+            self.speechSectionConfigObserverToken = sectionConfigList.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .initial(_):
+                    break
+                case .update(_, _, _, _):
+                    DispatchQueue.main.async {
+                        print("observeSpeechSectionConfig() reload all.")
+                        self.form.removeAll()
+                        self.createCells()
+                    }
+                case .error(_):
+                    break
+                }
+            })
+        }
+    }
+    func observeTag() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let tagList = RealmNovelTag.GetObjectsFor(realm: realm, type: RealmNovelTag.TagType.Keyword) else { return }
+            self.tagObserverToken = tagList.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .initial(_):
+                    break
+                case .update(let objs, _, _, _):
+                    for obj in objs {
+                        if obj.targetNovelIDArray.contains(self.novelID) {
+                            DispatchQueue.main.async {
+                                guard let row = self.form.rowBy(tag: "TagsLabel") as? LabelRow else { return }
+                                self.assignTagList(row: row)
+                            }
+                            break
+                        }
+                    }
+                case .error(_):
+                    break
+                }
+            })
+        }
+    }
+    
+    func assignTagList(row:LabelRow) {
+        var tagListText = ""
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let tags = RealmNovelTag.SearchWith(realm: realm, novelID: self.novelID, type: RealmNovelTag.TagType.Keyword) else {
+                print("can not get tags")
+                return
+            }
+            var tagNames = Set<String>()
+            for tag in tags {
+                tagNames.insert(tag.name)
+            }
+            tagListText = Array(tagNames).sorted().joined(separator: ", ")
+        }
+        row.value = tagListText
+    }
+    
+    func openInWebImportTab(url:URL) {
+        BookShelfTreeViewController.LoadWebPageOnWebImportTab(url: url)
+    }
+    
+    func createCells() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID)?.RemoveRealmLink(), let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else {
+                form +++ Section()
+                <<< LabelRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_NovelLoadFailed", comment: "小説情報の取得に失敗しました。")
+                }
+                return
+            }
+            let detailSection = Section(NSLocalizedString("NovelDetailViewController_DetailSectionTitle", comment: "概要"))
+            detailSection <<< LabelRow("TitleLabel") {
+                $0.title = NSLocalizedString("NovelDetailViewController_Title", comment: "小説名")
+                $0.value = novel.title
+            }.onCellSelection({ (cellOf, row) in
+                DispatchQueue.main.async {
+                    var dialog = NiftyUtility.EasyDialogBuilder(self)
+                    dialog = dialog.label(text: NSLocalizedString("NovelDetailViewController_ActionSection_Title_PopupMessage", comment: "小説名を変更する事もできます。"))
+                    dialog = dialog.textField(tag: 100, placeholder: nil, content: novel.title, keyboardType: .default, secure: false, focusKeyboard: true, borderStyle: .none, clearButtonMode: .always)
+                    dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Copy", comment: "小説名をコピーする"), callback: { dialog in
+                        if let filterTextField = dialog.view.viewWithTag(100) as? UITextField, let newString = filterTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                            dialog.dismiss(animated: false) {
+                                UIPasteboard.general.string = newString
+                                NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Copy_Done", comment: "小説名をコピーしました"))
+                            }
+                        }else{
+                            dialog.dismiss(animated: false)
+                        }
+                    })
+                    dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Popup_Cancel", comment: "変更しない")) { (dialog) in
+                            dialog.dismiss(animated: false, completion: nil)
+                        }
+                    dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Popup_Edit", comment: "この名前に変更")) { (dialog) in
+                        dialog.dismiss(animated: false, completion: {
+                            if let filterTextField = dialog.view.viewWithTag(100) as? UITextField, let newString = filterTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), RealmUtil.RealmBlock(block: { (realm) -> Bool in
+                                guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novel.novelID) else { return false }
+                                RealmUtil.WriteWith(realm: realm) { (realm) in
+                                    novel.title = NovelSpeakerUtility.NormalizeNFC(newString)
+                                    realm.add(novel)
+                                }
+                                return true
+                            }) {
+                                DispatchQueue.main.async {
+                                    NiftyUtility.EasyDialogOneButton(viewController: self, title: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Popup_Edit_Accepted", comment: "小説名を変更しました"), message: nil, buttonTitle: nil, buttonAction: nil)
+                                }
+                            }else{
+                                DispatchQueue.main.async {
+                                    NiftyUtility.EasyDialogOneButton(viewController: self, title: NSLocalizedString("NovelDetailViewController_ActionSection_Title_Popup_Edit_Rejected", comment: "小説名の変更に失敗しました"), message: nil, buttonTitle: nil, buttonAction: nil)
+                                }
+                            }
+                        })
+                    }
+                    dialog.build().show()
+                }
+            })
+            if novel.type == .URL {
+                detailSection <<< LabelRow("WriterLabel") {
+                    $0.title = NSLocalizedString("NovelDetailViewController_Writer", comment: "著者")
+                    $0.value = novel.writer
+                }.onCellSelection({ (cellOf, row) in
+                    DispatchQueue.main.async {
+                        var dialog = NiftyUtility.EasyDialogBuilder(self)
+                        dialog = dialog.label(text: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_PopupMessage", comment: "著者名を変更する事もできます。"))
+                        dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Copy", comment: "著者名をコピーする"), callback: { dialog in
+                            if let filterTextField = dialog.view.viewWithTag(100) as? UITextField, let newString = filterTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines) {
+                                dialog.dismiss(animated: false) {
+                                    UIPasteboard.general.string = newString
+                                    NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Copy_Done", comment: "著者名をコピーしました"))
+                                }
+                            }else{
+                                dialog.dismiss(animated: false)
+                            }
+                        })
+                        dialog = dialog.textField(tag: 100, placeholder: nil, content: novel.writer, keyboardType: .default, secure: false, focusKeyboard: true, borderStyle: .none, clearButtonMode: .always)
+                        dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Popup_Cancel", comment: "変更しない")) { (dialog) in
+                                dialog.dismiss(animated: false, completion: nil)
+                            }
+                        dialog = dialog.addButton(title: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Popup_Edit", comment: "この名前に変更")) { (dialog) in
+                            dialog.dismiss(animated: false, completion: {
+                                if let filterTextField = dialog.view.viewWithTag(100) as? UITextField, let newString = filterTextField.text?.trimmingCharacters(in: .whitespacesAndNewlines), RealmUtil.RealmBlock(block: { (realm) -> Bool in
+                                    guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novel.novelID) else { return false }
+                                    RealmUtil.WriteWith(realm: realm) { (realm) in
+                                        novel.writer = NovelSpeakerUtility.NormalizeNFC(newString)
+                                        realm.add(novel)
+                                    }
+                                    return true
+                                }) {
+                                    DispatchQueue.main.async {
+                                        NiftyUtility.EasyDialogOneButton(viewController: self, title: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Popup_Edit_Accepted", comment: "著者名を変更しました"), message: nil, buttonTitle: nil, buttonAction: nil)
+                                    }
+                                }else{
+                                    DispatchQueue.main.async {
+                                        NiftyUtility.EasyDialogOneButton(viewController: self, title: NSLocalizedString("NovelDetailViewController_ActionSection_Writer_Popup_Edit_Rejected", comment: "著者名の変更に失敗しました"), message: nil, buttonTitle: nil, buttonAction: nil)
+                                    }
+                                }
+                            })
+                        }
+                        dialog.build().show()
+                    }
+                })
+
+                detailSection <<< LabelRow("URLLabel") {
+                    $0.title = NSLocalizedString("NovelDetailViewController_URL", comment: "URL")
+                    $0.value = novel.url
+                    $0.cell.accessoryType = .disclosureIndicator
+                }.onCellSelection({ (cellOf, row) in
+                    guard let url = URL(string: novel.url) else { return }
+                    self.openInWebImportTab(url: url)
+                })
+                
+                RealmUtil.RealmBlock { (realm) -> Void in
+                    guard let chapterNumber = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID)?.readingChapterNumber, let story = RealmStoryBulk.SearchStoryWith(realm: realm, novelID: self.novelID, chapterNumber: chapterNumber), let url = URL(string: story.url) else { return }
+                    detailSection <<< LabelRow() {
+                        $0.title = NSLocalizedString("NovelDetailViewController_CurrentPage", comment: "現在開いているページ")
+                        $0.value = story.url
+                        $0.cell.textLabel?.numberOfLines = 0
+                        $0.cell.accessoryType = .disclosureIndicator
+                    }.onCellSelection({ (cellOf, row) in
+                        self.openInWebImportTab(url: url)
+                    })
+                }
+            }
+            detailSection <<< LabelRow("TagsLabel") {
+                $0.title = NSLocalizedString("NovelDetailViewController_Tags", comment: "タグ")
+                $0.cell.accessoryType = .disclosureIndicator
+                assignTagList(row: $0)
+            }.onCellSelection({ (cellOf, row) in
+                let nextViewController = NovelKeywordTagSelecterViewController()
+                nextViewController.novelID = self.novelID
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            })
+            self.form +++ detailSection
+            
+            let actionSection = Section(NSLocalizedString("NovelDetailViewController_ActionSectionTitle", comment: "この小説に対する操作"))
+            
+            actionSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_SearchButton_Title", comment: "この小説内を検索(何も入れずに検索すると章のリストを表示します)")
+                $0.cell.textLabel?.numberOfLines = 0
+            }.onCellSelection({ (cellOf, row) in
+                DispatchQueue.main.async {
+                    RealmUtil.RealmBlock { (realm) -> Void in
+                        guard let chapterNumber = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID)?.readingChapterNumber else { return }
+                        StorySpeaker.shared.StopSpeech(realm: realm, stopAudioSession:true)
+                        NovelSpeakerUtility.SearchStoryWithSearchDialog(storyID: RealmStoryBulk.CreateUniqueBulkID(novelID: self.novelID, chapterNumber: chapterNumber), viewController: self) { (story) in
+                            StorySpeaker.shared.SetStory(story: story, withUpdateReadDate: true)
+                            self.navigationController?.popViewController(animated: true)
+                        }
+                    }
+                }
+            })
+
+            if novel.type == .URL {
+                actionSection <<< ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_CheckUpdate", comment: "この小説の更新確認を行う")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.cell.accessoryType = .disclosureIndicator
+                }.onCellSelection({ (cellOf, row) in
+                    NovelDownloadQueue.shared.addQueue(novelID: self.novelID)
+                    DispatchQueue.main.async {
+                        NiftyUtility.EasyDialogOneButton(viewController: self, title: nil, message: NSLocalizedString("NovelDetailViewController_ActionSection_CheckUpdateDone_Message", comment: "更新チェックを開始しました"), buttonTitle: nil, buttonAction: nil)
+                    }
+                })
+            }else if novel.type == .UserCreated, NovelSpeakerUtility.IsRegisteredOuterNovel(novelID: novel.novelID) {
+                actionSection <<< ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_CheckUpdate", comment: "この小説の更新確認を行う")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.cell.accessoryType = .disclosureIndicator
+                }.onCellSelection({ (cellOf, row) in
+                    NovelDownloadQueue.shared.addQueue(novelID: self.novelID)
+                    DispatchQueue.main.async {
+                        NiftyUtility.EasyDialogOneButton(viewController: self, title: nil, message: NSLocalizedString("NovelDetailViewController_ActionSection_CheckUpdateDone_Message", comment: "更新チェックを開始しました"), buttonTitle: nil, buttonAction: nil)
+                    }
+                })
+            }
+
+            actionSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_CreateBackupForThisNovelButton", comment: "この小説のバックアップを生成する")
+            }.onCellSelection({ (cellOf, row) in
+                DispatchQueue.main.async {
+                    NovelSpeakerUtility.CreateNovelOnlyBackup(novelIDArray: [self.novelID], viewController: self) { (fileUrl, fileName) in
+                        DispatchQueue.main.async {
+                            let activityViewController = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
+                            let frame = UIScreen.main.bounds
+                            activityViewController.popoverPresentationController?.sourceView = self.view
+                            activityViewController.popoverPresentationController?.sourceRect = CGRect(x: frame.width / 2 - 60, y: frame.size.height - 50, width: 120, height: 50)
+                            self.present(activityViewController, animated: true, completion: nil)
+                        }
+                    }
+                }
+            })
+            
+            if novel.type == .UserCreated {
+                let title = novel.title
+                actionSection <<< ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_CreateWholeTextButton", comment: "この小説の本文を一つのテキストファイルとして出力する")
+                    $0.cell.textLabel?.numberOfLines = 0
+                }.onCellSelection({ cellOf, row in
+                    var wholeText = title
+                    RealmUtil.RealmBlock { realm in
+                        RealmStoryBulk.SearchAllStoryFor(realm: realm, novelID: self.novelID) { story in
+                            wholeText += "\n\n"
+                            wholeText += story.content
+                        }
+                    }
+                    let fileName = title.replacingOccurrences(of: "/", with: "_") + ".txt"
+                    guard let data = wholeText.data(using: .utf8), let outputFilePath = NovelSpeakerUtility.CreateShareFileFromData(fileName: fileName, data: data) else { return }
+                    DispatchQueue.main.async {
+                        let activityViewController = UIActivityViewController(activityItems: [outputFilePath], applicationActivities: nil)
+                        let frame = UIScreen.main.bounds
+                        activityViewController.popoverPresentationController?.sourceView = self.view
+                        activityViewController.popoverPresentationController?.sourceRect = CGRect(x: frame.width / 2 - 60, y: frame.size.height - 50, width: 120, height: 50)
+                        self.present(activityViewController, animated: true, completion: nil)
+                    }
+                })
+            }
+            
+            if novel.type == .URL {
+                actionSection <<< ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_ShareButton", comment: "この小説のURLをシェアする")
+                }.onCellSelection({ (cellOf, row) in
+                    NovelSpeakerUtility.ShareStory(viewController: self, novelID: self.novelID, barButton: nil)
+                })
+            }
+            
+            actionSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_EditNovelButton", comment: "この小説を編集する")
+            }.onCellSelection({ (cellOf, row) in
+                DispatchQueue.main.async {
+                    self.performSegue(withIdentifier: "EditUserTextSegue", sender: self)
+                }
+            })
+
+            // 他の小説にこのページを追加する(本文右上ボタンを非表示にしていてもここから使える)。
+            // 「このページ」は現在の読書位置の章(無ければ末尾の章)を使う。
+            actionSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する")
+                $0.cell.textLabel?.numberOfLines = 0
+            }.onCellSelection({ [weak self] (cellOf, row) in
+                guard let self = self else { return }
+                let page:(content:String, subtitle:String)? = RealmUtil.RealmBlock { (realm) -> (String, String)? in
+                    guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID) else { return nil }
+                    guard let story = novel.readingChapterWith(realm: realm) ?? novel.lastChapterWith(realm: realm) else { return nil }
+                    return (story.content, story.subtitle)
+                }
+                guard let page = page else {
+                    NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("AddPageToOtherNovel_NoPage", comment: "追加できるページがありません。"))
+                    return
+                }
+                MultipleNovelIDSelectorViewController.PushSingleSelector(
+                    parent: self,
+                    excludeNovelID: self.novelID,
+                    title: NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する"),
+                    confirmMessage: { novelTitle in
+                        String(format: NSLocalizedString("AddPageToOtherNovel_ConfirmMessage", comment: "「%@」にこのページを追加しますか？"), novelTitle)
+                    },
+                    onConfirmed: { [weak self] targetNovelID in
+                        guard let self = self else { return }
+                        let result = NovelSpeakerUtility.AppendPageToNovelTail(targetNovelID: targetNovelID, content: page.content, subtitle: page.subtitle)
+                        let message = result ? NSLocalizedString("AddPageToOtherNovel_Success", comment: "ページを追加しました。") : NSLocalizedString("AddPageToOtherNovel_Failure", comment: "ページの追加に失敗しました。")
+                        NiftyUtility.EasyDialogMessageDialog(viewController: self, message: message)
+                    })
+            })
+
+            // この小説を別の小説の末尾に追加する(全ページをコピー)。
+            let novelTitleForAppend = novel.title
+            actionSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_ActionSection_AppendThisNovelToOther", comment: "この小説を別の小説の末尾に追加する")
+                $0.cell.textLabel?.numberOfLines = 0
+            }.onCellSelection({ [weak self] (cellOf, row) in
+                guard let self = self else { return }
+                MultipleNovelIDSelectorViewController.PushSingleSelector(
+                    parent: self,
+                    excludeNovelID: self.novelID,
+                    title: NSLocalizedString("NovelDetailViewController_ActionSection_AppendThisNovelToOther", comment: "この小説を別の小説の末尾に追加する"),
+                    confirmMessage: { novelTitle in
+                        String(format: NSLocalizedString("AppendNovelToOther_ConfirmMessage", comment: "「%@」の末尾に「%@」の全ページを追加しますか？"), novelTitle, novelTitleForAppend)
+                    },
+                    onConfirmed: { [weak self] targetNovelID in
+                        guard let self = self else { return }
+                        let sourceNovelID = self.novelID
+                        let progressDialog = NiftyUtility.EasyDialogBuilder(self)
+                            .label(text: NSLocalizedString("AppendNovelToOther_Processing", comment: "追加しています……"), textAlignment: .center)
+                            .build()
+                        progressDialog.show()
+                        DispatchQueue.global(qos: .userInitiated).async {
+                            let result = NovelSpeakerUtility.AppendAllPagesToNovelTail(sourceNovelID: sourceNovelID, targetNovelID: targetNovelID)
+                            DispatchQueue.main.async {
+                                progressDialog.dismiss(animated: false) {
+                                    let message = result ? NSLocalizedString("AppendNovelToOther_Success", comment: "全ページを追加しました。") : NSLocalizedString("AppendNovelToOther_Failure", comment: "追加に失敗しました。")
+                                    NiftyUtility.EasyDialogMessageDialog(viewController: self, message: message)
+                                }
+                            }
+                        }
+                    })
+            })
+
+            self.form +++ actionSection
+            
+            let settingSection = Section(NSLocalizedString("NovelDetailViewController_SettingSectionTitle", comment: "この小説専用の設定"))
+            // isNeedSpeechAfterDelete
+            if let speaker = novel.defaultSpeakerWith(realm: realm) {
+                #if targetEnvironment(macCatalyst)
+                let speakerRow = PushRow<String>("SpeakerAlertRow")
+                ConfigureCatalystSingleSelectionPushRow(speakerRow)
+                #else
+                let speakerRow = AlertRow<String>("SpeakerAlertRow")
+                speakerRow.cancelTitle = NSLocalizedString("Cancel_button", comment: "Cancel")
+                #endif
+                speakerRow.title = NSLocalizedString("NovelDetailViewController_SpeakerAlertRowTitle", comment: "標準の話者")
+                speakerRow.selectorTitle = NSLocalizedString("SpeechSectionConfigsViewController_SpeakerSelectorTitle", comment: "話者を選択してください")
+                RealmUtil.RealmBlock { (realm) -> Void in
+                    guard let speakerSettingArray = RealmSpeakerSetting.GetAllObjectsWith(realm: realm)?.sorted(byKeyPath: "createdDate", ascending: true) else { return }
+                    speakerRow.options = speakerSettingArray.map({$0.name})
+                }
+                speakerRow.value = speaker.name
+                speakerRow.onChange({ (row) in
+                    RealmUtil.RealmBlock { (realm) -> Void in
+                        guard let targetName = row.value, let speaker = RealmSpeakerSetting.SearchFromWith(realm: realm, name: targetName), let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID) else {
+                            return
+                        }
+                        RealmUtil.WriteWith(realm: realm, withoutNotifying: [self.speakerSettingObserverToken, self.speechSectionConfigObserverToken, self.novelObserverToken]) { (realm) in
+                            novel.defaultSpeakerID = speaker.name
+                        }
+                    }
+                })
+                settingSection <<< speakerRow
+            }
+            settingSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("SettingsViewController_SpeechModSettingsButtonTitle", comment:"話者変更設定(会話文等で声質を変えたりする設定)")
+            }.onCellSelection({ (_, _) in
+                let nextViewController = SpeechSectionConfigsViewController()
+                nextViewController.targetNovelID = self.novelID
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }).cellUpdate({ (cell, button) in
+                cell.textLabel?.textAlignment = .left
+                cell.accessoryType = .disclosureIndicator
+                cell.editingAccessoryType = cell.accessoryType
+                cell.textLabel?.textColor = nil
+            })
+            settingSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("SettingTableViewController_CorrectionOfTheReading", comment:"読みの修正")
+                $0.presentationMode = .segueName(segueName: "speechModSettingSegue", onDismiss: nil)
+            }
+            if novel.type == .URL {
+                // この小説のURLにマッチする SiteInfo の中に「取り込み対象を選べる(pageElementが複数)」ものがあるか。
+                // 無い場合は選択しても空画面になるだけなので、ボタンを無効化(グレーアウト)する。
+                let novelURLString = novel.url
+                func hasSelectableImportTargets() -> Bool {
+                    return StoryHtmlDecoder.shared.SearchSiteInfoArrayFrom(urlString: novelURLString).contains { $0.pageElementDict.count > 1 }
+                }
+                let importSettingRow = ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_NovelImportSettingButtonTitle", comment: "この小説の取り込み対象を指定する")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.disabled = Condition(booleanLiteral: !hasSelectableImportTargets())
+                }.onCellSelection({ (_, _) in
+                    let siteInfoArray = StoryHtmlDecoder.shared.SearchSiteInfoArrayFrom(urlString: novelURLString).filter {
+                        $0.pageElementDict.count > 1
+                    }
+                    let uniqueSiteInfoArray = Dictionary(siteInfoArray.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first }).values.map { $0 }
+                    guard !uniqueSiteInfoArray.isEmpty else { return }
+                    let swiftUIView = RealmUtil.RealmBlock { realm in
+                        return NovelImportSettingSwiftUIView(sites: uniqueSiteInfoArray, scopeType: .novel, novelID: self.novelID).environment(\.realmConfiguration, realm.configuration)
+                    }
+                    let hostingController = UIHostingController(rootView: swiftUIView)
+                    self.navigationController?.pushViewController(hostingController, animated: true)
+                }).cellUpdate({ (cell, row) in
+                    cell.textLabel?.textAlignment = .left
+                    if row.isDisabled {
+                        cell.accessoryType = .none
+                        cell.textLabel?.textColor = .tertiaryLabel
+                    } else {
+                        cell.accessoryType = .disclosureIndicator
+                        cell.textLabel?.textColor = nil
+                    }
+                    cell.editingAccessoryType = cell.accessoryType
+                })
+                settingSection <<< importSettingRow
+                // 詳細画面を開いた時点で SiteInfo がまだ読み込まれていない場合があるので、
+                // 読み込み完了後にボタンの有効/無効を取り直す。
+                if StoryHtmlDecoder.shared.siteInfoArrayArray.isEmpty {
+                    StoryHtmlDecoder.shared.WaitLoadSiteInfoReady { [weak importSettingRow] _ in
+                        DispatchQueue.main.async {
+                            guard let importSettingRow = importSettingRow else { return }
+                            importSettingRow.disabled = Condition(booleanLiteral: !hasSelectableImportTargets())
+                            importSettingRow.evaluateDisabled()
+                            importSettingRow.updateCell()
+                        }
+                    }
+                }
+                settingSection <<< SwitchRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_NovelUpdateCheck_SwitchRowTitle", comment: "この小説の更新確認を行わない")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.value = RealmUtil.RealmBlock { (realm) -> Bool in
+                        guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID) else { return false }
+                        return novel.isNotNeedUpdateCheck
+                    }
+                }.onChange({ (row) in
+                    guard let value = row.value else { return }
+                    RealmUtil.RealmBlock { (realm) -> Void in
+                        guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID), novel.isNotNeedUpdateCheck != value else { return }
+                        RealmUtil.WriteWith(realm: realm) { (realm) in
+                            novel.isNotNeedUpdateCheck = value
+                            realm.add(novel, update: .modified)
+                        }
+                    }
+                })
+                // 既に保存済みの章を、現在の取込設定(前書き・後書きの読み上げ設定など)を反映させて
+                // ネット経由で再取得し直すためのボタン。既存章を再取得する仕組みは他に無いため新設した。
+                let hasAnyStory = RealmUtil.RealmBlock { (realm) -> Bool in
+                    guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: self.novelID) else { return false }
+                    return novel.lastChapterNumber != nil
+                }
+                settingSection <<< ButtonRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersButtonTitle", comment: "保存済みの本文を今の取込設定で再ダウンロードする")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.disabled = Condition(booleanLiteral: !hasAnyStory)
+                }.onCellSelection({ [weak self] (_, _) in
+                    guard let self = self else { return }
+                    NiftyUtility.EasyDialogTwoButton(
+                        viewController: self,
+                        title: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersConfirmTitle", comment: "保存済みの本文を再ダウンロードしますか？"),
+                        message: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersConfirmMessage", comment: "確認メッセージ"),
+                        button1Title: NSLocalizedString("Cancel_button", comment: "Cancel"),
+                        button1Action: nil,
+                        button2Title: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersConfirmButton", comment: "再ダウンロードする"),
+                        button2Action: {
+                            let novelID = self.novelID
+                            NiftyUtility.EasyDialogNoButton(viewController: self, title: nil, message: "-") { (dialog) in
+                                func assignMessage(_ message: String) {
+                                    DispatchQueue.main.async {
+                                        guard let label = dialog.view.viewWithTag(100) as? UILabel else { return }
+                                        label.text = message
+                                    }
+                                }
+                                assignMessage(String(format: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersProgressFormat", comment: "再ダウンロード中… (%d/%d)"), 0, 0))
+                                ExistingChapterRedownloader.redownloadAllChapters(novelID: novelID, progress: { done, total in
+                                    assignMessage(String(format: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersProgressFormat", comment: "再ダウンロード中… (%d/%d)"), done, total))
+                                }, completion: { result in
+                                    DispatchQueue.main.async {
+                                        dialog.dismiss(animated: false) {
+                                            NiftyUtility.EasyDialogOneButton(
+                                                viewController: self,
+                                                title: nil,
+                                                message: String(format: NSLocalizedString("NovelDetailViewController_RedownloadExistingChaptersDoneFormat", comment: "再ダウンロードが完了しました。成功: %d件、失敗: %d件"), result.successCount, result.failedCount),
+                                                buttonTitle: nil,
+                                                buttonAction: nil)
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    )
+                }).cellUpdate({ (cell, row) in
+                    cell.textLabel?.textAlignment = .left
+                    if row.isDisabled {
+                        cell.textLabel?.textColor = .tertiaryLabel
+                    } else {
+                        cell.textLabel?.textColor = nil
+                    }
+                })
+            }
+            if novel.type == .UserCreated, let outerNovelAttribute = NovelSpeakerUtility.GetOuterNovelAttributes(novelID: novel.novelID) {
+                let novelID = novel.novelID
+                settingSection <<< SwitchRow() {
+                    $0.title = NSLocalizedString("NovelDetailViewController_NovelUpdateCheck_SwitchRowTitle", comment: "この小説の更新確認を行わない")
+                    $0.cell.textLabel?.numberOfLines = 0
+                    $0.value = !(outerNovelAttribute.isNeedCheckUpdate ?? false)
+                }.onChange({ (row) in
+                    guard let value = row.value else { return }
+                    _ = NovelSpeakerUtility.UpdateOuterNovelFileAttirbuteOnlyNeedCheckUpdate(novelID: novelID, isNeedCheckUpdate: value ? false : true)
+                })
+            }
+            /*
+            settingSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_AddRubyToSpeechModButtonTitle", comment: "小説中に出てくるルビ表記をこの小説用の読みの修正に上書き追加する")
+                $0.cell.textLabel?.numberOfLines = 0
+            }.onCellSelection({ (cellOf, row) in
+                let novelID = self.novelID
+                var result:[String:String] = [:]
+                RealmUtil.RealmBlock { (realm) -> Void in
+                    guard let storys = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID)?.linkedStorysWith(realm: realm) else {
+                        DispatchQueue.main.async {
+                            NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("NovelDetailViewController_CanNotGetNovelData", comment: "小説本文データの抽出に失敗しました。"))
+                        }
+                        return
+                    }
+                    for story in storys {
+                        let rubyDictionary =  NiftyUtility.FindRubyNotation(text: story.content)
+                        for (before, after) in rubyDictionary {
+                            result[before] = after
+                        }
+                    }
+                }
+                if result.count <= 0 {
+                    NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("NovelDetailViewController_RubyNotFound", comment: "有効なルビ表記を発見できませんでした。"))
+                    return
+                }
+                var message = ""
+                RealmUtil.Write(block: { (realm) in
+                    for (before, after) in result {
+                        if before.count <= 0 || after.count <= 0 { continue }
+                        let modSetting = RealmSpeechModSetting()
+                        modSetting.before = before
+                        modSetting.after = after
+                        modSetting.isUseRegularExpression = false
+                        modSetting.targetNovelIDArray.append(novelID)
+                        realm.add(modSetting, update: .modified)
+                        message += "\(before) → \(after)\n"
+                    }
+                })
+                DispatchQueue.main.async {
+                    NiftyUtility.EasyDialogBuilder(self)
+                    .title(title: NSLocalizedString("NovelDetailViewController_SpeechModAdded", comment: "この小説用に以下の読み替えを登録しました"))
+                    .textView(content: message.trimmingCharacters(in: .whitespacesAndNewlines), heightMultiplier: 0.7)
+                    .addButton(title: NSLocalizedString("OK_button", comment: "OK"), callback: { (dialog) in
+                        dialog.dismiss(animated: true, completion: nil)
+                    }).build().show()
+                }
+            })
+            */
+            settingSection <<< ButtonRow() {
+                $0.title = NSLocalizedString("NovelDetailViewController_AddToFolderButtonTitle", comment: "フォルダへ分類")
+            }.onCellSelection({ (_, _) in
+                let nextViewController = AssignNovelFolderViewController()
+                nextViewController.targetNovelID = self.novelID
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }).cellUpdate({ (cell, button) in
+                cell.textLabel?.textAlignment = .left
+                cell.accessoryType = .disclosureIndicator
+                cell.editingAccessoryType = cell.accessoryType
+                cell.textLabel?.textColor = nil
+            })
+            settingSection <<< SwitchRow() { (row) in
+                row.value = globalState.novelLikeOrder.contains(novelID)
+                row.title = NSLocalizedString("NovelDetailViewController_LikeLevelSwitchRowTitle", comment: "お気に入り")
+            }.onChange({ (row) in
+                RealmUtil.Write(block: { (realm) in
+                    guard let value = row.value, let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else { return }
+                    if value {
+                        if globalState.novelLikeOrder.contains(self.novelID) == false {
+                            globalState.novelLikeOrder.append(self.novelID)
+                        }
+                    }else{
+                        if let index = globalState.novelLikeOrder.index(of: self.novelID) {
+                            globalState.novelLikeOrder.remove(at: index)
+                        }
+                    }
+                })
+            })
+
+            form +++ settingSection
+        }
+    }
+
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditUserTextSegue" {
+            if let nextViewController = segue.destination as? EditBookViewController {
+                nextViewController.targetNovelID = self.novelID
+            }
+        }else if segue.identifier == "speechModSettingSegue" {
+            guard let nextViewController = segue.destination as? SpeechModSettingsTableViewControllerSwift, self.novelID.count > 0 else { return }
+            nextViewController.targetNovelID = self.novelID
+        }
+    }
+}

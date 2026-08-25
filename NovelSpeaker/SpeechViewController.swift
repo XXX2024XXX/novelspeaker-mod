@@ -1,0 +1,1926 @@
+//
+//  SpeechViewController.swift
+//  NovelSpeaker
+//
+//  Created by 飯村卓司 on 2019/05/19.
+//  Copyright © 2019 IIMURA Takuji. All rights reserved.
+//
+
+import UIKit
+import RealmSwift
+import IceCream
+import Eureka
+
+class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserverResetDelegate, UIGestureRecognizerDelegate, UITextViewDelegate {
+    
+    public var storyID : String? = nil
+    public var isNeedResumeSpeech : Bool = false
+    public var isNeedUpdateReadDate : Bool = true
+
+    @IBOutlet weak var textView : UITextView!
+    @IBOutlet weak var previousChapterButton : UIButton!
+    @IBOutlet weak var nextChapterButton : UIButton!
+    @IBOutlet weak var chapterSlider : UISlider!
+    @IBOutlet weak var chapterPositionLabel : UILabel!
+    @IBOutlet weak var chapterPositionLabelWidthConstraint : NSLayoutConstraint!
+    
+    var startStopButton:UIButton? = nil
+    var skipBackwardButtonItem:UIButton? = nil
+    var skipForwardButtonItem:UIButton? = nil
+
+    // 画面下部のボタン群(右上のボタン群とは独立した設定。既定では何も表示しない)
+    var bottomButtonBar:SpeechViewBottomButtonBar? = nil
+    var bottomStartStopButton:UIButton? = nil
+    var bottomSkipBackwardButton:UIButton? = nil
+    var bottomSkipForwardButton:UIButton? = nil
+    // 直前に画面下部のボタン群を作った時の状態。
+    // viewDidLayoutSubviews から呼ばれる事があるので、毎回作り直すと
+    // 「作り直す→レイアウトが走る→また呼ばれる」で無限に回ってしまう。同じ内容なら何もしない。
+    var currentBottomButtonSignature:String? = nil
+
+    var novelObserverToken:NotificationToken? = nil
+    var novelObserverNovelID:String = ""
+    var storyObserverToken:NotificationToken? = nil
+    var storyObserverBulkStoryID:String = ""
+    var displaySettingObserverToken:NotificationToken? = nil
+    var globalStateObserverToken:NotificationToken? = nil
+    var readingChapterStoryUpdateDate:Date = Date()
+    var storyTextAttribute:[NSAttributedString.Key: Any] = [:]
+    var displayTextCache:String = ""
+    var panRecgnizer:UIPanGestureRecognizer = UIPanGestureRecognizer()
+    var speakFromHereLongPressRecognizer:UILongPressGestureRecognizer = UILongPressGestureRecognizer()
+
+    // MARK: 発話位置への自動スクロールの一時停止
+    // 自分でスクロールした直後だけ、発話位置への強制スクロールと強制範囲選択を止める。
+    // ユーザに「今どちらの状態か」を管理させたくないので、ほったらかせば必ず再開する。
+    // (トグルボタンや状態インジケータは意図的に作っていない)
+    var isScrollFollowSuspended:Bool = false {
+        didSet {
+            (self.textView as? CustomUITextView)?.isScrollFollowSuspended = self.isScrollFollowSuspended
+        }
+    }
+    var scrollFollowSuspendTimer:Timer? = nil
+    // 一時停止している間に来た発話位置。再開時にここへ飛ぶ。
+    var scrollFollowPendingRange:NSRange? = nil
+    
+    var searchView:SearchFloatingView? = nil
+    var searchTextCache = ""
+
+    let storySpeaker = StorySpeaker.shared
+    
+    var lastChapterNumber:Int = -1
+    
+    var currentReadStoryIDChangeAlertFloatingButton:FloatingButton? = nil
+    
+    var isUpperRightButtonsChanged:Bool = true
+
+    // 右上ボタン群を「実レイアウト後に実測してはみ出したら『…』へ追い出す」ための状態。
+    // 事前見積もり(assignUpperButtons の maxButtons)だけでは、ナビバーが戻るボタン/タイトルに
+    // どれだけ幅を割り振るかを正確に知り得ずクリップし得るため、viewDidLayoutSubviews で実測して補正する。
+    weak var upperButtonContainerView: UIView? = nil
+    weak var upperButtonStackView: UIStackView? = nil
+    // ある画面幅で「実測の結果ここまでしか入らない」と判明したスロット数の上限(その幅でのみ有効)。
+    var upperButtonFittedSlotLimit: Int? = nil
+    var upperButtonFittedSlotLimitWidth: CGFloat = -1
+    // trim のデバウンス用: 直前の実測結果。回転直後などの過渡レイアウトを1回だけ掴んで
+    // 誤って削るのを防ぐため、2回連続で同じはみ出しを観測した時だけ削る。
+    var upperButtonTrimPendingMeasure: (n: Int, overflow: CGFloat)? = nil
+    // 現在のボタン群を組み立てた時の間隔設定。設定変更(間隔)を検知して作り直すために保持する。
+    var currentBarButtonItemSpacing: CGFloat = -1
+
+    // 実測で決めたスロット上限をリセットして、次のレイアウトで再見積もり+再実測させる。
+    // 回転・文字サイズ(Dynamic Type)変更・画面への入り直しで呼ぶことで、
+    // 「一度縮んだら二度と戻らない」状態を避ける(条件が変われば増える方向にも戻る)。
+    func resetUpperButtonFittedSlotLimit() {
+        if self.upperButtonFittedSlotLimit == nil { return }
+        self.upperButtonFittedSlotLimit = nil
+        self.upperButtonFittedSlotLimitWidth = -1
+        self.upperButtonTrimPendingMeasure = nil
+        self.isUpperRightButtonsChanged = true
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        // 回転等で使える幅が変わるので、実測上限を捨てて新しい幅で再見積もり+再実測する
+        self.resetUpperButtonFittedSlotLimit()
+        coordinator.animate(alongsideTransition: nil) { _ in
+            self.forceUpdateUpperButtons()
+            self.scheduleUpperButtonTrim()
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        storySpeaker.AddDelegate(delegate: self)
+        // Do any additional setup after loading the view.
+        initWidgets()
+        if let storyID = storyID {
+            let novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+            DispatchQueue.global(qos: .background).async {
+                NovelSpeakerUtility.CheckAndRecoverStoryCount(novelID: novelID)
+            }
+            RealmUtil.RealmBlock { (realm) -> Void in
+                if let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID){
+                    loadNovel(novelID: novel.novelID, novelTitle: novel.title, novelType: novel.type, aliveButtonSettings: RealmGlobalState.GetInstanceWith(realm: realm)?.GetSpeechViewButtonSetting() ?? SpeechViewButtonSetting.defaultSetting)
+                }
+                if let story = RealmStoryBulk.SearchStoryWith(realm: realm, storyID: storyID) {
+                    self.storySpeaker.SetStory(story: story, withUpdateReadDate: isNeedUpdateReadDate)
+                }else{
+                    self.applyStoryText(
+                        text: NSLocalizedString(
+                            "SpeechViewController_LoadingFailed_GlobalStateIsNull",
+                            comment: "本文の読み込みに失敗しました。小説のページを読み込めませんでした。"
+                        )
+                    )
+                }
+            }
+            self.observeStory(storyID: storyID)
+            
+            // VoiceOver の ON/OFF を受け取って右上のボタン配置をゴニョる
+            NotificationCenter.default.addObserver(
+                forName: UIAccessibility.voiceOverStatusDidChangeNotification,
+                object: nil,
+                queue: .main
+            ) { _ in
+                self.forceUpdateUpperButtons()
+                if UIAccessibility.isVoiceOverRunning {
+                    //print("VoiceOverがONになりました")
+                } else {
+                    //print("VoiceOverがOFFになりました")
+                }
+            }
+        }else{
+            textView.text = NSLocalizedString("SpeechViewController_ContentReadFailed", comment: "文書の読み込みに失敗しました。")
+        }
+        observeDispaySetting()
+        observeGlobalState()
+        registNotificationCenter()
+        RealmObserverHandler.shared.AddDelegate(delegate: self)
+        searchTextCache = ""
+        
+        // delegate は2つの用途で使う。
+        // ・iOS 16 以降の長押しメニュー選別
+        //   (UIEditMenuInteraction を自前で addInteraction するのではなく、
+        //    UITextViewDelegate.textView(_:editMenuForTextIn:suggestedActions:) を使う)
+        // ・手動スクロールの検出(scrollViewWillBeginDragging)。
+        //   指やトラックパッドのドラッグ開始でのみ呼ばれ、scrollRectToVisible() 等の
+        //   プログラム由来では呼ばれないので「自分で動かしたのか」の判定に使える。
+        self.textView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // 画面に入り直すたびに実測上限をリセットしてから測り直す(誤検出で縮んだままの固着を防ぐ)。
+        self.resetUpperButtonFittedSlotLimit()
+        // 画面表示が完了し customView がナビバーに載ったこのタイミングで実測補正する(主トリガ)。
+        self.scheduleUpperButtonTrim()
+        self.textView.becomeFirstResponder()
+        DispatchQueue.main.async {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                guard let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else { return }
+                if globalState.isEnableSwipeOnStoryView {
+                    self.assignSwipeRecognizer()
+                }else{
+                    self.removeSwipeRecognizer()
+                }
+            }
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.clearSearchView()
+    }
+    
+    func forceUpdateUpperButtons() {
+        DispatchQueue.main.async {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                guard let storyID = self.storyID, let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID))?.RemoveRealmLink(), let buttonSettings = RealmGlobalState.GetInstanceWith(realm: realm)?.GetSpeechViewButtonSetting() else { return }
+                self.assignUpperButtons(novelID: novel.novelID, novelType: novel.type, aliveButtonSettings: buttonSettings)
+            }
+            self.assignBottomButtons()
+        }
+    }
+
+    // MARK: 画面下部のボタン群
+
+    // 画面下部のボタン群を作り直す。設定が全部OFFなら何も表示しない(バー自体を消す)。
+    // viewDidLayoutSubviews からも呼ばれるので、同じ内容なら何もしないで返す
+    // (でないと「作り直す→レイアウトが走る→また呼ばれる」で無限に回る)。
+    func assignBottomButtons() {
+        DispatchQueue.main.async {
+            let isPlayng = self.storySpeaker.isPlayng
+            let info:(novelID:String, novelType:NovelType, settings:[SpeechViewButtonSetting], overlaps:Bool)? = RealmUtil.RealmBlock { (realm) -> (novelID:String, novelType:NovelType, settings:[SpeechViewButtonSetting], overlaps:Bool)? in
+                guard let storyID = self.storyID,
+                      let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID))?.RemoveRealmLink(),
+                      let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else { return nil }
+                return (novelID: novel.novelID, novelType: novel.type, settings: globalState.GetSpeechViewBottomButtonSetting(), overlaps: globalState.isSpeechViewBottomButtonOverlapsChapterBar)
+            }
+            guard let info = info else { return }
+            let signature = "\(info.novelID)/\(info.novelType)/\(info.overlaps)/\(isPlayng)/\(NovelSpeakerUtility.GetBarButtonItemSpacing())/" + info.settings.map({ "\($0.type.rawValue):\($0.isOn)" }).joined(separator: ",")
+            if self.currentBottomButtonSignature == signature { return }
+            self.currentBottomButtonSignature = signature
+
+            self.bottomButtonBar?.removeFromSuperview()
+            self.bottomButtonBar = nil
+            self.bottomStartStopButton = nil
+            self.bottomSkipBackwardButton = nil
+            self.bottomSkipForwardButton = nil
+            if info.settings.contains(where: { $0.isOn }) == false { return }
+
+            let buttons = self.createSpeechViewButtonArray(novelID: info.novelID, novelType: info.novelType, aliveButtonSettings: info.settings, buttonSize: 28, isForBottomBar: true)
+            if buttons.isEmpty { return }
+
+            let bar = SpeechViewBottomButtonBar()
+            self.view.addSubview(bar)
+            self.view.bringSubviewToFront(bar)
+            bar.setButtons(buttons)
+            let safeAreaGuide = self.view.safeAreaLayoutGuide
+            var constraints:[NSLayoutConstraint] = [
+                bar.leadingAnchor.constraint(greaterThanOrEqualTo: safeAreaGuide.leadingAnchor, constant: 8),
+                bar.trailingAnchor.constraint(lessThanOrEqualTo: safeAreaGuide.trailingAnchor, constant: -8),
+                bar.centerXAnchor.constraint(equalTo: safeAreaGuide.centerXAnchor),
+            ]
+            if info.overlaps {
+                // ページ送りのバーに重ねる(本文は最大限広いが、ページ送り/スライダは押せなくなる)
+                constraints.append(bar.centerYAnchor.constraint(equalTo: self.previousChapterButton.centerYAnchor))
+            }else{
+                // ページ送りのバーの上に出す(ページ送りは押せるが、本文が少し隠れる)
+                constraints.append(bar.bottomAnchor.constraint(equalTo: self.previousChapterButton.topAnchor, constant: -4))
+            }
+            NSLayoutConstraint.activate(constraints)
+            self.bottomButtonBar = bar
+            self.applyTheme()
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        forceUpdateUpperButtons()
+        scheduleUpperButtonTrim()
+    }
+
+    // ナビバー(タイトルラベル/customView)が実レイアウトで確定するタイミングは、状態復元や
+    // push アニメーションの都合で viewDidLayoutSubviews より後になることがある。まだ実測できない
+    // (navBar が window に載っていない/タイトルラベル未生成)うちは、短い間隔で数回だけ実測を
+    // 再試行して確実に1回は測れるようにする。
+    func scheduleUpperButtonTrim(attempt: Int = 0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + (attempt == 0 ? 0 : 0.15)) { [weak self] in
+            guard let self = self else { return }
+            if self.trimUpperButtonsToFitIfNeeded() == false && attempt < 10 {
+                self.scheduleUpperButtonTrim(attempt: attempt + 1)
+            }
+        }
+    }
+
+    // 右上ボタン群が実際のナビバー幅に収まっているかを実レイアウト後に実測し、
+    // はみ出している(=最右がクリップされて消える)場合は表示スロット数を1段階減らして
+    // 溢れ分を「…」オーバーフローメニューに追い出す。収まるまで繰り返し呼ばれて収束する。
+    // 事前見積もり(assignUpperButtons)は左側の戻るボタン/タイトルが食う幅を正確には知り得ないので、
+    // クリップを確実にゼロにするにはこの実測補正が必要。
+    // 戻り値: 実測できたら true(はみ出しの有無に依らず)。まだ測れなければ false(呼び出し側が再試行)。
+    @discardableResult
+    func trimUpperButtonsToFitIfNeeded() -> Bool {
+        // 遷移アニメーション中はナビバー各部のフレームが過渡的で誤測しやすいので触らない
+        if self.navigationController?.transitionCoordinator != nil { return false }
+        // customView(container)はナビバーに取り込まれるまで window に載らないので guard には使わない。
+        // 実測に必要なのは navBar とその中のタイトルラベルで、こちらは navBar が window にあれば有効。
+        guard let stack = self.upperButtonStackView,
+              let navBar = self.navigationController?.navigationBar,
+              navBar.window != nil else { return false }
+        let n = stack.arrangedSubviews.count
+        // 「…」+ 保護対象1個 の 2個未満はこれ以上減らせない
+        guard n >= 2 else { return true }
+
+        guard let overflow = NovelSpeakerUtility.UpperButtonBarLayout.rightmostButtonOverflow(navBar: navBar, stack: stack, container: self.upperButtonContainerView) else { return false }
+
+        if overflow > 0.5 {
+            // 回転直後などの過渡レイアウトを1回だけ掴んで誤って削るのを防ぐため、
+            // 0.15秒おいて2回連続で同じはみ出しを観測した時だけ削る(デバウンス)。
+            guard let pending = self.upperButtonTrimPendingMeasure, pending.n == n, abs(pending.overflow - overflow) < 0.5 else {
+                self.upperButtonTrimPendingMeasure = (n, overflow)
+                return false // 再試行(次の実測)で確認する
+            }
+            self.upperButtonTrimPendingMeasure = nil
+            // 実測で最右ボタンがはみ出している(クリップ)ので、表示スロットを1段階だけ減らして
+            // 溢れ分を「…」に追い出し、再構築させる。1個ずつ減らして「収まるまで」収束させる。
+            let newLimit = n - 1
+            if self.upperButtonFittedSlotLimit == nil || newLimit < (self.upperButtonFittedSlotLimit ?? Int.max) || abs(self.upperButtonFittedSlotLimitWidth - self.currentWindowWidth) >= 0.5 {
+                self.upperButtonFittedSlotLimit = newLimit
+                self.upperButtonFittedSlotLimitWidth = self.currentWindowWidth
+                self.isUpperRightButtonsChanged = true // 幅が同じでも作り直させる
+                self.forceUpdateUpperButtons()
+            }
+        } else {
+            self.upperButtonTrimPendingMeasure = nil
+        }
+        return true
+    }
+    
+    deinit {
+        self.scrollFollowSuspendTimer?.invalidate()
+        self.scrollFollowSuspendTimer = nil
+        StopObservers()
+        self.unregistNotificationCenter()
+        RealmObserverHandler.shared.RemoveDelegate(delegate: self)
+    }
+
+    // 表示される直前に呼ばれる
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.backgroundColor = UIColor.clear
+        applyTheme()
+    }
+    
+    // 非表示になる直前に呼ばれる
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        resumeTheme()
+        cancelScrollFollowSuspend()
+        let range = self.textView.selectedRange
+        if self.storySpeaker.isPlayng == false && range.location >= 0 && range.location < self.textView.text.count {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                self.storySpeaker.setReadLocationWith(realm: realm, location: range.location)
+            }
+        }
+        if let floatingButton = self.currentReadStoryIDChangeAlertFloatingButton {
+            floatingButton.hide()
+            self.currentReadStoryIDChangeAlertFloatingButton = nil
+        }
+    }
+    
+    // 長押しは OS 標準の選択用ジェスチャと同時に動いてもらう必要がある(こちらは
+    // 一時停止を始めるだけで、選択自体は OS 標準の物をそのまま使うため)。
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer === self.speakFromHereLongPressRecognizer { return true }
+        return false
+    }
+
+    // ジェスチャー周りで動いていいか確認してくる時に呼ばれる。
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer === panRecgnizer, let pan = gestureRecognizer as? UIPanGestureRecognizer {
+            let location = gestureRecognizer.location(in: view)
+            let velocity = pan.velocity(in: view)
+            // 横移動が縦移動より大きい、かつ、画面左端から開始ではない 場合に左右スワイプとして受け取る
+            if abs(velocity.x) > abs(velocity.y) && location.x > 30 {
+                return true
+            }
+            return false
+        }
+        return true
+    }
+    
+    func StopObservers() {
+        if let token = self.novelObserverToken {
+            StorySpeaker.shared.RemoveUpdateReadDateWithoutNotifiningToken(token: token)
+        }
+        novelObserverToken = nil
+        storyObserverToken = nil
+        displaySettingObserverToken = nil
+        globalStateObserverToken = nil
+    }
+    func RestartObservers() {
+        StopObservers()
+        observeDispaySetting()
+        guard let storyID = self.storyID else { return }
+        let novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        observeStory(storyID: storyID)
+        observeNovel(novelID: novelID)
+        observeGlobalState()
+    }
+    
+    func initWidgets() {
+        self.applyStoryText(text: NSLocalizedString("SpeechViewController_NowLoadingText", comment: "本文を読込中……"))
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else {
+                self.applyStoryText(
+                    text: NSLocalizedString(
+                        "SpeechViewController_LoadingFailed_GlobalStateIsNull",
+                        comment: "本文の読み込みに失敗しました。全体設定を読み込めませんでした。"
+                    )
+                )
+                return
+            }
+            if let displaySetting = globalState.defaultDisplaySettingWith(realm: realm) {
+                //textView.font = displaySetting.font
+                updateStoryTextAttribute(font: displaySetting.font, lineSpacing: displaySetting.lineSpacingDisplayValue)
+            }
+        }
+        
+        self.panRecgnizer = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        self.panRecgnizer.delegate = self
+        self.panRecgnizer.maximumNumberOfTouches = 1
+        
+        previousChapterButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        nextChapterButton.titleLabel?.adjustsFontForContentSizeCategory = true
+        chapterPositionLabel.adjustsFontForContentSizeCategory = true
+        
+        previousChapterButton.accessibilityLabel = NSLocalizedString("SpeechViewController_PreviousChapterButton_VoiceOverTitle", comment: "前のページ")
+        nextChapterButton.accessibilityLabel = NSLocalizedString("SpeechViewController_NextChapterButton_VoiceOverTitle", comment: "次のページ")
+
+        setCustomUIMenu()
+        
+        self.textView.layoutManager.allowsNonContiguousLayout = false
+
+        // 長押しで「ここから発話開始」を出すために、長押しが始まった時点で一時停止を始める。
+        // (でないと、選択した位置が次の発話位置更新で上書きされてしまう)
+        // OS標準の選択用長押しより気持ち早く発火させて、メニューが評価される時には
+        // 既に一時停止中になっているようにする。
+        self.speakFromHereLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleSpeakFromHereLongPress(_:)))
+        self.speakFromHereLongPressRecognizer.minimumPressDuration = 0.3
+        self.speakFromHereLongPressRecognizer.cancelsTouchesInView = false
+        self.speakFromHereLongPressRecognizer.delaysTouchesBegan = false
+        self.speakFromHereLongPressRecognizer.delegate = self
+        self.textView.addGestureRecognizer(self.speakFromHereLongPressRecognizer)
+        (self.textView as? CustomUITextView)?.speakFromHereSelector = #selector(self.speakFromHere(sender:))
+        (self.textView as? CustomUITextView)?.speakFromHereTarget = self
+    }
+    
+    func assignSwipeRecognizer() {
+        self.textView.addGestureRecognizer(self.panRecgnizer)
+    }
+    func removeSwipeRecognizer() {
+        self.textView.removeGestureRecognizer(self.panRecgnizer)
+    }
+    
+    func setCustomUIMenu() {
+        let menuController = UIMenuController.shared
+        let speechModMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettings", comment: "読み替え辞書へ登録"), action: #selector(setSpeechModSetting(sender:)))
+        let speechModForThisNovelMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettingsForThisNovel", comment: "この小説用の読み替え辞書へ登録"), action: #selector(setSpeechModForThisNovelSetting(sender:)))
+        let checkSpeechTextMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddCheckSpeechText", comment: "読み替え後の文字列を確認する"), action: #selector(checkSpeechText(sender:)))
+        // 「全てを選択する」は常にメニュー項目として登録し、表示可否は canPerformAction で(長押しメニュー削減設定に従って)判定する。
+        let selectAllMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_SelectAllText", comment: "全てを選択する"), action: #selector(selectAllText(sender:)))
+        // 「ここから発話開始」は常に登録しておいて、表示可否は canPerformAction に任せる
+        // (発話中 かつ 自動スクロール一時停止中 の時だけ表示される)。
+        let speakFromHereMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_SpeakFromHere", comment: "ここから発話開始"), action: #selector(speakFromHere(sender:)))
+        let menuItems:[UIMenuItem] = [speechModMenuItem, speechModForThisNovelMenuItem, checkSpeechTextMenuItem, selectAllMenuItem, speakFromHereMenuItem]
+        menuController.menuItems = menuItems
+    }
+
+    // 本文は非編集の UITextView なので標準の「すべてを選択」が出ない。独自項目として全選択を提供する。
+    @objc func selectAllText(sender: UIMenuItem) {
+        self.textView.selectAll(nil)
+    }
+
+    // 長押しメニュー削減が ON の時は menuItemsNotRemoved に .selectAll がある時だけ表示する。OFF なら常に表示。
+    func shouldShowSelectAllMenuItem() -> Bool {
+        return RealmUtil.RealmBlock { (realm) -> Bool in
+            guard let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else { return true }
+            if globalState.isMenuItemIsAddNovelSpeakerItemsOnly {
+                return globalState.menuItemsNotRemoved.contains(MenuItemsNotRemovedType.selectAll.rawValue)
+            }
+            return true
+        }
+    }
+
+    override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+        // 発話中は長押しメニューを出さない(過去にOSのバージョンアップで
+        // selectedRange の代入時にバルーンが出て消費電力が激増した経緯がある)。
+        // 例外は「ここから発話開始」で、自動スクロールが一時停止している間だけ通す。
+        // ここで落としておかないと、UITextView 側が false を返しても
+        // 責務がこの ViewController まで回ってきた時に super が true を返してしまい、
+        // 「読み替え辞書へ登録」等が発話中でも表示されてしまう。
+        if StorySpeaker.shared.isPlayng {
+            if action == #selector(self.speakFromHere(sender:)) {
+                return self.isScrollFollowSuspended
+            }
+            return false
+        }
+        if action == #selector(self.speakFromHere(sender:)) {
+            return false
+        }
+        if action == #selector(self.selectAllText(sender:)) {
+            return shouldShowSelectAllMenuItem()
+        }
+        return super.canPerformAction(action, withSender: sender)
+    }
+    func removeCustomUIMenu() {
+        let menuController = UIMenuController.shared
+        menuController.menuItems = []
+    }
+
+    @objc func addPageToOtherNovelButtonClicked(_ sender: Any) {
+        guard let storyID = self.storyID else { return }
+        let currentNovelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        let story:Story? = RealmUtil.RealmBlock { (realm) -> Story? in
+            return RealmStoryBulk.SearchStoryWith(realm: realm, storyID: storyID)
+        }
+        guard let story = story else { return }
+        let content = story.content
+        let subtitle = story.subtitle
+        MultipleNovelIDSelectorViewController.PushSingleSelector(
+            parent: self,
+            excludeNovelID: currentNovelID,
+            title: NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する"),
+            confirmMessage: { novelTitle in
+                String(format: NSLocalizedString("AddPageToOtherNovel_ConfirmMessage", comment: "「%@」にこのページを追加しますか？"), novelTitle)
+            },
+            onConfirmed: { [weak self] targetNovelID in
+                guard let self = self else { return }
+                let result = NovelSpeakerUtility.AppendPageToNovelTail(targetNovelID: targetNovelID, content: content, subtitle: subtitle)
+                let message = result ? NSLocalizedString("AddPageToOtherNovel_Success", comment: "ページを追加しました。") : NSLocalizedString("AddPageToOtherNovel_Failure", comment: "ページの追加に失敗しました。")
+                NiftyUtility.EasyDialogMessageDialog(viewController: self, message: message)
+            })
+    }
+
+    // 右上のボタン群と画面下部のボタン群の両方で使う、設定配列から実際のボタンを作る処理。
+    // 表示条件(小説の種類による出し分け)に合わないものはそもそも作られない。
+    func createSpeechViewButtonArray(novelID: String, novelType:NovelType, aliveButtonSettings:[SpeechViewButtonSetting], buttonSize:CGFloat, isForBottomBar:Bool) -> [UIButton] {
+        var barButtonArray:[UIButton] = []
+        
+        func createBarButtonItem(image: UIImage?, action: Selector, accessibilityLabel: String) -> UIButton {
+            let button = UIButton(type: .system)
+            button.setImage(image, for: .normal)
+            button.addTarget(self, action: action, for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.accessibilityLabel = accessibilityLabel
+            let widthConstraint = button.widthAnchor.constraint(equalToConstant: buttonSize)
+            widthConstraint.priority = UILayoutPriority(999) // 1000未満にする
+            let heightConstraint = button.heightAnchor.constraint(equalToConstant: buttonSize)
+            heightConstraint.priority = UILayoutPriority(999)
+            NSLayoutConstraint.activate([
+                widthConstraint,
+                heightConstraint
+            ])
+            return button
+        }
+
+        for buttonSetting in aliveButtonSettings {
+            if buttonSetting.isOn == false { continue }
+            switch buttonSetting.type {
+            case .openCurrentWebPage:
+                if novelType == .URL {
+                    let button = createBarButtonItem(
+                        image: UIImage(systemName: "globe.americas.fill"),
+                        action: #selector(self.openCurrentWebPageButtonClicked(_:)),
+                        accessibilityLabel: NSLocalizedString("SpeechViewController_CurrentWebPageButton_VoiceOverTitle", comment: "現在のページをWeb取込タブで開く")
+                    )
+                    barButtonArray.append(button)
+                }
+            case .openWebPage:
+                if novelType == .URL {
+                    let button = createBarButtonItem(
+                        image: UIImage(systemName: "globe.badge.chevron.backward"),
+                        action: #selector(self.safariButtonClicked(_:)),
+                        accessibilityLabel: NSLocalizedString("SpeechViewController_WebPageButton_VoiceOverTitle", comment: "Web取込タブで開く")
+                    )
+                    barButtonArray.append(button)
+                }
+            case .reload:
+                if novelType == .URL || (novelType == .UserCreated && NovelSpeakerUtility.IsRegisteredOuterNovel(novelID: novelID)) {
+                    let button = createBarButtonItem(
+                        image: UIImage(systemName: "arrow.clockwise"),
+                        action: #selector(self.urlRefreshButtonClicked(_:)),
+                        accessibilityLabel: NSLocalizedString("SpeechViewController_RefreshButton_AccessibilityLabel", comment: "この小説の更新確認を行う")
+                    )
+                    barButtonArray.append(button)
+                }
+            case .share:
+                if novelType == .URL {
+                    let button = createBarButtonItem(
+                        image: UIImage(systemName: "square.and.arrow.up"),
+                        action: #selector(self.shareButtonClicked(_:)),
+                        accessibilityLabel: NSLocalizedString("SpeechViewButtonType_Share", comment: "小説のURLをシェアする")
+                    )
+                    barButtonArray.append(button)
+                }
+            case .search:
+                //barButtonArray.append(UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonClicked(_:))))
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "magnifyingglass"),
+                    action: #selector(self.searchButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_SearchButton_AccessibilityLabel", comment: "検索")
+                )
+                barButtonArray.append(button)
+
+            case .searchByText:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "doc.text.magnifyingglass"),
+                    action: #selector(self.searchByTextButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_SearchByTextButton_AccessibilityLabel", comment: "ページ内を検索")
+                )
+                barButtonArray.append(button)
+            case .edit:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "pencil"),
+                    action: #selector(self.editButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_Edit", comment: "編集")
+                )
+                barButtonArray.append(button)
+            case .detail:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "book.pages"),
+                    action: #selector(self.detailButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_Detail", comment: "詳細")
+                )
+                barButtonArray.append(button)
+            case .backup:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "tray.and.arrow.up"),
+                    action: #selector(self.backupButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_BackupButton", comment: "バックアップ")
+                )
+                barButtonArray.append(button)
+            case .skipBackward:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "gobackward.30"),
+                    action: #selector(self.skipBackwardButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_SkipBackwardButtonTitle", comment: "巻き戻し")
+                )
+                if self.storySpeaker.isPlayng != true {
+                    button.isEnabled = false
+                }
+                if isForBottomBar { self.bottomSkipBackwardButton = button } else { self.skipBackwardButtonItem = button }
+                barButtonArray.append(button)
+            case .skipForward:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "goforward.30"),
+                    action: #selector(self.skipForwardButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_SkipForwardButtonTitle", comment: "少し先へ")
+                )
+                if self.storySpeaker.isPlayng != true {
+                    button.isEnabled = false
+                }
+                if isForBottomBar { self.bottomSkipForwardButton = button } else { self.skipForwardButtonItem = button }
+                barButtonArray.append(button)
+            case .showTableOfContents:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "list.bullet"),
+                    action: #selector(self.showTableOfContentsButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewController_ShowTableOfContentsButtonTitle", comment: "目次")
+                )
+                barButtonArray.append(button)
+            case .addPageToOtherNovel:
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: "book.badge.plus"),
+                    action: #selector(self.addPageToOtherNovelButtonClicked(_:)),
+                    accessibilityLabel: NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する")
+                )
+                barButtonArray.append(button)
+            case .speechStop:
+                let image:UIImage?
+                let accessibilityLabel:String
+                if self.storySpeaker.isPlayng {
+                    image = UIImage(systemName: "pause.fill")
+                    accessibilityLabel = NSLocalizedString("SpeechViewController_Stop", comment: "Stop")
+                }else{
+                    image = UIImage(systemName: "play.fill")
+                    accessibilityLabel = NSLocalizedString("SpeechViewController_Speak", comment: "Speak")
+                }
+                let button = createBarButtonItem(image: image, action: #selector(self.startStopButtonClicked(_:)), accessibilityLabel: accessibilityLabel)
+                if isForBottomBar { self.bottomStartStopButton = button } else { self.startStopButton = button }
+                barButtonArray.append(button)
+            default:
+                break
+            }
+        }
+
+        return barButtonArray
+    }
+
+    var currentWindowWidth:CGFloat = 0.0
+    func assignUpperButtons(novelID: String, novelType:NovelType, aliveButtonSettings:[SpeechViewButtonSetting]) {
+        DispatchQueue.main.async {
+            let nowWidth = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.bounds.width ?? UIScreen.main.bounds.width
+            if abs(self.currentWindowWidth - nowWidth) < 0.0001 && self.isUpperRightButtonsChanged == false {
+                return
+            }
+            let barButtonArray = self.createSpeechViewButtonArray(novelID: novelID, novelType: novelType, aliveButtonSettings: aliveButtonSettings, buttonSize: 28, isForBottomBar: false)
+
+            let spacing: CGFloat = CGFloat(NovelSpeakerUtility.GetBarButtonItemSpacing())
+            var maxButtons: Int = {
+                let isPad = self.traitCollection.userInterfaceIdiom == .pad
+                // ウインドウモードにおいて、画面の半分以下の幅だとタブバーは下になるぽい？のでそう判定させます
+                let isUpperTabBarDisabled = NovelSpeakerUtility.IsNeedOverrideTabBarTraits() || (nowWidth < (UIScreen.main.bounds.width / 2))
+
+                let buttonWidth: CGFloat = 28
+                let totalUnitWidth = buttonWidth + spacing
+
+                // 方針: 本文画面ではタイトルを潰してでも右上ボタンの数をできるだけ増やす
+                // (飯村さん指示 2026-07-09。AppStore 版と同じく多めに見積もり、タイトルは
+                //  ナビバーが中央で truncate する)。以前はタイトル幅を差し引いて過小評価し、
+                //  長いタイトルだと「…」込み3個まで減っていた。
+                // クリップ(最右ボタンがバー右端で切れて消える)は trimUpperButtonsToFitIfNeeded が
+                // 実測(バー物理右端基準)で検出して「…」へ退避するので、ここは過大評価で構わない
+                // (過大でも黙ってクリップはしない=安全)。タイトル幅は引かない。
+                // 戻るボタン+左右マージンぶんだけは引いておく。
+                let backButtonAndMargins: CGFloat = 88
+
+                // iPad で上部タブバーがある場合のみ従来通り控えめな割合を絶対上限にする。
+                // それ以外は描画側コンテナ上限(container.widthAnchor <= screenWidth * 0.76)に合わせる。
+                let widthFraction: CGFloat = (isPad && (isUpperTabBarDisabled != true)) ? 0.25 : 0.76
+                let containerHardCap = UIScreen.main.bounds.width * widthFraction
+
+                let usableWidth = nowWidth - backButtonAndMargins
+                // 最低でもボタン1個(= 保護対象の speechStop)は必ず表示できるようにする
+                let containerMaxWidth = max(totalUnitWidth, min(usableWidth, containerHardCap))
+
+                return max(1, Int(floor((containerMaxWidth + spacing) / totalUnitWidth)))
+            }()
+            // 同じ画面幅で「実測の結果ここまでしか入らない」と判明していれば、その上限まで下げる。
+            // (見積もりが実レイアウトで溢れる=クリップするのを確実に防ぐための頭打ち。trimUpperButtonsToFitIfNeeded が設定する)
+            if let fittedLimit = self.upperButtonFittedSlotLimit, abs(self.upperButtonFittedSlotLimitWidth - nowWidth) < 0.5 {
+                maxButtons = min(maxButtons, fittedLimit)
+            }
+            // VoiceOver 環境下 であれば重なってしまってもよしとする
+            if UIAccessibility.isVoiceOverRunning {
+                // 表示されているボタンを直接タップして使うという場面が VoiceOver でもあるようなので、あえて重ねられるような仕様は封印しておきます
+                //maxButtons = 999
+            }
+
+            let allButtons = barButtonArray
+            guard let lastButton = allButtons.last else { return }
+
+            var visibleButtons: [UIButton] = []
+            var overflowButtons: [UIButton] = []
+
+            if allButtons.count <= maxButtons {
+                visibleButtons = allButtons
+            } else {
+                // lastButton を除いた残り
+                let others = Array(allButtons.dropLast())
+
+                // 表示可能数から lastButton と overflow 分を引く
+                let capacityForOthers = maxButtons - 2
+
+                if capacityForOthers > 0 {
+                    // 後ろから優先して残す
+                    let kept = others.suffix(capacityForOthers)
+                    overflowButtons = Array(others.prefix(others.count - kept.count))
+                    visibleButtons = Array(kept) + [lastButton]
+                } else {
+                    overflowButtons = others
+                    visibleButtons = [lastButton]
+                }
+            }
+            if !overflowButtons.isEmpty {
+                let actions = overflowButtons.map { button in
+                    UIAction(title: button.accessibilityLabel ?? "",
+                             image: button.image(for: .normal)) { _ in
+                        button.sendActions(for: .touchUpInside)
+                    }
+                }
+
+                let menu = UIMenu(children: actions)
+
+                let moreButton = UIButton(type: .system)
+                moreButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+                moreButton.menu = menu
+                moreButton.showsMenuAsPrimaryAction = true
+                moreButton.accessibilityLabel = NSLocalizedString("SpeechViewController_moreButton_AccessibilityLabel", comment: "隠れたメニュー項目を表示する")
+                // 他のボタンと同じ 28pt 固定にする。これが無いと「…」だけ intrinsic 幅
+                // (Dynamic Type で変動)になり、幅見積もり(28pt×個数)と実レイアウトがズレる。
+                moreButton.translatesAutoresizingMaskIntoConstraints = false
+                let moreWidthConstraint = moreButton.widthAnchor.constraint(equalToConstant: 28)
+                moreWidthConstraint.priority = UILayoutPriority(999)
+                let moreHeightConstraint = moreButton.heightAnchor.constraint(equalToConstant: 28)
+                moreHeightConstraint.priority = UILayoutPriority(999)
+                NSLayoutConstraint.activate([moreWidthConstraint, moreHeightConstraint])
+
+                visibleButtons.insert(moreButton, at: 0)
+            }
+            
+            func isSameAction(lhs: UIButton, rhs: UIButton) -> Bool {
+                let event = UIControl.Event.touchUpInside // 判定したいイベントを指定
+                
+                let lhsTargets = lhs.allTargets
+                let rhsTargets = rhs.allTargets
+                
+                // ターゲットの数が違う場合は不一致
+                guard lhsTargets == rhsTargets else { return false }
+                
+                // 各ターゲットに対するアクション名を比較
+                for target in lhsTargets {
+                    let lhsActions = lhs.actions(forTarget: target, forControlEvent: event)
+                    let rhsActions = rhs.actions(forTarget: target, forControlEvent: event)
+                    if lhsActions != rhsActions { return false }
+                }
+                
+                return true
+            }
+            // 幅が前回と同じで、同じアクションのボタンが、同じ間隔で入っているならすることはないはず。
+            // (間隔設定を変えた時に「アクションは同じ」で早期 return してしまい反映されなかったので、
+            //  spacing も一致条件に加える)
+            let epsilon: CGFloat = 0.000001
+            if abs(self.currentWindowWidth - nowWidth) < epsilon && abs(self.currentBarButtonItemSpacing - spacing) < epsilon {
+                if let currentStackView = self.navigationItem.rightBarButtonItem?.customView?.subviews.first as? UIStackView {
+                    let subviews = currentStackView.arrangedSubviews.compactMap { $0 as? UIButton }
+                    let buttons = visibleButtons
+                    let isIdentical = subviews.count == buttons.count && zip(subviews, buttons).allSatisfy { isSameAction(lhs: $0, rhs: $1) }
+                    if isIdentical {
+                        return
+                    }
+                }
+            }
+            self.currentWindowWidth = nowWidth
+            self.currentBarButtonItemSpacing = spacing
+            self.isUpperRightButtonsChanged = false
+
+            let stack = UIStackView()
+            stack.axis = .horizontal
+            stack.alignment = .center
+            stack.spacing = spacing
+            stack.translatesAutoresizingMaskIntoConstraints = false
+            for button in visibleButtons {
+                stack.addArrangedSubview(button)
+            }
+
+            let container = UIView()
+            container.translatesAutoresizingMaskIntoConstraints = false
+            let maxWidth = UIScreen.main.bounds.width * 0.76
+            container.widthAnchor.constraint(lessThanOrEqualToConstant: maxWidth).isActive = true
+            container.addSubview(stack)
+            let barItem = UIBarButtonItem(customView: container)
+        
+            NSLayoutConstraint.activate([
+                stack.leadingAnchor.constraint(equalTo: container.leadingAnchor),
+                stack.trailingAnchor.constraint(equalTo: container.trailingAnchor),
+                stack.topAnchor.constraint(equalTo: container.topAnchor),
+                stack.bottomAnchor.constraint(equalTo: container.bottomAnchor)
+            ])
+            self.navigationItem.rightBarButtonItem = barItem
+            // viewDidLayoutSubviews で実測補正するために参照を控えておく
+            self.upperButtonContainerView = container
+            self.upperButtonStackView = stack
+            // customView がナビバーに取り込まれて実フレームが確定するのは次のレイアウト後なので、
+            // 遅延+数回リトライで確実に実測補正する(viewDidLayoutSubviews のタイミングでは navBar/
+            // タイトルラベルがまだ整っておらず measure できないことがあるため、こちらを主トリガにする)。
+            self.scheduleUpperButtonTrim()
+        }
+    }
+    
+    func loadNovel(novelID: String, novelTitle: String, novelType:NovelType, aliveButtonSettings: [SpeechViewButtonSetting]) {
+        NiftyUtility.DispatchSyncMainQueue {
+            self.assignUpperButtons(novelID: novelID, novelType: novelType, aliveButtonSettings: aliveButtonSettings)
+            self.navigationItem.title = novelTitle
+            self.observeNovel(novelID: novelID)
+        }
+    }
+    
+    func applyChapterListChange() {
+        guard let storyID = self.storyID else { return }
+        let novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        let chapterNumber = RealmStoryBulk.StoryIDToChapterNumber(storyID: storyID)
+        var lastChapterNumber:Int = self.lastChapterNumber
+        if lastChapterNumber <= 0 {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                lastChapterNumber = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID)?.lastChapterNumber ?? -1
+            }
+            if lastChapterNumber <= 0 {
+                return
+            }
+            self.lastChapterNumber = lastChapterNumber
+        }
+        DispatchQueue.main.async {
+            if chapterNumber <= 1 {
+                self.previousChapterButton.isEnabled = false
+            }else{
+                self.previousChapterButton.isEnabled = true
+            }
+            if chapterNumber < lastChapterNumber {
+                self.nextChapterButton.isEnabled = true
+            }else{
+                self.nextChapterButton.isEnabled = false
+            }
+            self.chapterSlider.minimumValue = 1.0
+            self.chapterSlider.maximumValue = Float(lastChapterNumber) + Float(0.01)
+            self.chapterSlider.value = Float(chapterNumber)
+            
+            self.chapterPositionLabel.text = "\(chapterNumber)/\(lastChapterNumber)"
+            if let constraint = self.chapterPositionLabelWidthConstraint {
+                self.chapterPositionLabel.removeConstraint(constraint)
+            }
+            self.chapterPositionLabel.sizeToFit()
+            self.chapterPositionLabelWidthConstraint = self.chapterPositionLabel.widthAnchor.constraint(equalToConstant: self.chapterPositionLabel.frame.width)
+            self.chapterPositionLabelWidthConstraint.isActive = true
+        }
+    }
+    
+    func updateStoryTextAttribute(font:UIFont?, lineSpacing:CGFloat) {
+        let style = NSMutableParagraphStyle()
+        style.lineSpacing = lineSpacing // 行間
+        //style.paragraphSpacing = 10 // 改行の時の間
+        var attributes:[NSAttributedString.Key:Any] = [
+            .paragraphStyle: style
+        ]
+        if let font = font {
+            attributes[.font] = font
+        }
+        storyTextAttribute = attributes
+        reloadStoryText()
+    }
+    
+    func applyStoryTextWithSpeechModAttribute(){
+        let displayAttributedString = NSMutableAttributedString()
+        let normalAttribute = self.storyTextAttribute
+        var redAttribute:[NSAttributedString.Key:Any] = [.foregroundColor : UIColor.systemRed, .strokeWidth: -5.0, .strokeColor: UIColor.systemRed]
+        normalAttribute.forEach {redAttribute[$0.key] = $0.value}
+        for block in self.storySpeaker.speechBlockArray {
+            if block.displayText != block.speechText {
+                for block2 in block.speechBlockArray {
+                    if block2.speechText != nil {
+                        displayAttributedString.append(NSMutableAttributedString(string: block2.displayText, attributes: redAttribute))
+                    }else{
+                        displayAttributedString.append(NSMutableAttributedString(string: block2.displayText, attributes: normalAttribute))
+                    }
+                }
+            }else{
+                displayAttributedString.append(NSMutableAttributedString(string: block.displayText, attributes: normalAttribute))
+            }
+        }
+        self.textView.attributedText = displayAttributedString
+        self.applyTheme()
+    }
+    func applyStoryText(text:String) {
+        self.displayTextCache = text
+        self.reloadStoryText()
+    }
+    func reloadStoryText() {
+        self.textView.attributedText = NSAttributedString(string: self.displayTextCache, attributes: self.storyTextAttribute)
+        self.applyTheme()
+    }
+    
+    func setStoryWithoutSetToStorySpeaker(story:Story) {
+        self.readingChapterStoryUpdateDate = Date()
+        // ページが変わると表示は先頭に戻され、溜めていた発話位置も意味を失うので一時停止は取り消す。
+        // (別ページを見ながらの発話継続は対象外なので、ここは追いようがない)
+        NiftyUtility.DispatchSyncMainQueue {
+            self.cancelScrollFollowSuspend()
+        }
+        RealmUtil.RealmBlock { (realm) -> Void in
+            let content = story.content
+            let storyID = story.storyID
+            let novelID = story.novelID
+            if let currentStoryID = self.storyID, novelID != RealmStoryBulk.StoryIDToNovelID(storyID: currentStoryID), let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID) {
+                let title = novel.title
+                let type = novel.type
+                let buttonSetting = RealmGlobalState.GetInstanceWith(realm: realm)?.GetSpeechViewButtonSetting() ?? SpeechViewButtonSetting.defaultSetting
+                NiftyUtility.DispatchSyncMainQueue {
+                    self.loadNovel(novelID: novelID, novelTitle: title, novelType: type, aliveButtonSettings: buttonSetting)
+                }
+            }
+            let readLocation = story.readLocation(realm: realm)
+            if let currentStoryID = self.storyID, currentStoryID != storyID {
+                NiftyUtility.DispatchSyncMainQueue {
+                    self.observeStory(storyID: storyID)
+                }
+            }
+            self.storyID = storyID
+            self.applyChapterListChange()
+            DispatchQueue.main.async {
+                if let textViewText = self.textView.text, textViewText != content {
+                    if story.content.count <= 0 {
+                        self.applyStoryText(text: NSLocalizedString("SpeechViewController_ContentReadFailed", comment: "文書の読み込みに失敗しました。"))
+                        return
+                    }
+                    // スクロールした状態で .attributedText を更新すると怪しい動きをするようなので、
+                    // .attributedText を書き換える前にスクロール位置を先頭に移動しておきます
+                    self.textView.setContentOffset(CGPoint(x: 0, y: 0), animated: false)
+                    if NovelSpeakerUtility.IsDisplaySpeechModChange() {
+                        self.applyStoryTextWithSpeechModAttribute()
+                    }else{
+                        self.applyStoryText(text: story.content)
+                    }
+                    // textView.select() すると、選択範囲の上にメニューが出るようになるのでこの時点では select() はしない。
+                    // でも、textView.becomeFirstResponder() しておかないと選択範囲自体が表示されないようなので becomeFirstResponder() はどこかでしておかないと駄目っぽい。
+                    //self.textView.select(self)
+                    self.textView.selectedRange = NSRange(location: readLocation, length: 1)
+                    self.textViewScrollTo(readLocation: readLocation)
+                }
+            }
+        }
+    }
+    
+    func registNotificationCenter() {
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: Notification.Name.NovelSpeaker.RealmSettingChanged, queue: .main) { (notification) in
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: Notification.Name.NovelSpeaker.ForcePopViewControllerForSpeechView, queue: .main) { (notification) in
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: Notification.Name.NovelSpeaker.BarButtonSpacingChanged, queue: .main) { [weak self] (notification) in
+            guard let self = self else { return }
+            // 間隔が変わると使える幅も変わるので、作り直しフラグを立て、実測上限もリセットして測り直す。
+            self.isUpperRightButtonsChanged = true
+            self.resetUpperButtonFittedSlotLimit()
+            self.forceUpdateUpperButtons()
+            self.scheduleUpperButtonTrim()
+        }
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: Notification.Name.NovelSpeaker.SpeechViewRightTopButtonTitleChanged, queue: .main) { [weak self] (notification) in
+            guard let self = self else { return }
+            // ボタンの表示/非表示が変わったので、実測上限もリセットして作り直し+trim をやり直す。
+            self.resetUpperButtonFittedSlotLimit()
+            self.isUpperRightButtonsChanged = true
+            self.forceUpdateUpperButtons()
+            self.scheduleUpperButtonTrim()
+        }
+        // Dynamic Type の文字サイズが変わるとタイトルや戻るボタンの幅が変わり、
+        // 右上ボタン群に使える幅も変わるので、実測上限をリセットして測り直す。
+        NovelSpeakerNotificationTool.addObserver(selfObject: ObjectIdentifier(self), name: UIContentSizeCategory.didChangeNotification, queue: .main) { [weak self] (notification) in
+            guard let self = self else { return }
+            self.resetUpperButtonFittedSlotLimit()
+            self.forceUpdateUpperButtons()
+            self.scheduleUpperButtonTrim()
+        }
+    }
+    func unregistNotificationCenter() {
+        NovelSpeakerNotificationTool.removeObserver(selfObject: ObjectIdentifier(self))
+    }
+    
+    func observeGlobalState() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let globalState = RealmGlobalState.GetInstanceWith(realm: realm) else { return }
+            self.globalStateObserverToken = globalState.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .change(_, let propertys):
+                    for property in propertys {
+                        if property.name == "speechViewButtonSettingArrayData" {
+                            RealmUtil.RealmBlock { (realm) -> Void in
+                                guard let storyID = self.storyID, let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID))?.RemoveRealmLink(), let buttonSettings = RealmGlobalState.GetInstanceWith(realm: realm)?.GetSpeechViewButtonSetting() else { return }
+                                self.assignUpperButtons(novelID: novel.novelID, novelType: novel.type, aliveButtonSettings: buttonSettings)
+                            }
+                        }
+                        if property.name == "isEnableSwipeOnStoryView" {
+                            if let value = property.newValue as? Bool {
+                                DispatchQueue.main.async {
+                                    if value == true {
+                                        self.assignSwipeRecognizer()
+                                    }else{
+                                        self.removeSwipeRecognizer()
+                                    }
+                                }
+                            }
+                        }
+                    }
+                default:
+                    break
+                }
+            })
+        }
+    }
+    
+    func observeNovel(novelID:String) {
+        if novelObserverNovelID == novelID { return }
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let novel = RealmNovel.SearchNovelWith(realm: realm, novelID: novelID) else { return }
+            self.lastChapterNumber = novel.lastChapterNumber ?? -1
+            novelObserverNovelID = novelID
+            self.novelObserverToken = novel.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .error(_):
+                    break
+                case .change(_, let properties):
+                    for property in properties {
+                        if property.name == "title", let newValue = property.newValue as? String {
+                            DispatchQueue.main.async {
+                                self.title = newValue
+                            }
+                        }
+                        if property.name == "m_lastChapterStoryID", let newValue = property.newValue as? String {
+                            let chapterNumber = RealmStoryBulk.StoryIDToChapterNumber(storyID: newValue)
+                            if chapterNumber > 0 && self.lastChapterNumber != chapterNumber {
+                                self.lastChapterNumber = chapterNumber
+                                self.applyChapterListChange()
+                            }
+                        }
+                        if property.name == "m_readingChapterStoryID", let newReadingChapterStoryID = property.newValue as? String, let currentStoryID = self.storyID, newReadingChapterStoryID != currentStoryID, self.readingChapterStoryUpdateDate < Date(timeIntervalSinceNow: -1.5) {
+                            self.currentReadingStoryIDChangedEventHandler(newReadingStoryID: newReadingChapterStoryID)
+                        }
+                     }
+                case .deleted:
+                    break
+                }
+            })
+            if let token = self.novelObserverToken {
+                StorySpeaker.shared.AddUpdateReadDateWithoutNotificationToken(token: token)
+            }
+        }
+    }
+    func observeStory(storyID:String) {
+        if storyObserverBulkStoryID == RealmStoryBulk.StoryIDToBulkID(storyID: storyID) { return }
+        self.storyObserverToken = nil
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let storyBulk = RealmStoryBulk.SearchStoryBulkWith(realm: realm, storyID: storyID) else { return }
+            storyObserverBulkStoryID = storyBulk.id
+            self.storyObserverToken = storyBulk.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                guard let targetStoryID = self.storyID, self.storyObserverBulkStoryID == RealmStoryBulk.StoryIDToBulkID(storyID: targetStoryID) else {
+                    return
+                }
+                switch change {
+                case .error(_):
+                    break
+                case .change(_, let properties):
+                    for property in properties {
+                        // content が書き換わった時のみを監視します。
+                        // でないと lastReadDate とかが書き換わった時にも表示の更新が走ってしまいます。
+                        let chapterNumber = RealmStoryBulk.StoryIDToChapterNumber(storyID: targetStoryID)
+                        if property.name == "storyListAsset", let newValue = property.newValue as? CreamAsset, let storyArray = RealmStoryBulk.StoryCreamAssetToStoryArray(asset: newValue) {
+                            // [Story] に変換できた
+                            if let story = RealmStoryBulk.StoryBulkArrayToStory(storyArray: storyArray, chapterNumber: chapterNumber) {
+                                // 今開いている Story が存在した
+                                if story.chapterNumber == chapterNumber, let currentText = self.textView.text, story.content != currentText {
+                                    DispatchQueue.main.async {
+                                        self.setStoryWithoutSetToStorySpeaker(story: story)
+                                    }
+                                }
+                            }else{
+                                // 今開いている Story が存在しなかった(恐らくは最後の章を開いていて、その章が削除された)
+                                if let lastStory = storyArray.last {
+                                    DispatchQueue.main.async {
+                                        self.storySpeaker.SetStory(story: lastStory, withUpdateReadDate: true)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                case .deleted:
+                    DispatchQueue.main.async {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                    break
+                }
+            })
+        }
+    }
+    func observeDispaySetting() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let displaySetting = RealmGlobalState.GetInstanceWith(realm: realm)?.defaultDisplaySettingWith(realm: realm) else { return }
+            displaySettingObserverToken = displaySetting.observe({ [weak self] (change) in
+                guard let self = self else { return }
+                switch change {
+                case .change(_, let properties):
+                    for property in properties {
+                        // ViewType が normal 以外に変わっていたら元画面に戻します
+                        if property.name == "m_ViewType", let newValue = property.newValue as? String, newValue != RealmDisplaySetting.ViewType.normal.rawValue {
+                            DispatchQueue.main.async {
+                                self.navigationController?.popViewController(animated: true)
+                            }
+                            return
+                        }
+                        if property.name == "textSizeValue" || property.name == "fontID" || property.name == "lineSpacing" {
+                            DispatchQueue.main.async {
+                                RealmUtil.RealmBlock { (realm) -> Void in
+                                    guard let displaySetting = RealmGlobalState.GetInstanceWith(realm: realm)?.defaultDisplaySettingWith(realm: realm) else { return }
+                                    //self.textView.font = displaySetting.font
+                                    self.updateStoryTextAttribute(font: displaySetting.font, lineSpacing: displaySetting.lineSpacingDisplayValue)
+                                }
+                            }
+                        }
+                    }
+                case .error(_):
+                    break
+                case .deleted:
+                    break
+                }
+            })
+        }
+    }
+    
+    
+    @objc func setSpeechModSetting(sender: UIMenuItem){
+        guard let range = self.textView.selectedTextRange, let text = self.textView.text(in: range) else { return }
+        if text.count <= 0 { return }
+        let nextViewController = CreateSpeechModSettingViewControllerSwift()
+        nextViewController.targetSpeechModSettingBeforeString = text
+        nextViewController.targetNovelID = RealmSpeechModSetting.anyTarget
+        nextViewController.isUseAnyNovelID = true
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    @objc func setSpeechModForThisNovelSetting(sender: UIMenuItem){
+        guard let range = self.textView.selectedTextRange, let text = self.textView.text(in: range) else { return }
+        if text.count <= 0 { return }
+        let nextViewController = CreateSpeechModSettingViewControllerSwift()
+        nextViewController.targetSpeechModSettingBeforeString = text
+        nextViewController.isUseAnyNovelID = true
+        if let storyID = storyID {
+            nextViewController.targetNovelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        }else{
+            // 不測の事態だ……('A`)
+            return
+        }
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+    }
+
+    @objc func checkSpeechText(sender: UIMenuItem) {
+        guard let range = self.textView.selectedTextRange else { return }
+        let startOffset = self.textView.offset(from: self.textView.beginningOfDocument, to: range.start)
+        let endOffset = self.textView.offset(from: self.textView.beginningOfDocument, to: range.end)
+        let speechText = storySpeaker.GenerateSpeechTextFrom(displayTextRange: NSMakeRange(startOffset, endOffset - startOffset))
+        NiftyUtility.EasyDialogLongMessageDialog(viewController: self, message: speechText)
+
+        /*
+        let nextViewController = SpeechModCheckViewController()
+        nextViewController.targetStoryID = self.storyID
+        self.navigationController?.pushViewController(nextViewController, animated: true)
+         */
+    }
+
+    func textViewScrollTo(readLocation:Int) {
+        guard let startPosition = textView.position(from: textView.beginningOfDocument, offset: readLocation) else {
+            return
+        }
+        let startRect = textView.caretRect(for: startPosition)
+        let visibleHeight = textView.bounds.height
+        let targetY = max(0, startRect.origin.y - visibleHeight * 0.7)
+        let visibleRect = CGRect(x: startRect.origin.x,
+                                 y: targetY,
+                                 width: startRect.size.width,
+                                 height: visibleHeight)
+        self.textView.scrollRectToVisible(visibleRect, animated: true)
+    }
+
+    // MARK: 発話位置への自動スクロールの一時停止
+
+    // 設定されている「手動スクロールで止める秒数」。0 ならこの機能自体を使わない。
+    func scrollFollowSuspendSecond() -> Int {
+        return RealmUtil.RealmBlock { (realm) -> Int in
+            return RealmGlobalState.GetInstanceWith(realm: realm)?.scrollFollowSuspendSecond ?? 0
+        }
+    }
+
+    // second 秒だけ自動スクロールを止める。既に止まっていれば測り直す。
+    func suspendScrollFollow(second:Int) {
+        if second <= 0 { return }
+        self.scrollFollowSuspendTimer?.invalidate()
+        self.scrollFollowSuspendTimer = nil
+        self.isScrollFollowSuspended = true
+        let timer = Timer.scheduledTimer(withTimeInterval: TimeInterval(second), repeats: false) { [weak self] _ in
+            self?.resumeScrollFollow()
+        }
+        self.scrollFollowSuspendTimer = timer
+    }
+
+    // 一時停止を取り消す(溜めていた発話位置へは追いつかない)。
+    // ページが変わった時のように、溜めていた位置がもう意味を持たない場合に使う。
+    func cancelScrollFollowSuspend() {
+        self.scrollFollowSuspendTimer?.invalidate()
+        self.scrollFollowSuspendTimer = nil
+        self.scrollFollowPendingRange = nil
+        self.isScrollFollowSuspended = false
+    }
+
+    // 自動スクロールを再開する。止まっている間に発話が進んでいれば、その位置へ追いつく。
+    func resumeScrollFollow() {
+        self.scrollFollowSuspendTimer?.invalidate()
+        self.scrollFollowSuspendTimer = nil
+        if self.isScrollFollowSuspended == false { return }
+        self.isScrollFollowSuspended = false
+        guard let range = self.scrollFollowPendingRange else { return }
+        self.scrollFollowPendingRange = nil
+        self.storySpeakerUpdateReadingPoint(storyID: self.storyID ?? "", range: range)
+    }
+
+    // MARK: UIScrollViewDelegate (UITextViewDelegate 経由)
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        let second = self.scrollFollowSuspendSecond()
+        if second <= 0 { return }
+        // scrollRectToVisible(animated: true) のアニメーションが走っている最中に
+        // 指で動かし始めた場合、そのまま放っておくとアニメーションの終点まで引き戻される。
+        // 今の位置で打ち切っておく。
+        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+        self.suspendScrollFollow(second: second)
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if decelerate { return }
+        // 指を離した時点から測り直す(スクロールしている間ずっと測り直されるのと同じ意味)。
+        self.suspendScrollFollow(second: self.scrollFollowSuspendSecond())
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.suspendScrollFollow(second: self.scrollFollowSuspendSecond())
+    }
+
+    // MARK: ここから発話開始
+
+    @objc func handleSpeakFromHereLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        guard gestureRecognizer.state == .began, self.storySpeaker.isPlayng else { return }
+        // viewDidLoad で設定した UIMenuController.shared.menuItems が、長押しの時点では
+        // 空になっている事がある(iOS 18 で実測。UIMenuController が非推奨になった影響と思われる)。
+        // 空のままだと独自項目が一切問い合わせられず、メニューそのものが出ないので、
+        // 長押しのたびに貼り直す。
+        self.setCustomUIMenu()
+        // 一時停止していないと、選んだ位置が次の発話位置更新で上書きされてしまうので、
+        // 長押しの開始時点で一時停止を始める(秒数は手動スクロール時と同じ設定値を使う)。
+        self.suspendScrollFollow(second: self.scrollFollowSuspendSecond())
+    }
+
+    // 発話を止めずに、選択されている位置へ読み上げ位置だけを移す。
+    // 「少し戻す/少し進める」ボタンと同じ型(音声セッションは切らないので無音は発話ブロック切り替え分だけ)。
+    @objc func speakFromHere(sender: UIMenuItem) {
+        let location = self.textView.selectedRange.location
+        guard location >= 0, location <= self.textView.text.unicodeScalars.count else { return }
+        NiftyUtility.DispatchSyncMainQueue {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                self.storySpeaker.StopSpeech(realm: realm, stopAudioSession: false) {
+                    RealmUtil.RealmBlock { (realm) -> Void in
+                        self.storySpeaker.setReadLocationWith(realm: realm, location: location)
+                    }
+                    self.clearSearchView()
+                    // 連打で AVSpeechSynthesizer が固着するのを避けるため、再生再開はデバウンス経由で行う。
+                    self.storySpeaker.scheduleSpeechRestartAfterSeek(callerInfo: "小説本文画面(長押しメニューの「ここから発話開始」).\(#function)")
+                }
+            }
+        }
+        // 移動先へすぐ追従してほしいので、一時停止は解除する。
+        self.resumeScrollFollow()
+    }
+    
+    func pushToEditStory() {
+        performSegue(withIdentifier: "EditUserTextSegue", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "EditUserTextSegue" {
+            if let nextViewController = segue.destination as? EditBookViewController, let storyID = self.storyID {
+                nextViewController.targetNovelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+            }
+        }else if segue.identifier == "NovelDetailViewPushSegue" {
+            guard let nextViewController = segue.destination as? NovelDetailViewController, let storyID = self.storyID else { return }
+            nextViewController.novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        }
+    }
+    
+    override var childForStatusBarStyle: UIViewController? {
+        return nil
+    }
+    // スタイルを保持する変数（初期値はデフォルト）
+    var currentStatusBarStyle: UIStatusBarStyle = .default
+
+    // システムがステータスバーの色を尋ねてきたときにこの変数を返す
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return currentStatusBarStyle
+    }
+    
+    func applyThemeColor(backgroundColor:UIColor, foregroundColor:UIColor, indicatorStyle:UIScrollView.IndicatorStyle, barStyle:UIBarStyle) {
+        self.bottomButtonBar?.applyThemeColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor)
+        
+        self.view.backgroundColor = backgroundColor;
+        self.textView.textColor = foregroundColor;
+        self.textView.backgroundColor = backgroundColor;
+        self.textView.indicatorStyle = indicatorStyle
+        self.nextChapterButton.backgroundColor = backgroundColor
+        self.previousChapterButton.backgroundColor = backgroundColor
+        self.chapterSlider.backgroundColor = backgroundColor
+        self.chapterPositionLabel.backgroundColor = backgroundColor
+        self.chapterPositionLabel.textColor = foregroundColor
+        self.tabBarController?.tabBar.barTintColor = backgroundColor
+        self.tabBarController?.tabBar.backgroundColor = backgroundColor
+        self.navigationController?.navigationBar.barTintColor = backgroundColor
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: foregroundColor]
+        // ステータスバーの色を指定する
+        self.navigationController?.navigationBar.barStyle = barStyle
+        if barStyle == .black {
+            currentStatusBarStyle = .lightContent
+        } else {
+            currentStatusBarStyle = .default
+        }
+        // navigation bar の appearance を変更する
+        let appearance = UINavigationBarAppearance()
+        // 1. 背景を不透明（Opaque）に設定し、背景色を指定
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = backgroundColor
+        // 2. タイトルの色を設定
+        appearance.titleTextAttributes = [.foregroundColor: foregroundColor]
+        // 3. 全ての状態（通常時・スクロール時）に同じ外観を適用する
+        self.navigationController?.navigationBar.standardAppearance = appearance
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        self.navigationController?.navigationBar.compactAppearance = appearance
+        
+        // 【重要】ステータスバーの外観更新を明示的に要求する
+        self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    func applyTheme() {
+        var backgroundColor = UIColor.white
+        var foregroundColor = UIColor.black
+        var indicatorStyle = UIScrollView.IndicatorStyle.default
+        var barStyle = UIBarStyle.default
+        
+        if #available(iOS 13.0, *) {
+            backgroundColor = UIColor.systemBackground
+            foregroundColor = UIColor.label
+        }
+        RealmUtil.RealmBlock { (realm) -> Void in
+            if let globalState = RealmGlobalState.GetInstanceWith(realm: realm) {
+                if let fgColor = globalState.foregroundColor {
+                    foregroundColor = fgColor
+                }
+                if let bgColor = globalState.backgroundColor {
+                    backgroundColor = bgColor
+                }
+            }
+        }
+        
+        var red:CGFloat = -1.0
+        var green:CGFloat = -1.0
+        var blue:CGFloat = -1.0
+        var alpha:CGFloat = -1.0
+        if backgroundColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
+            if ((Float(red) + Float(green) + Float(blue)) / 3.0) < 0.5 {
+                indicatorStyle = UIScrollView.IndicatorStyle.white
+                barStyle = UIBarStyle.black
+            }
+        }
+
+        applyThemeColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor, indicatorStyle: indicatorStyle, barStyle: barStyle)
+    }
+    
+    func resumeTheme() {
+        var backgroundColor = UIColor.white
+        var foregroundColor = UIColor.black
+        let indicatorStyle = UIScrollView.IndicatorStyle.default
+        let barStyle = UIBarStyle.default
+        
+        if #available(iOS 13.0, *) {
+            backgroundColor = UIColor.systemBackground
+            foregroundColor = UIColor.label
+        }
+
+        applyThemeColor(backgroundColor: backgroundColor, foregroundColor: foregroundColor, indicatorStyle: indicatorStyle, barStyle: barStyle)
+    }
+
+    @objc func backupButtonClicked(_ sender: UIBarButtonItem) {
+        guard let storyID = self.storyID else { return }
+        let novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+        NovelSpeakerUtility.CreateNovelOnlyBackup(novelIDArray: [novelID], viewController: self) { (fileUrl, fileName) in
+            DispatchQueue.main.async {
+                let activityViewController = UIActivityViewController(activityItems: [fileUrl], applicationActivities: nil)
+                let frame = UIScreen.main.bounds
+                activityViewController.popoverPresentationController?.sourceView = self.view
+                activityViewController.popoverPresentationController?.sourceRect = CGRect(x: frame.width / 2 - 60, y: frame.size.height - 50, width: 120, height: 50)
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
+    }
+    @objc func editButtonClicked(_ sender: UIBarButtonItem) {
+        pushToEditStory()
+    }
+    @objc func detailButtonClicked(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "NovelDetailViewPushSegue", sender: self)
+    }
+    @objc func searchButtonClicked(_ sender: UIBarButtonItem) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            self.storySpeaker.StopSpeech(realm: realm, stopAudioSession:true)
+            
+            NiftyUtility.EasyDialogTextInput2Button(
+                viewController: self,
+                title: NSLocalizedString("SpeechViewController_SearchDialogTitle", comment: "検索"),
+                message: NSLocalizedString("SpeechViewController_SearchDialogMessage", comment: "本文中から文字列を検索します"),
+                textFieldText: nil,
+                placeHolder: NSLocalizedString("SpeechViewController_SearchDialogPlaceholderText", comment: "空文字列で検索すると全ての章がリストされます"),
+                leftButtonText: NSLocalizedString("Cancel_button", comment: "Cancel"),
+                rightButtonText: NSLocalizedString("OK_button", comment: "OK"),
+                leftButtonAction: nil,
+                rightButtonAction: { (filterText) in
+                    guard let storyID = self.storyID else { return }
+                    self.searchTextCache = filterText
+                    NovelSpeakerUtility.SearchStoryFor(selectedStoryID: storyID, viewController: self, searchString: filterText) { (story) in
+                        self.storySpeaker.SetStory(story: story, withUpdateReadDate: true)
+                    }
+                },
+                shouldReturnIsRightButtonClicked: true,
+                completion: nil)
+        }
+    }
+    
+    func clearSearchView(){
+        if let searchView = self.searchView {
+            self.searchView = nil
+            DispatchQueue.main.async {
+                searchView.removeFromSuperview()
+            }
+        }
+    }
+    
+    func searchResultAnnounceIfVoiceOverEnabled(foundString:String){
+        guard UIAccessibility.isVoiceOverRunning == true else { return }
+        let announceString = String(format: NSLocalizedString("SpeechViewController_SearchByText_Found_Announce_to_VoiceOverUser_Formated", comment: "%@"), foundString)
+        self.storySpeaker.AnnounceSpeech(text: announceString)
+    }
+    
+    func prevSearchByText(searchString:String){
+        let searchStringCount = searchString.unicodeScalars.count
+        let currentRange = self.textView.selectedRange
+        let targetText:String
+        if currentRange.location == NSNotFound {
+            targetText = ""
+        }else{
+            targetText = self.textView.text.NiftySubstring(from: 0, to: currentRange.location - 1)
+        }
+        guard let nextRange = targetText.range(of: searchString, options: .backwards) else {
+            DispatchQueue.main.async {
+                NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("SpeechViewController_SearchByText_NotFound", comment: "ページ内に検索文字列を発見できませんでした。"))
+            }
+            return
+        }
+        let targetLocation = max((targetText.distance(from: targetText.startIndex, to: nextRange.lowerBound) as Int), 0)
+        self.textView.becomeFirstResponder()
+        self.textView.selectedRange = NSRange(location: targetLocation, length: searchStringCount)
+        self.textViewScrollTo(readLocation: targetLocation)
+        
+        let foundString = self.textView.text.NiftySubstring(from: targetLocation, to: targetLocation + min(searchStringCount + 20, 30))
+        self.searchResultAnnounceIfVoiceOverEnabled(foundString: foundString)
+    }
+    func nextSearchByText(searchString:String){
+        let searchStringCount = searchString.unicodeScalars.count
+        let currentRange = self.textView.selectedRange
+        let targetText:String, currentLocation:Int
+        if currentRange.location == NSNotFound {
+            currentLocation = 0
+            targetText = self.textView.text
+        }else{
+            currentLocation = currentRange.location + 1
+            targetText = self.textView.text.NiftySubstring(from: currentLocation, to: self.textView.text.unicodeScalars.count)
+        }
+        guard let nextRange = targetText.range(of: searchString) else {
+            DispatchQueue.main.async {
+                NiftyUtility.EasyDialogMessageDialog(viewController: self, message: NSLocalizedString("SpeechViewController_SearchByText_NotFound", comment: "ページ内に検索文字列を発見できませんでした。"))
+            }
+            return
+        }
+        let targetLocation = (targetText.distance(from: targetText.startIndex, to: nextRange.lowerBound) as Int) + currentLocation
+        self.textView.becomeFirstResponder()
+        self.textView.selectedRange = NSRange(location: targetLocation, length: searchStringCount)
+        self.textViewScrollTo(readLocation: targetLocation)
+
+        let foundString = self.textView.text.NiftySubstring(from: targetLocation, to: targetLocation + min(searchStringCount + 20, 30))
+        self.searchResultAnnounceIfVoiceOverEnabled(foundString: foundString)
+    }
+    
+    @objc func searchByTextButtonClicked(_ sender: UIBarButtonItem) {
+        if self.searchView != nil {
+            clearSearchView()
+            return
+        }
+        if self.storySpeaker.isPlayng {
+            RealmUtil.RealmBlock { realm in
+                self.storySpeaker.StopSpeech(realm: realm, stopAudioSession:true)
+            }
+        }
+        guard let topLevelViewController = self.parent?.parent else { return }
+        self.searchView = SearchFloatingView.generate(parentView: topLevelViewController.view, firstText: searchTextCache, leftButtonClickHandler: { searchString in
+            guard let searchString = searchString else { return }
+            self.prevSearchByText(searchString: searchString)
+        }, rightButtonClickHandler: { searchString in
+            guard let searchString = searchString else { return }
+            self.nextSearchByText(searchString: searchString)
+        }, isDeletedHandler: {
+            self.searchView = nil
+        })
+    }
+
+    @objc func shareButtonClicked(_ sender: UIBarButtonItem) {
+        guard let storyID = self.storyID else { return }
+        NovelSpeakerUtility.ShareStory(viewController: self, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID), barButton: nil)
+    }
+    
+    @objc func urlRefreshButtonClicked(_ sender: UIBarButtonItem) {
+        guard let storyID = self.storyID else { return }
+        NovelDownloadQueue.shared.addQueue(novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID))
+    }
+    @objc func openCurrentWebPageButtonClicked(_ sender: UIBarButtonItem) {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let storyID = self.storyID, let urlString = RealmStoryBulk.SearchStoryWith(realm: realm, storyID: storyID)?.url, let url = URL(string: urlString) else {
+                return
+            }
+            BookShelfTreeViewController.LoadWebPageOnWebImportTab(url: url)
+        }
+    }
+    @objc func safariButtonClicked(_ sender: UIBarButtonItem) {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let storyID = self.storyID, let urlString = RealmNovel.SearchNovelWith(realm: realm, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID))?.url, let url = URL(string: urlString) else {
+                return
+            }
+            BookShelfTreeViewController.LoadWebPageOnWebImportTab(url: url)
+        }
+    }
+    func CheckFolderAndStartSpeech() {
+        RealmUtil.RealmBlock { realm in
+            disableCurrentReadingStoryChangeFloatingButton()
+            storySpeaker.setReadLocationWith(realm: realm, location: self.textView.selectedRange.location)
+
+            func runNextSpeech(nextFolder:RealmNovelTag?){
+                self.storySpeaker.targetFolderNameForGoToNextSelectedFolderdNovel = nextFolder?.name
+                self.clearSearchView()
+                RealmUtil.RealmBlock { realm in
+                    self.storySpeaker.StartSpeech(realm: realm, withMaxSpeechTimeReset: true, callerInfo: "小説本文画面(Speakボタンを押した 又は 本棚画面で「▶︎ 再生:〜」を選択した 又は 次のフォルダの小説に移行した).\(#function)", isNeedRepeatSpeech: true)
+                    self.checkDummySpeechFinished()
+                }
+            }
+            if let storyID = self.storyID, let repeatType = RealmGlobalState.GetInstanceWith(realm: realm)?.repeatSpeechType, repeatType == .GoToNextSelectedFolderdNovel, let folderArray = RealmNovelTag.SearchWith(realm: realm, novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID), type: RealmNovelTag.TagType.Folder) {
+                let folderArray = Array(folderArray)
+                if folderArray.count == 1, let folder = folderArray.first {
+                    runNextSpeech(nextFolder: folder)
+                    return
+                }else if folderArray.count > 1 {
+                    EurekaPopupViewController.RunSimplePopupViewController(formSetupMethod: { vc in
+                        let section = Section(NSLocalizedString("SpeechViewController_SelectFolder_Title", comment: "連続再生するフォルダを選択"))
+                        for folder in folderArray {
+                            section <<< LabelRow() {
+                                $0.title = folder.name
+                                $0.cell.textLabel?.numberOfLines = 0
+                                $0.cell.accessibilityTraits = .button
+                            }.onCellSelection({ (_, row) in
+                                runNextSpeech(nextFolder: folder)
+                                vc.close(animated: true, completion: nil)
+                            })
+                        }
+                        vc.form +++ section
+                        vc.form +++ Section()
+                        <<< LabelRow() {
+                            $0.title = NSLocalizedString("SpeechViewController_NotUseNextSpeechNovel", comment: "続けて再生を使わずに開始")
+                            $0.cell.textLabel?.numberOfLines = 0
+                            $0.cell.accessibilityTraits = .button
+                        }.onCellSelection({ (_, row) in
+                            runNextSpeech(nextFolder: nil)
+                            vc.close(animated: true, completion: nil)
+                        })
+                        <<< LabelRow() {
+                            $0.title = NSLocalizedString("Cancel", comment: "Cancel")
+                            $0.cell.textLabel?.numberOfLines = 0
+                            $0.cell.accessibilityTraits = .button
+                        }.onCellSelection({ (_, row) in
+                            vc.close(animated: true, completion: nil)
+                        })
+                    }, parentViewController: self, animated: true, completion: nil)
+                    return
+                }
+            }
+            runNextSpeech(nextFolder: nil)
+        }
+    }
+    
+    @objc func startStopSpeech() {
+        RealmUtil.RealmBlock { (realm) -> Void in
+            if self.storySpeaker.isPlayng {
+                self.storySpeaker.StopSpeech(realm: realm, stopAudioSession:true)
+            }else{
+                self.CheckFolderAndStartSpeech()
+            }
+        }
+    }
+    
+    @objc func startStopButtonClicked(_ sender: UIBarButtonItem) {
+        startStopSpeech()
+    }
+    @objc func skipBackwardButtonClicked(_ sender: UIBarButtonItem) {
+        if self.storySpeaker.isPlayng == false { return }
+        NiftyUtility.DispatchSyncMainQueue {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                self.storySpeaker.StopSpeech(realm: realm, stopAudioSession:false) {
+                    self.storySpeaker.SkipBackward(realm: realm, length: 30) {
+                        RealmUtil.RealmBlock { realm in
+                            self.clearSearchView()
+                            self.storySpeaker.StartSpeech(realm: realm, withMaxSpeechTimeReset: true, callerInfo: "小説本文画面(少し戻すボタン).\(#function)", isNeedRepeatSpeech: true)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @objc func skipForwardButtonClicked(_ sender: UIBarButtonItem) {
+        if self.storySpeaker.isPlayng == false { return }
+        NiftyUtility.DispatchSyncMainQueue {
+            RealmUtil.RealmBlock { (realm) -> Void in
+                self.storySpeaker.StopSpeech(realm: realm, stopAudioSession:false) {
+                    self.storySpeaker.SkipForward(realm: realm, length: 30) {
+                        self.clearSearchView()
+                        self.storySpeaker.StartSpeech(realm: realm, withMaxSpeechTimeReset: true, callerInfo: "小説本文画面(少し進めるボタン).\(#function)", isNeedRepeatSpeech: true)
+                    }
+                }
+            }
+        }
+    }
+    @objc func showTableOfContentsButtonClicked(_ sender: UIBarButtonItem) {
+        guard let storyID = self.storyID else { return }
+        NovelSpeakerUtility.SearchStoryFor(selectedStoryID: storyID, viewController: self, searchString: nil) { (story) in
+            self.storySpeaker.SetStory(story: story, withUpdateReadDate: true)
+        }
+    }
+    @objc func leftSwipe(_ sender: UISwipeGestureRecognizer) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            self.storySpeaker.LoadNextChapter(realm: realm)
+        }
+    }
+    @objc func rightSwipe(_ sender: UISwipeGestureRecognizer) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            self.storySpeaker.LoadPreviousChapter(realm: realm)
+        }
+    }
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
+
+        if gesture.state == .ended {
+            let velocity = gesture.velocity(in: view) // 速度を取得
+            
+            // 判定の閾値（この数字を調整して好みの感度にできます）
+            let velocityThreshold: CGFloat = 400 // シュッと動かす速さ
+            let translationThreshold: CGFloat = 40 // 動かした距離
+
+            // 右方向へのスワイプ（前へ）：距離が足りているか、または速度が速いか
+            if translation.x > translationThreshold || velocity.x > velocityThreshold {
+                disableCurrentReadingStoryChangeFloatingButton()
+                RealmUtil.RealmBlock { (realm) -> Void in
+                    self.storySpeaker.LoadPreviousChapter(realm: realm)
+                }
+            }
+            // 左方向へのスワイプ（次へ）：距離が足りているか、または速度が速いか
+            else if translation.x < -translationThreshold || velocity.x < -velocityThreshold {
+                disableCurrentReadingStoryChangeFloatingButton()
+                RealmUtil.RealmBlock { (realm) -> Void in
+                    self.storySpeaker.LoadNextChapter(realm: realm)
+                }
+            }
+        }
+    }
+    
+    func checkDummySpeechFinished() {
+        if self.storySpeaker.isDummySpeechAlive() {
+            DispatchQueue.main.async {
+                let dialog = NiftyUtility.EasyDialogBuilder(self).text(content: NSLocalizedString("SpeechViewController_WaitingSpeakerReady", comment: "話者の準備が整うのを待っています。"))
+                    .build()
+                dialog.show()
+                func waitDummySpeechFinish() {
+                    if self.storySpeaker.isDummySpeechAlive() == false {
+                        DispatchQueue.main.async {
+                            dialog.dismiss(animated: false, completion: nil)
+                        }
+                        return
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        waitDummySpeechFinish()
+                    }
+                }
+                waitDummySpeechFinish()
+            }
+        }
+    }
+    
+    // MARK: StorySpeakerDelegate
+    func storySpeakerStartSpeechEvent(storyID:String){
+        // 何故か self.startStopButton?.setImage(UIImage(systemName: "pause.fill"), for: .normal) が効かないのでボタン群を全部作り直します
+        self.currentWindowWidth = 0.0
+        forceUpdateUpperButtons()
+        return
+        DispatchQueue.main.async {
+            self.clearSearchView()
+            self.startStopButton?.setImage(UIImage(systemName: "pause.fill"), for: .normal)
+            self.startStopButton?.accessibilityLabel = NSLocalizedString("SpeechViewController_Stop", comment: "Stop")
+            self.skipBackwardButtonItem?.isEnabled = true
+            self.skipForwardButtonItem?.isEnabled = true
+            self.removeCustomUIMenu()
+        }
+    }
+    func storySpeakerStopSpeechEvent(storyID:String){
+        // 何故か self.startStopButton?.setImage(UIImage(systemName: "pause.fill"), for: .normal) が効かないのでボタン群を全部作り直します
+        self.currentWindowWidth = 0.0
+        forceUpdateUpperButtons()
+        return
+        DispatchQueue.main.async {
+            self.startStopButton?.setImage(UIImage(systemName: "play.fill"), for: .normal)
+            self.startStopButton?.accessibilityLabel = NSLocalizedString("SpeechViewController_Speak", comment: "Speak")
+            self.skipBackwardButtonItem?.isEnabled = false
+            self.skipForwardButtonItem?.isEnabled = false
+            self.setCustomUIMenu()
+        }
+    }
+    func storySpeakerUpdateReadingPoint(storyID:String, range:NSRange){
+        DispatchQueue.main.async {
+            // 自分でスクロールした直後は、強制スクロールも強制範囲選択もしない。
+            // (この2つはここでしか行っていないので、まとめて止まる)
+            if self.isScrollFollowSuspended {
+                self.scrollFollowPendingRange = range
+                return
+            }
+            let contentLength = self.textView.text.unicodeScalars.count
+            let newRange:NSRange
+            if range.length == 0 && contentLength >= (range.location + 1) {
+                newRange = NSMakeRange(range.location, 1)
+            }else{
+                newRange = range
+            }
+            if contentLength >= (newRange.location + newRange.length) {
+                self.textView.select(self) // この「おまじない」をしないと選択範囲が表示されない
+                self.textView.selectedRange = newRange
+            }
+            self.textViewScrollTo(readLocation: range.location)
+        }
+    }
+    func storySpeakerStoryChanged(story:Story){
+        setStoryWithoutSetToStorySpeaker(story: story)
+        if self.isNeedResumeSpeech {
+            self.isNeedResumeSpeech = false
+            DispatchQueue.main.async {
+                self.CheckFolderAndStartSpeech()
+            }
+        }
+    }
+    
+    func disableCurrentReadingStoryChangeFloatingButton() {
+        guard let oldFloatingButton = self.currentReadStoryIDChangeAlertFloatingButton else { return }
+        self.currentReadStoryIDChangeAlertFloatingButton = nil
+        DispatchQueue.main.async {
+            oldFloatingButton.hide()
+        }
+    }
+    
+    func currentReadingStoryIDChangedEventHandler(newReadingStoryID:String) {
+        guard let currentStoryID = self.storyID, newReadingStoryID != currentStoryID else { return }
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            guard let story = RealmStoryBulk.SearchStoryWith(realm: realm, storyID: newReadingStoryID) else { return }
+            let newChapterNumber = RealmStoryBulk.StoryIDToChapterNumber(storyID: newReadingStoryID)
+            DispatchQueue.main.async {
+                self.currentReadStoryIDChangeAlertFloatingButton = FloatingButton.createNewFloatingButton()
+                guard let floatingButton = self.currentReadStoryIDChangeAlertFloatingButton else { return }
+                floatingButton.assignToView(view: self.view, currentOffset: CGPoint(x: -1, y: -1), text: String(format: NSLocalizedString("SpeechViewController_CurrentReadingStoryChangedFloatingButton_Format", comment: "他端末で更新された %d章 へ移動"), newChapterNumber), animated: true, bottomConstraintAppend: -32.0) {
+                    self.storySpeaker.SetStory(story: story, withUpdateReadDate: false)
+                    floatingButton.hideAnimate()
+                }
+            }
+        }
+    }
+
+    @IBAction func chapterSliderValueChanged(_ sender: Any) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        guard let storyID = self.storyID else {
+            return
+        }
+        let chapterNumber = Int(self.chapterSlider.value + 0.5)
+        let targetStoryID = RealmStoryBulk.CreateUniqueID(novelID: RealmStoryBulk.StoryIDToNovelID(storyID: storyID), chapterNumber: chapterNumber)
+        //self.chapterSlider.value = Float(chapterNumber)
+        RealmUtil.RealmBlock { (realm) -> Void in
+            if let story = RealmStoryBulk.SearchStoryWith(realm: realm, storyID: targetStoryID) {
+                self.storySpeaker.SetStory(story: story, withUpdateReadDate: true)
+            }
+        }
+    }
+    @IBAction func previousChapterButtonClicked(_ sender: Any) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            self.storySpeaker.LoadPreviousChapter(realm: realm)
+        }
+    }
+    @IBAction func nextChapterButtonClicked(_ sender: Any) {
+        disableCurrentReadingStoryChangeFloatingButton()
+        RealmUtil.RealmBlock { (realm) -> Void in
+            self.storySpeaker.LoadNextChapter(realm: realm)
+        }
+    }
+    // iOS 16 以降の長押しメニューの選別。
+    // suggestedActions は UIMenu / UICommand のツリーとして渡ってくるので、
+    // セレクタ名を推測せずに「残すと指定された物以外を全部落とす」形で選別できる。
+    // (ことせかい 独自の項目は UIMenuController 由来の com.apple.menu.dynamic.* として
+    //  この中に含まれており、EditMenuFilter が常に残す)
+    //
+    // 発話中は事情が違い、出したいのは「ここから発話開始」だけになる。
+    // canPerformAction だけでは OS が出してくる項目(作文ツール等)を消しきれないので、
+    // ここで内容ごと差し替える。発話位置への自動スクロールが一時停止している間だけ
+    // 「ここから発話開始」を出し、それ以外は何も出さない。
+    @available(iOS 16.0, *)
+    func textView(_ textView: UITextView, editMenuForTextIn range: NSRange, suggestedActions: [UIMenuElement]) -> UIMenu? {
+        // 実機で実際に出てくる項目を集めるためのダンプ(隠しデバッグ設定が有効な時だけ動く)
+        let nsText = textView.text as NSString?
+        let selectedText:String?
+        if let nsText = nsText, range.location >= 0, range.length > 0, range.location + range.length <= nsText.length {
+            selectedText = nsText.substring(with: range)
+        }else{
+            selectedText = nil
+        }
+        EditMenuFilter.DumpEditMenuIfNeeded(elements: suggestedActions, sourceName: "UITextView", selectedText: selectedText)
+        if self.storySpeaker.isPlayng {
+            guard self.isScrollFollowSuspended else { return UIMenu(children: []) }
+            return UIMenu(children: [
+                UIAction(title: NSLocalizedString("SpeechViewController_SpeakFromHere", comment: "ここから発話開始")) { [weak self] _ in
+                    self?.speakFromHere(sender: UIMenuItem())
+                }
+            ])
+        }
+        let children = EditMenuFilter.filteredSuggestedActions(suggestedActions)
+        if children.isEmpty {
+            return nil
+        }
+        return UIMenu(children: children)
+    }
+    
+    override var keyCommands: [UIKeyCommand]? {
+        return [
+            .init(title: NSLocalizedString("SpeechViewController_KeyboardShortcut_StartStopSpeech_Title", comment: "発話の開始/停止"), action: #selector(startStopSpeech), input: "s", modifierFlags: [.control]),
+            .init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettings", comment: "読み替え辞書へ登録"), action: #selector(setSpeechModSetting(sender:)), input: "r", modifierFlags: [.control]),
+            .init(title: NSLocalizedString("SpeechViewController_AddCheckSpeechText", comment: "読み替え後の文字列を確認する"), action: #selector(checkSpeechText(sender:)), input: "c", modifierFlags: [.control]),
+        ]
+    }
+}

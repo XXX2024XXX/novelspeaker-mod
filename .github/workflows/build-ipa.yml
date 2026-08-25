@@ -1,0 +1,61 @@
+name: Build unsigned IPA
+
+# 手動実行(Actionsタブの "Run workflow" ボタン)、または push で自動実行します。
+# 生成される .ipa は署名されていません。Sideloadly 等の実機インストールツールが
+# 無料の Apple ID を使ってローカルで再署名する前提のビルドです。
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Set up CocoaPods
+        run: |
+          sudo gem install cocoapods
+          pod install
+          sh linkSZTextViewHeader.sh
+          sh patch.sh
+
+      - name: Build (unsigned)
+        run: |
+          xcodebuild \
+            -workspace NovelSpeaker.xcworkspace \
+            -scheme NovelSpeaker \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            build
+          test -d "build/Build/Products/Release-iphoneos/NovelSpeaker.app"
+
+      - name: Package IPA
+        run: |
+          cd build/Build/Products/Release-iphoneos
+          mkdir -p Payload
+          cp -r NovelSpeaker.app Payload/
+          # 未署名アプリの codesign 情報が悪さをしないよう掃除しておきます。
+          rm -rf "Payload/NovelSpeaker.app/_CodeSignature"
+          zip -r -y NovelSpeaker-unsigned.ipa Payload
+          mv NovelSpeaker-unsigned.ipa "$GITHUB_WORKSPACE/NovelSpeaker-unsigned.ipa"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: NovelSpeaker-unsigned-ipa
+          path: NovelSpeaker-unsigned.ipa
+          retention-days: 14

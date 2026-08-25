@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="acp-rQ-wMB">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Migration View Controller-->
+        <scene sceneID="1ee-fZ-yTs">
+            <objects>
+                <viewController id="acp-rQ-wMB" customClass="MigrationViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="uNP-bg-euR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="giL-Nh-v8j">
+                                <rect key="frame" x="197" y="438" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="BPn-eJ-BHN"/>
+                                    <constraint firstAttribute="width" constant="20" id="OMl-l6-LG2"/>
+                                </constraints>
+                            </activityIndicatorView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新規データ形式への移行を 行っています。 しばらくお待ちください。" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="zwb-YK-bEt">
+                                <rect key="frame" x="20" y="52" width="374" height="365"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NdX-pP-Flq">
+                                <rect key="frame" x="20" y="481" width="374" height="381"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="20o-L3-tNV"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="zwb-YK-bEt" firstAttribute="trailing" secondItem="uNP-bg-euR" secondAttribute="trailingMargin" id="5yO-ly-7DB"/>
+                            <constraint firstItem="20o-L3-tNV" firstAttribute="trailing" secondItem="NdX-pP-Flq" secondAttribute="trailing" constant="20" id="Gf0-0s-naR"/>
+                            <constraint firstItem="zwb-YK-bEt" firstAttribute="top" secondItem="20o-L3-tNV" secondAttribute="top" constant="8" id="Nsj-4L-ov3"/>
+                            <constraint firstItem="zwb-YK-bEt" firstAttribute="leading" secondItem="uNP-bg-euR" secondAttribute="leadingMargin" id="NyY-Oe-SKO"/>
+                            <constraint firstItem="giL-Nh-v8j" firstAttribute="centerX" secondItem="20o-L3-tNV" secondAttribute="centerX" id="O6A-9c-jyB"/>
+                            <constraint firstItem="NdX-pP-Flq" firstAttribute="bottom" secondItem="20o-L3-tNV" secondAttribute="bottom" id="UmG-2H-1Qw"/>
+                            <constraint firstItem="giL-Nh-v8j" firstAttribute="top" secondItem="zwb-YK-bEt" secondAttribute="bottom" constant="21" id="fBr-qL-d46"/>
+                            <constraint firstItem="giL-Nh-v8j" firstAttribute="centerY" secondItem="uNP-bg-euR" secondAttribute="centerY" id="ifb-ri-Eft"/>
+                            <constraint firstItem="NdX-pP-Flq" firstAttribute="leading" secondItem="20o-L3-tNV" secondAttribute="leading" constant="20" id="nee-Up-ZLi"/>
+                            <constraint firstItem="NdX-pP-Flq" firstAttribute="top" secondItem="giL-Nh-v8j" secondAttribute="bottom" constant="23" id="yBd-SI-gCw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="progressLabel" destination="NdX-pP-Flq" id="fRT-yE-t51"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="evD-Rz-DLF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="510.14492753623193" y="52.232142857142854"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

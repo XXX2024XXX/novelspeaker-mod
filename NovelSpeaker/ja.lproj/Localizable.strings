@@ -1,0 +1,2475 @@
+/* 
+  Localized.strings
+  NovelSpeaker
+
+  Created by 飯村卓司 on 2014/08/30.
+  Copyright (c) 2014年 IIMURA Takuji. All rights reserved.
+*/
+
+"OK_button" = "OK";
+"DownloadButton" = "Download";
+"Setings_button" = "設定";
+"Cancel_button" = "キャンセル";
+"Disagree_Button" = "同意しない";
+"Agree_Button" = "同意する";
+"Close_button" = "閉じる";
+//"DisplayDateFormat" = "YYYY-MM-dd HH:mm:ss";
+
+"WatchOS_NowloadingText" = "読込中……";
+"WatchOS_NovelSupportMenuView_StorySelector" = "章を選択";
+"WatchOS_NovelSupportMenuView_VolumeControl" = "音量調整";
+
+"SpeakPitchSettingView_NoTitleStringAlert" = "タイトルにする文字列を入れてください。";
+"SpeakPitchSettingView_AlreadyExistingSetting" = "既に存在する設定です。";
+"SpeakPitchSettingView_AppendFailed." = "音声設定の追加に失敗しました。";
+"SpeakPitchSettingView_AppendSuccess" = "音声設定を追加しました。";
+"CreateSpeechModSettingView_ReadItForAAAinBBB" = "%@を%@に読み替えます。";
+"CreateSpeechModSettingView_ERROR_NoStringSetting" = "変換元か変換先の文字列が設定されていません。";
+"CreateSpeechModSettingView_SettingFailed" = "設定に失敗しました。";
+"DownloadStatusViewController_ThereIsNoThingDownloading" = "ダウンロード中のものはありません";
+"DownloadStatusViewController_WaitingDownloading" = "ダウンロード待ち";
+
+"GlobalDataSingleton_CanNotGetValidNCODE" = "有効な NCODE を取得できませんでした。";
+"GlobalDataSingleton_AlreadyDownloaded" = "既にダウンロード済です。";
+"GlobalDataSingleton_NoPlaing" = "再生していません";
+"GlobalDataSingleton_Conversation1" = "会話文";
+"GlobalDataSingleton_Conversation2" = "会話文 2";
+"GlobalDataSingleton_NewUserBookTitle" = "新規ユーザ小説";
+"GlobalDataSingleton_NovelUpdateAlertBody" = "%d個の小説が更新されました。";
+"GlobalDataSingleton_NovelUpdateAlertAction" = "アプリを開く";
+"GlobalDataSingleton_URLisAlreadyDownload" = "既に本棚に登録されているURLでした";
+"GlobalDataSingleton_PDFToStringFailed_Title" = "PDFのテキスト読み込みに失敗";
+"GlobalDataSingleton_PDFToStringFailed_Body" = "PDFファイルからの文字列読み込みに失敗しました。\nPDFファイルによっては文字列を読み込めない場合があります。また、iOS11より前のiOSではPDF読み込み機能は動作しません。";
+"GlobalDataSingleton_RTFToStringFailed_Title" = "RTFの読み込みに失敗";
+"GlobalDataSingleton_BackupDataLoaded" = "設定データを読み込みました。\nダウンロードされていた小説については現在ダウンロード中です。すべての小説のダウンロードにはそれなりの時間がかかります。";
+"GlobalDataSingleton_RestoreFullBackupEnd" = "バックアップデータからの復元を完了しました。";
+"GlobalDataSingleton_RestoreingBookProgress" = "工程 3/3\r\n小説を本棚に登録中";
+"GlobalDataSingleton_RestoreBackupFromJSONProgress_RestoreSettings" = "工程 1\r\n設定の復元中";
+"GlobalDataSingleton_RestoreBackupDataFailed" = "バックアップデータの読み込みに失敗しました。";
+"GlobalDataSingleton_AnnounceStopedByTimer" = "最大連続再生時間を超えたので、読み上げを停止しました。";
+"GlobalDataSingleton_NotificationRequestAuthorizationMessage" = "小説の自動更新により小説の更新があった場合に通知を表示するため、通知を出す許可が必要です。";
+
+"NarouSearchResultDetailViewController_FailedInAdditionToDownloadQueue" = "ダウンロードキューへの追加に失敗";
+"NarouSearchResultDetailViewController_AddSuccess_Title" = "作品名: %@";
+"NarouSearchResultDetailViewController_AddSuccess_ItWasAddedToDownloadQueue" = "ダウンロードキューに追加されました";
+"NarouSearchResultTableViewController_SearchResult" = "検索結果";
+"NarouSearchViewController_SearchTitle_Searching" = "Searching";
+"NarouSearchViewController_SearchMessage_NowSearching" = "Now searching";
+
+"NarouSearchViewController_NarouSearchTabDeletedAnnounceText" = "「なろう検索」機能提供終了のお知らせ\n\n以前からお知らせしておりました通り、「なろう検索」タブ関連の機能は削除されました。今後は「Web取込」機能をご活用ください。\n「なろう検索」と同様の検索機能は 小説家になろう様 側にあります検索ページをご利用ください。「Web取込」機能で取り込まれた小説は「なろう検索」経由で取り込んだ小説と同様の使い勝手になっています。「Web取込」タブでの小説の取り込み方は、概ね\n\n『「Web取込」タブにて、取り込みたい小説の \"本文が表示されている状態\" にした上で、右下の「取り込む」ボタンを押す』\n\n事で行えます。「Web取込」機能による小説の取り込み方の詳しい使い方につきましてはサポートサイト下部にあります「Web取込機能について」のページをご参照ください。\nなお、この「なろう検索」タブはしばらく後のアップデート時にタブごと削除される予定ですので、今後も検索ページを使いたいという場合には、小説家になろう様の検索ページを「Web取込」機能側でブックマークしておく事をおすすめしておきます。";
+
+"PickerViewDialog_DoneKeyboardBarItem" = "決定";
+
+"DebugLogViewControllerSwift_Copied" = "コピーしました";
+
+"SettingsTableViewController_Information" = "開発者からのお知らせ";
+"SettingsTableViewController_Information_CanNotGetInformation" = "お知らせの読み込みに失敗しました。";
+"SettingsTableViewController_Information_NoImportantInformationAlived" = "今現在、重要なお知らせはありません。";
+"SettingsTableViewController_Information_ShowOutdatedInformation" = "過去のお知らせを確認する";
+"SettingsTableViewController_Information_PastInformationTitle" = "過去のお知らせ";
+"SettingsTableViewController_SettingOfTheQualityOfVoice" = "声質の設定";
+"SettingTableViewController_CorrectionOfTheReading" = "読みの修正";
+"SettingTableViewController_SettingOfTheTextSize" = "小説本文表示画面の設定";
+"SettingTableViewController_SettingOfTheSpeechDelay" = "読み上げ時の間の設定";
+"SettingTableViewController_MaxSpeechTime" = "最大連続再生時間";
+"SettingTableViewController_AddDefaultCorrectionOfTheReading" = "標準の読みの修正を上書き追加";
+"SettingTableViewController_GetNcodeDownloadURLScheme" = "バックアップ用データの生成";
+"SettingTableViewController_AnAddressAddedAStandardParaphrasingDictionary" = "標準の読み替え辞書を上書き追加しました。";
+"SettingTableViewController_NoContentHave" = "本棚に本がありません";
+"SettingTableViewController_ShareNcodeListURLScheme" = "本棚に登録されている小説の再ダウンロードURLスキームを生成します";
+"SettingTableViewController_ConfirmAddDefaultSpeechModSetting" = "確認";
+"SettingtableViewController_ConfirmAddDefaultSpeechModSettingMessage" = "用意された読み替え辞書を追加・上書きします。よろしいですか？";
+"SettingTableViewController_GoToReleaseLog" = "更新履歴";
+"SettingTableViewController_CreateNewUserText" = "新規自作小説の追加";
+"SettingTableViewController_RightNotation" = "権利表記";
+"SettingTableViewController_BackgroundFetch_Enabled" = "小説の自動更新: 有効";
+"SettingTableViewController_BackgroundFetch_Disabled" = "小説の自動更新: 無効";
+"SettingTableViewController_BackgroundFetch" = "小説の自動更新";
+"SettingTableViewController_ConfirmEnableBackgroundFetch_title" = "確認";
+"SettingtableViewController_ConfirmEnableBackgroundFetch" = "この設定を有効にすると、ことせかい を使用していない時等に小説の更新を確認するようになるため、ネットワーク通信が発生するようになります。よろしいですか？\nなお、小説の更新があった時に通知を出したりバッヂを設定するために通知の許可を求める場合があります。(一度 許可 又は 不許可 にした後は尋ねられなくなるはずです)";
+"SettingTableViewController_OverrideRubyIsEnabled" = "ルビはルビだけ読む: 有効";
+"SettingTableViewController_OverrideRubyIsDisabled" = "ルビはルビだけ読む: 無効";
+"SettingTableViewController_OverrideRuby" = "ルビはルビだけ読む";
+"SettingTableView_SendEmailForBackupTitle" = "ことせかい バックアップ";
+"SettingTableView_SendEmailForBackupBody" = "添付されたファイルを ことせかい で読み込む事で、小説のリストや読み替え辞書が再生成されます。";
+"SettingTableViewController_EditNotRubyStringTitle" = "ルビではないと判断する文字";
+"SettingTableViewController_EditNotRubyStringHint" = "ここに書かれた文字のみのルビであればただの強調であると判断され、ルビではなく元の文字が読み上げられる事になります";
+"SettingTableViewController_EditNotRubyStringPlaceHolder" = "・";
+"SettingTableViewController_ForceSiteInfoReload" = "SiteInfoを毎回読み直す";
+"SettingTableViewController_ShowDebugLog" = "デバッグログの表示";
+"SettingTableViewController_GoToSupportSite" = "ことせかい のサポートサイトを開く";
+"SettingTableViewController_SendBugReport" = "開発者に問い合わせる";
+"SettingTableViewController_DisplayBookmarkPositionOnBookshelf" = "本棚に栞の位置を表示する";
+"SettingTableViewController_OnlyDisplayAddSpeechModSettings" = "本文中の長押しメニュー項目を減らす";
+"SettingTableViewController_ShortSkipIsEnabled" = "コントロールセンターでの前の章や次の章へのボタンを少し巻き戻し・少し進めるボタンへ変更する";
+"SettingTableViewController_PlaybackDurationIsEnabled" = "コントロールセンターに再生時間を表示する(表示される時間は概算で、正確な値にはなりません)";
+"SettingTableViewController_DarkThemeIsEnabled" = "小説を読む時に背景を暗くする";
+"SettingTableViewController_PageTurningSoundIsEnabled" = "ページめくり時に音を鳴らす";
+"SettingTableViewController_IgnoreURISpeechIsEnabled" = "URIを読み上げないようにする";
+"SettingTableViewController_LICENSE" = "ことせかい 利用許諾";
+"SettingTableViewController_LISENSE_file_can_not_read" = "LICENSE.txt を読み込めませんでした。ことせかい の GitHub 側の LICENSE.txt を参照してください。";
+"SettingTableViewController_PrivacyPolicy_can_not_load" = "最新のプライバシーポリシーを読み込めませんでした。\nSafariでの表示を試みます。";
+"SettingTableViewController_PrivacyPolicy" = "ことせかい のプライバシーポリシーを確認する";
+"SettingTableView_SendEmailWithLargeFileWarning" = "なお、今回添付されているファイルは %@ ととても大きいため、メールの転送経路によってはエラーを引き起こす可能性があります。\r\niCloud DriveのMail Dropという機能を使うとかなり大きなファイル(最大5GBytesまで)のファイルを送信できるようになるので、そちらの利用を検討したほうが良いかもしれません。";
+"SettingTableViewController_About" = "ことせかい について";
+"SettingTableViewController_isAnnounceAtRepatSpeechTimeTitle" = "読み上げ停止後に再開する場合にその旨を告知する";
+"SettingsViewController_CreatingBackupData" = "バックアップデータ作成中です。\r\nしばらくお待ち下さい\r\n";
+"SettingsViewController_GenerateBackupDataFailed" = "バックアップデータの生成に失敗しました。";
+"SettingsViewController_IsCreateFullBackup?" = "小説の本文まで含めた完全なバックアップファイルを生成しますか？\r\n登録小説数が多い場合は生成に膨大な時間と本体容量が必要となります。";
+"SettingsViewController_ChooseCancel" = "バックアップ生成をやめる";
+"SettingsViewController_ChooseFullBackup" = "完全バックアップを生成する(時間がかかります)";
+"SettingsViewController_ChooseSmallBackup" = "軽量バックアップを生成する(時間はかかりません)";
+"SettingsViewController_SpeechModSettingsButtonTitle" = "発話変更設定(会話文等で声質を変えたりする設定)";
+"SettingsViewController_RemoveDefaultSpeechModSettings" = "標準の読みの修正と同じものを読み替え辞書登録から削除";
+"SettingsViewController_RemoveDefaultSpeechModSettings_ConifirmTitle" = "確認";
+"SettingsViewController_RemoveDefaultSpeechModSettings_ConifirmMessage" = "読みの修正に登録されているもののうち、標準の読みの修正と同じものを削除します。よろしいですか？";
+"SettingsViewController_RemoveDefaultSpeechModSettings_DeletedMessage" = "読みの修正に登録されているもののうち、標準の読みの修正と同じものを削除しました。";
+"SettingsViewController_IsUseiCloud_Title" = "iCloud 同期を使用する";
+"SettingsViewController_IsUseiCloud_ConifirmTitle" = "iCloud 同期を有効にしますか？";
+"SettingsViewController_IsUseiCloud_ConifirmMessage" = "iCloud 同期を有効にすると、iCloud同期を有効にした複数の端末間で小説や読み替えの設定を同期する事ができるようになります。\nただし、ことせかい 内のデータを書き換えるたびに iCloud による通信が試みるようになります。例えば小説を開いたり、読み上げを行ったりしただけでもデータが書き換わりますので、頻繁にネットワーク通信が発生する事になります。また、ことせかい に取り込まれた小説を iCloud で保存するようになるため、取り込まれた小説の量が多い場合には iCloud の容量を圧迫する可能性があります。それらを了承の上、iCloud同期を有効にしますか？";
+"SettingsViewController_IsUseiCloud_EnabledButNextStart" = "iCloud 同期を開始しました。一旦アプリを終了します。";
+"SettingsViewController_IsUseiCloud_ConifirmTitle_disable" = "iCloud 同期を無効にしますか？";
+"SettingsViewController_IsUseiCloud_DisabledButNextStart" = "iCloud 同期を停止しました。一旦アプリを終了します。";
+"SettingsViewController_IsUseiCloud_SyncProgress" = "iCloud 側にデータを登録しています";
+"SettingsViewController_IsUseiCloud_SyncProgress_Push" = "データが登録されるのを待っています";
+"SettingsViewController_IsUseiCloud_CopyFailed" = "データの登録に失敗しました。";
+"SettingsViewController_IsUseiCloud_DisableSyncProgress" = "iCloud 側からデータを取り出しています";
+
+"SettingsViewController_CopyingCloudToLocal" = "iCloud側のデータを端末側のデータへ変換中";
+"SettingsViewController_CopyCloudToLocalFailed" = "iCloudのデータの取得に失敗しました。";
+"SettingsViewController_iCloudDisable_done" = "iCloud同期を停止しました";
+"SettingsViewController_CopyingLocalToCloud" = "現在のデータをiCloud側に登録中";
+"SettingsViewController_CopyLocalToCloudFailed" = "現在のデータのiCloud側への登録に失敗しました。";
+"SettingsViewController_iCloudEnable_done" = "iCloud同期を開始しました。\n同期は開始されましたが、端末側とiCloud側の同期(転送)作業は終わっていません。\n転送されるべきデータが多い場合には、転送が終わるまでかなりの時間がかかると思われます。\nなお、残念ながら転送が終わったかどうかを知るすべが(開発者の知る限りでは)ありません。また、Appleの解説によると24時間の間はアプリが終了していても裏で受信はしてくれていてアプリを再度立ち上げれば転送を継続してくれるそうですが、あまり安心はできないかもしれません。\n一応未送信や未受信のデータがある場合には通信中のインジケータを回すように努力はしますが、このインジケータが消えた事で転送が終了したというわけではないかもしれない、という事は理解しておいてください(実際の所、インジケータが消えた後に200以上の小説が本棚に追加されたのを見たことがありますので全く信用できないと考えてもよさそうです。なお、iCloud側からデータを読み出そうとしたり逆に書き込もうとした時(今の状態が正にそれです)、ある程度の量がAppleから送信されるかAppleへ送信した後に30秒から2分程度の間が開いて、また少しデータが流れて、また暫く間が開いて……というような形の間欠泉？のような感じでデータが流れるような動きをするようです。恐らくは一気にデータを流す事はできないように制限がかけられているのではないかと思います)。\nという事なので、ことせかい に登録されている小説や本文、読み替え辞書などといった登録されている項目の数が多くなっていると、片方の端末では登録されている小説が別の端末の本棚に登録されない、というように同期がすぐに完了しない事が多く発生すると思われます。その場合は気を長くして待って頂ければと思います。";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseLocalOnly" = "iCloud上のデータを消去し、現在のデータをiCloudに送信する";
+"SettingsViewController_RemoveICloudData" = "iCloud上のデータを消去しています";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData" = "iCloud側に利用可能なデータが存在するようです。iCloud側のデータをそのまま利用する(現在のデータは削除されます)か、iCloud上のデータに現在のデータを上書きで追加するか(iCloud上のデータと現在のデータが混ざりますが、重複するものについては現在のデータが優先されます)を選択してください。";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseiCloud" = "iCloud側のデータのみ利用してiCloud同期を開始";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseLocal" = "iCloud側に現在のデータを上書き追加してiCloud同期を開始";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_Cancel" = "iCloud同期をやめる(キャンセル)";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling_Title" = "iCloud側のデータを確認しています";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling" = "過去に ことせかい で iCloud同期 を使用していた場合や、別の端末の ことせかい で iCloud同期 を利用しているなどで iCloud側 に多量のデータが保存されている場合、この作業は時間がかかる可能性があります。\nネットワーク接続を用いますので、この操作は接続状態の良い所で行ってください。\nまた、この操作中にアプリを閉じたり別アプリに切り替えたりした場合には失敗と判定しています。";
+"SettingsViewController_IsUseiCloud_FailedSyncEngineStart" = "iCloud への接続に失敗しました。";
+"SettingsViewController_CloudPullProcessingDialog" = "iCloud からデータを読み込み中です。";
+"SettingsViewController_CloudPushProcessingDialog" = "iCloud 側へデータを書き込み中です。";
+"SettingsViewController_IsUseiCloud_ConifirmRemoveLocalData" = "iCloud上のデータを利用する事にします。\n現在のデータは破棄されます。\nこの操作は元に戻せません。\nよろしいですか？";
+"SettingsViewController_iCloudAccountInvalid_restricted" = "iCloudアカウント が制限付きの状態のため利用できません。";
+"SettingsViewController_iCloudAccountInvalid_noAccount" = "iCloudアカウント が設定されていません(設定アプリから iCloud にサインインする必要があります)。\n「設定アプリ」で「iCloud」を検索してAppleID内の「iCloud」の中で「ことせかい」がONになっていて、同じ場所(ことせかい よりも上の方)の「iCloud Drive」もONになっている状態にしてください。";
+"SettingsViewController_iCloudAccountInvalid_temporarilyUnavailable" = "iCloud アカウントが利用できない状態のようです。OS側で処理中等の時に出る事のある問題のようですので、暫く待ってから再度試してみると良いかもしれません。(temporarilyUnavailable)";
+"SettingsViewController_iCloudAccountInvalid_cloudNotDetermine" = "iCloudアカウント の状態を取得できませんでした。";
+"SettingsViewController_InvalidiCloudStatus" = "iCloud の状態に問題があります";
+"SettingsViewController_ClearSiteInfoCache" = "SiteInfoを取得し直す";
+"SettingsViewController_ClearSiteInfoCache_done" = "保存されている SiteInfo 情報を削除し、再取得を開始しました。";
+"SettingsViewController_IsNeedRestartApp_Title" = "アプリの再起動が必要です";
+"SettingsViewController_IsNeedRestartApp_Message" = "この操作を行うためには一旦アプリを再起動させる必要があります。Appスイッチャーなどからアプリを終了させ、再度起動させた後にもう一度お試しください。(iCloud同期の ON/OFF は変更のたびに再起動が必要になります)";
+"SettingsViewController_FailedCheckIcloudDataIsValid" = "iCloud側のデータ確認に失敗しました。";
+"SettingsViewController_FailediCloudEnableBecauseDataVersionInvalid_Title" = "アプリのバージョンアップが必要です";
+"SettingsViewController_FailediCloudEnableBecauseDataVersionInvalid_Message" = "iCloud側に保存されているデータは新しいバージョンで作成された物でした。iCloud同期を行うにはアプリのバージョンアップを行う必要があります。";
+"SettingsViewController_FailedCheck_NetworkError" = "iCloud側のデータ確認に失敗しました。ネットワークに接続されていないようです。機内モードになっていたり電波の届かない場所に居るなどの問題があるかもしれません。iCloud同期の初回チェックは安定したインターネット接続ができる環境で行ってください。";
+"SettingsViewController_ChooseInvalidiCloudData_Message" = "iCloud 側にデータが存在する事は確認したのですが、ことせかい で利用するために必須のデータを取得できませんでした。\n\nネットワークの状態が悪い場合や iCloud側 に保存されているデータの量が多かった場合、以前 iCloud同期 を行った端末のデータが iCloud側 へ転送しきれていなかった場合といったような色々な場合が考えられますが、とにかくこのままでは正常に利用する事はできそうにありません。\n\nなお、この端末にあるデータを iCloud側 に上書き保存する形で iCloud同期 を ON にする事もできます。iCloud側 に上書き保存する場合、iCloud側とこの端末側の両方に存在する設定や小説はこの端末側の値に、iCloud側にしか存在しない設定や小説はiCloud側の物が残るような動作になります(場合によってはそうならない場合もあります)。\n\n上書き保存する形でiCloud同期を開始しますか？";
+"SettingsViewController_ChooseiCloudDataProcessForInterruptedSync_Message" = "iCloud 側のデータ取得中に中断されました。\nネットワークの状態が悪い場合やiCloud側に保存されているデータの量が多かった場合にはiCloud上のデータの読み込みにかなりの時間がかかる場合があり、そのような場合などで中断される場合がこの動作に当たります。ただし、iCloud側に正しいデータが保存されていることが確認できていません。このままiCloud側のデータを信用して「iCloud側のデータをそのまま利用する」こともできますが、動作がおかしくなる可能性があります(単にデータの受信ができていないだけで、問題なく動作する可能性もなきにしもあらずです)。また、「現在のデータでiCloud上のデータを上書きする」事で現在iCloud側に保存されているデータは破壊されますが、このままのデータで使い続けることもできます。";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling_cancelButton" = "データ確認を止める";
+"SettingsViewController_ClearWebSearchSiteInfoCache" = "Web検索タブの検索データを読み直す";
+"SettingsViewController_ClearWebSearchSiteInfoCache_done" = "Web検索タブに戻ると読み込み直すように設定しました。";
+"SettingsViewController_AutoSplitStringSetting" = "テキスト分割文字列の設定(1ページのみの文章を読み込もうとした時に、特定の文字列で分割して読み込むための設定)";
+"SettingsViewController_RemoteDataURLSetting" = "内部データ参照用URLの設定";
+"SettingsViewController_RepeatTypeGoToNextSameFolderdNovel_NoFolderFoundWarning" = "自作フォルダが一つも作成されていないようです。フォルダを作成されていないとこの設定は利用できません。\nフォルダを作成するには、「設定タブ」→「自作フォルダを編集する」で編集するか、「本棚タブ」で小説を開いて右上にある「詳細」ボタンを押した後に出てくる小説の詳細画面から「フォルダへ分類」を選択してフォルダを追加してください。";
+"SettingsViewController_ManageFolderOrderButton" = "自作フォルダを編集する";
+"SettingsViewController_ManageNovelLikeOrderButton" = "お気に入り順を編集する";
+"SettingsViewController_isUseWebSearchTabDisabledSite_Title" = "Web検索タブ で非表示設定されているサイトを表示する";
+"SettingsViewController_isDebugMenuAlreadyEnabled_Title" = "このデバッグ用メニューを常にONにする";
+"SettingsTableViewController_AppInformation" = "アプリ内エラーのお知らせ";
+"SettingsTableViewController_AppInformation_IncludedForDebug" = "アプリ内エラーのお知らせ(デバッグ用も含む)";
+"SettingTableViewController_AppInformation_IncludeForDebug_OutputByJSON" = "アプリ内エラーのお知らせをJSONで取り出す";
+"SettingsTableViewController_AppInformation_ClearButtonTitle" = "今あるお知らせを全て消す";
+"SettingsTableViewController_AppInformation_CopyLogButtonTitle" = "これらのお知らせを全てコピーする";
+"SettingsViewController_DontUsallyUseSection_Title" = "通常は使用する必要の無いもの";
+"SettingsViewController_ClearSiteInfoCache_SiteInfoLoadEnd" = "手動による SiteInfo の読み込みが終了しました。\n他にエラーメッセージが出ていなければ SiteInfo の読み込みは成功したと思われます。";
+"SettingsViewController_ClearSiteInfoCache_SiteInfoLoadEnd_Failed" = "手動による SiteInfo の読込中にエラーが発生しています。(恐らくはネットワーク接続に問題があると考えられます。同時に出力されているエラー側に詳細な情報が書かれていると思われますので、それらを確認した上で、適切に対処してください)";
+"SettingTableViewController_IsEnableSwipeOnStoryView" = "小説本文画面での左右スワイプでページめくりができるようにする";
+"SettingTableViewController_DisableNarouRuby" = "ことせかい 由来のルビ表記のみを対象とする(『|ルビを振られる文字列(ルビ文字列)』という形式のみを対象とするようになるため、『漢字(ひらがなかカタカナ)』という表記をルビと判定される事を避けたい場合等に効果があります)";
+"SettingTableViewController_menuItemsNotRemoved" = "残される長押しメニュー項目";
+"SettingsViewController_isNeed_OpenInWebImportTab_ButtonOnNovelSearchTargetCheckDialog" = "Web検索タブでの個々の検索結果ダイアログに「Web取込 タブで開いて確認する」ボタンを追加する";
+"SettingTableViewController_isDisableWillSpeakRange" = "読み上げ中の位置表示更新をサボるようにする(ON にすると、iOS 16.3 から発生しているメモリリーク問題を回避できます。そのため、「設定タブ」->「発話変更設定」で会話文などを削除しているなどしていたものを戻すことができるようになります。ただし、読み上げ中に読み上げ位置の更新ができなくなるという問題が別途発生します。なお、iOS 16.2以前 でご利用中の方はONにする必要はありません。また、問題が解消した後はこのオプションは削除される予定です)";
+"SettingTableViewController_MoreSplitTargetsMinimumCount" = "一息で読み上げる範囲が長くなる場合にテキトーな範囲で区切るようにするが、その時に区切られなくなる最小の文字数\n(「読み上げ中の位置表示更新をサボるようにする」がONの時に読み上げ位置を強引に更新しつづけるために、ある程度の文字数で読み上げを区切るための文字数を指定します。\nここで指定される文字数が少なければ少ないほど区切られる数が増えるため、読み上げ位置の更新が頻繁になります\n「が」、読み上げの区切り部分では少し読み上げに間が空いてしまうというデメリットがあります。しかしながら大きな値を指定してしまうと読み上げの途中で発話を停止した時に読み上げ位置が思った位置に更新されないようになるはずです。そのため、ご自身で適切と思われる値を設定してください(開発者個人としては50程度がそこそこ使えるかなぁと思っています)。\nなお、区切られる部分については句読点や空白や改行部分のみで区切られるため、「1」を指定したとしてもある程度の長さは区切られずに発話されます。\nなお、問題が解消した後はこのオプションは削除される予定です)";
+"SettingTableViewController_IsInspectableWkWebView" = "WkWebViewをmacのSafariから調査(Inspect)できるようにする。";
+"SettingTableViewController_likeButtonDialogType" = "本棚でお気に入りボタンを押した時の動作";
+"SettingTableViewController_LikeButtonDialogType_noDialog" = "確認しない";
+"SettingTableViewController_LikeButtonDialogType_dialogOnRequested" = "登録する時のみ確認する";
+"SettingTableViewController_LikeButtonDialogType_dialogOffRequested" = "削除する時のみ確認する";
+"SettingTableViewController_LikeButtonDialogType_dialogAlwaysRequested:" = "いつでも確認する";
+"SettingTableViewController_IsDisplaySpeechModChange" = "小説本文画面で、読み替えが行われる文字の色を変える";
+"SettingTableViewController_IsNotClearToAboutBlankOnDownloadBrowserUrl" = "ダウンロード終了後に about:blank に移動させない";
+"SettingTableViewController_IsDynamicNovelDownloadThrottleEnabled" = "端末が熱い場合などにダウンロードの並列数を減らす";
+"SettingTableViewController_BaseMaxConcurrentNovelDownloadCount" = "最大同時ダウンロード数(サイトごとの制限あり、標準値は5)";
+"SettingTableViewController_IsDeleteBlockOnBookshelfTreeView" = "本棚画面でスワイプや「編集」から小説を削除できないようにする(これがONの場合でも、削除したい場合は小説の複数選択画面から行うことができます)";
+"SettingTableViewController_overrideTabBarTraitsRow" = "タブの表示を画面下部にする(非推奨です。また、アプリ再起動後に適用されます)";
+"SettingTableViewController_IsCarPlayModeToVoicePrompt" = "CarPlay接続時に音声モードを変える(音声モードを変更することで音声がクリアになるかもしれません。ただし、音声モード変更時は一部の機能が制限されます)";
+"SettingsViewController_BarButtonSpacing" = "小説本文画面や本棚画面のボタン群の間隔";
+"SettingTableViewController_NovelImportSetting_Title" = "Webサイト毎の取り込み対象を指定する";
+"SettingTableViewController_IsSkipForewordAfterwordOnNewImport" = "新しく取り込む章の前書き・後書きを読み上げない(取込設定が未設定のサイト/小説にのみ有効)";
+"NovelDetailViewController_RedownloadExistingChaptersButtonTitle" = "保存済みの本文を今の取込設定で再ダウンロードする";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmTitle" = "保存済みの本文を再ダウンロードしますか？";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmMessage" = "この小説の保存済みの本文を、ネット上から今の取込設定(前書き・後書きの読み上げ設定など)で取得し直して上書きします。\n\n・完了まで時間がかかる場合があります\n・元のページが既に無い/変わっている場合、その章は失敗するか意図しない内容になることがあります\n・上書きされた内容は元に戻せません";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmButton" = "再ダウンロードする";
+"NovelDetailViewController_RedownloadExistingChaptersProgressFormat" = "再ダウンロード中… (%d/%d)";
+"NovelDetailViewController_RedownloadExistingChaptersDoneFormat" = "再ダウンロードが完了しました。成功: %d件、失敗: %d件";
+
+"RealmModels_MenuItemsNotRemoved_Name_cut" = "カット";
+"RealmModels_MenuItemsNotRemoved_Name_copy" = "コピー";
+"RealmModels_MenuItemsNotRemoved_Name_paste" = "ペースト";
+"RealmModels_MenuItemsNotRemoved_Name_deleteText" = "削除";
+"RealmModels_MenuItemsNotRemoved_Name_select" = "選択";
+"RealmModels_MenuItemsNotRemoved_Name_systemSelectAll" = "すべてを選択";
+"RealmModels_MenuItemsNotRemoved_Name_promptForReplace" = "置き換え...";
+"RealmModels_MenuItemsNotRemoved_Name_transliterateChinese" = "简⇄繁";
+"RealmModels_MenuItemsNotRemoved_Name_insertDrawing" = "描画を挿入";
+"RealmModels_MenuItemsNotRemoved_Name_writingTools" = "作文ツール";
+"RealmModels_MenuItemsNotRemoved_Name_captureTextFromCamera" = "テキストをスキャン";
+"RealmModels_MenuItemsNotRemoved_Name_bold" = "ボールド";
+"RealmModels_MenuItemsNotRemoved_Name_italic" = "イタリック";
+"RealmModels_MenuItemsNotRemoved_Name_underline" = "下線";
+"RealmModels_MenuItemsNotRemoved_Name_writingDirection" = "書字方向";
+"RealmModels_MenuItemsNotRemoved_Name_textFormattingOptions" = "書式のその他...";
+"RealmModels_MenuItemsNotRemoved_Name_findSelected" = "選択部分を検索";
+"RealmModels_MenuItemsNotRemoved_Name_define" = "調べる";
+"RealmModels_MenuItemsNotRemoved_Name_translate" = "翻訳";
+"RealmModels_MenuItemsNotRemoved_Name_addShortcut" = "ユーザ辞書...";
+"RealmModels_MenuItemsNotRemoved_Name_speak" = "読み上げ";
+"RealmModels_MenuItemsNotRemoved_Name_speakLanguageSelection" = "読み上げ(言語選択)";
+"RealmModels_MenuItemsNotRemoved_Name_pauseSpeaking" = "読み上げを一時停止";
+"RealmModels_MenuItemsNotRemoved_Name_share" = "共有";
+"RealmModels_MenuItemsNotRemoved_Name_selectAll" = "全てを選択する";
+"RealmModels_MenuItemsNotRemoved_Section_standardEdit" = "編集";
+"RealmModels_MenuItemsNotRemoved_Section_replace" = "置き換え";
+"RealmModels_MenuItemsNotRemoved_Section_format" = "書式";
+"RealmModels_MenuItemsNotRemoved_Section_lookup" = "調べる";
+"RealmModels_MenuItemsNotRemoved_Section_learn" = "ユーザ辞書";
+"RealmModels_MenuItemsNotRemoved_Section_speech" = "読み上げ";
+"RealmModels_MenuItemsNotRemoved_Section_share" = "共有";
+"RealmModels_MenuItemsNotRemoved_Section_novelSpeaker" = "ことせかい";
+
+"NovelSpeakerUtility_ExportingNovelData" = "工程 1/4\n小説を抽出中";
+"NovelSpeakerUtility_ExportOtherSettings" = "工程 2/4\n設定情報の抽出中";
+"NovelSpeakerUtility_UnzipProgress" = "工程 1/3\nバックアップファイルを解凍しています";
+"NovelSpeakerUtility_RestoreingJSONType" = "工程 2/3\nバックアップファイルから設定を読み込んでいます。";
+"NovelSpeakerUtility_RestoreingNovelData" = "工程 3/3\n小説を抽出中(注:対象が多い場合は表示が更新されない場合があります)";
+"NovelSpeakerUtility_RestoreBackupTitle" = "バックアップデータを読み込んでいます";
+"NovelSpeakerUtility_RestoreBackupMessage" = "-";
+"NovelSpeakerUtility_FirstStoryURLString" = "https://limura.github.io/NovelSpeaker/topics/jp/00001.html";
+"NovelSpeakerUtility_FirstStoryTitleString" = "はじめに(ことせかい の使い方)";
+
+"SettingsViewController_ShareBackupDataSelectHow_Title" = "バックアップデータの送信方式を選んで下さい";
+"SettingsViewController_ShareBackupDataSelectHow_Mail" = "メールに添付する";
+"SettingsViewController_ShareBackupDataSelectHow_ShareButton" = "ファイルとしてシェアする";
+"SettingsViewController_ShareBackupSelect_FailedAppendToMail" = "ファイルの添付に失敗しました。";
+"SettingsViewController_UploadAllDataToiCloud_Title" = "現在のデータを全てiCloudにアップロードする";
+"SettingsViewController_UploadAllDataToiCloud_iCloudNotEnabled_Message" = "現在はiCloudを利用していません。";
+"SettingsViewController_UploadAllDataToiCloud_Message" = "全てのデータをiCloudにアップロードし始めました。データ量が多ければ多いほどアップロード完了まで時間がかかります。";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus" = "iCloud上のデータを全て読み込み直す";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus_Message" = "iCloud上のデータを全て読み込み直しますか？\nこの操作を行うとiCloud上に保存されているデータを全て読み込み直す事になりますので、iCloud上に保存されているデータの量が多い場合はかなりの時間がかかる事になります。";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus_Message" = "iCloudのデータを読み込み直しはじめました。";
+"SettingTableViewController_IsDisallowsCellularAccess" = "携帯電話網ではダウンロードしないようにする";
+"SettingTableViewController_IsNeedConfirmDeleteBook" = "小説を削除する時に確認する";
+"SettingTableViewController_RepeatTypeTitle" = "再生が末尾に達した時の動作";
+"SettingTableViewController_RepeatType_NoRepeat" = "そのまま停止する";
+"SettingTableViewController_RepeatType_RewindToFirstStory" = "最初の章から再生し直す";
+"SettingTableViewController_RepeatType_RewindToThisStory" = "現在の章を再生し直す";
+"SettingTableViewController_RepeatType_GoToNextLikeNovel" = "別のお気に入り小説を再生";
+"SettingTableViewController_RepeatType_GoToNextSameFolderdNovel" = "同じフォルダの別の小説を再生";
+"SettingTableViewController_RepeatType_GoToNextSelectedFolderdNovel" = "指定フォルダの別の小説を再生";
+"SettingTableViewController_RepeatType_GoToNextSameWriterNovel" = "同じ作者の別の小説を再生";
+"SettingTableViewController_RepeatType_GoToNextSameWebsiteNovel" = "同じWebサイトの別の小説を再生";
+"SettingTableViewController_RepeatLoopTypeTitle" = "再生が末尾に達した時の次の小説の選択方式";
+"SettingTableViewController_RepeatSpeechLoopType_Normal" = "未読分の続きから再生";
+"SettingTableViewController_RepeatSpeechLoopType_NoCheckReadingPoint" = "順に1ページ目から再生";
+"SettingTableViewController_IsEscapeAboutSpeechPositionDisplayBugOniOS12Enabled" = "iOS 12 で読み上げ中の読み上げ位置表示がおかしくなる場合への暫定的対応を適用する";
+"SettingTableViewController_ConfirmEnableEscapeAboutSpeechPositionDisplayBugOniOS12_title" = "確認";
+"SettingtableViewController_ConfirmEnableEscapeAboutSpeechPositionDisplayBugOniOS12" = "この設定は、読み上げ中の読み上げ位置表示がおかしくなる問題への対応です。ただし、対応手法がかなりトリッキーなので適用する前に原理を理解しておいてください。\nこの設定を有効にすると、読み上げ中の読み上げ位置がおかしくなる原因と思われる文字(多くは空白や改行などの表示されない文字です)について、\"α\"(アルファ) に読み替えるように設定することでこの問題を回避するようになります。\nこの機能を実装した時点では、iOS の音声合成エンジンでは \"α\"(アルファ) は読み上げられない文字ですので概ね問題ない動作になると思われますが、将来的に iOS の音声合成エンジン側の変更により \"α\" が「アルファ」と読み上げられるようになる可能性があります。\nまた、この機能が必要となるのは iOS 12(以降) だと思われますので iOS 11 以前でご利用の方は必要なさそうです。\n以上の事を理解した上でこの設定を有効にしますか？";
+"SettingTableViewController_DummySilentSoundEnable" = "再生中に無音の音を鳴らし続けることでバックグラウンド再生中に再生が停止することがないよう祈る";
+"SettingTableViewController_MixWithOthersIsEnabled" = "他のアプリで音楽が鳴っても止まらないように努力する(イヤホンやコントロールセンターからの操作を受け付けなくなります)";
+"SettingTableViewController_DuckOthersIsEnabled" = "他のアプリの音を小さくする";
+"SettingTableViewController_IsOpenRecentBookInStartTime" = "起動時に前回開いていた小説を開く";
+"SettingTableViewController_isNeedDisableIdleTimerWhenSpeechTime" = "読み上げ中はスリープモードに入らないようにする";
+"SettingTableViewController_isSupportAutoRotate" = "画面の回転に追従する";
+"SettingTableViewController_GoToSupportSite_Q&A" = "サポートサイト内のQ&A(よくある質問とその答え)を開く";
+"SettingsViewController_ClearAllCookiesButton_Title" = "保存されている全てのCookieを削除する";
+"SettingsViewController_ClearAllCookiesResult_Title" = "保存されている全てのCookieを削除しました";
+"SettingsViewController_ClearAllCookiesDialog_Message" = "保存されている全てのCookieを削除しますか？\nWebサイト毎のログイン状態等が初期化されます。場合によっては小説のダウンロードができなくなる場合があります。この操作は元に戻せません。";
+"SettingsViewController_ClearAllCookiesDialog_OKButton" = "削除する";
+"SettingsViewController_ImportOuterFile" = "ファイルの取り込み";
+"SettingsViewController_UIDocumentPickerViewTitle" = "ことせかい へ取り込むファイルを指定してください";
+"SettingsViewController_PickRealmData_Title" = "内部データベース(Realm)のファイルを取り出す(緊急時に最後の手段的に扱うものになります。そのため、取り出されたファイルについてのサポートは致しかねます)";
+"SettingsViewController_PickRealmData_FailGetFilePath" = "内部データベースのファイルパスを入手できませんでした。";
+
+
+"RemoteDataURLSettingViewController_Title" = "内部データ参照用URLの設定";
+"RemoteDataURLSettingViewController_Information" = "注意: ここにある設定は下手に書き換えると ことせかい が正常に動作しなくなる可能性があります。書き換えを行う場合は内容を理解した上で行ってください。\nなお、標準設定は全て「空(なにも書かれていない)」状態ですので問題が起こった場合には全ての項目の内容を消すことで標準設定に戻すことができます。";
+"RemoteDataURLSettingViewController_NovelSpeakerSiteInfoSection_Title" = "ことせかい用SiteInfo";
+"RemoteDataURLSettingViewController_NovelSpeakerSiteInfoSampleButton" = "標準設定データのURLを開く";
+"RemoteDataURLSettingViewController_SpeechModSection_Title" = "標準の読み替え設定";
+"RemoteDataURLSettingViewController_SpeechModSampleButton" = "標準設定データのURLを開く";
+"RemoteDataURLSettingViewController_RegexpSpeechModSection_Title" = "標準の読み替え設定(正規表現のもの)";
+"RemoteDataURLSettingViewController_RegexpSpeechModSampleButton" = "標準設定データのURLを開く";
+"RemoteDataURLSettingViewController_SearchInfoSection_Title" = "Web検索タブ用検索ヒント情報";
+"RemoteDataURLSettingViewController_SearchInfoSampleButton" = "標準設定データのURLを開く";
+"RemoteDataURLSettingViewController_URLTextFieldPlaceholder" = "URLを入力してください";
+"RemoteDataURLSettingViewController_preferredSiteInfoSection_Title" = "優先SiteInfo";
+"RemoteDataURLSettingViewController_preferredSiteInfoList_AddButtonTitle" = "新しいURLを追加";
+"RemoteDataURLSettingViewController_preferredSiteInfoList_AddURLPlaceholder" = "URLを入力してください";
+
+"NovelSpeakerBackup_InitializeBackup" = "初期化中";
+"NovelSpeakerBackup_ExportingNovelText" = "工程 3/5\r\n小説本文を抽出中";
+"NovelSpeakerBackup_CompressingBackupData" = "工程 4/5\r\n圧縮準備中";
+"NovelSpeakerBackup_CompressingBackupDataProgress" = "工程 5/5\r\n圧縮中";
+"NovelSpeakerBackup_Restoreing" = "バックアップより復元";
+"NovelSpeakerBackup_ProgressExtractingZip" = "工程 1/2\r\n展開中";
+"NovelSpeakerBackup_RestoreingBackupData" = "工程 2/2\r\n適用中";
+"NovelSpeakerBackup_RemovingStoryFiles" = "工程 3\r\n後処理中";
+"NovelSpeakerBackup_ProgressExtractingZip_WarningInvalidPercentage" = "\n展開中のバックアップファイル中のファイル数が多いため、進捗(%表示)が不正な値を指すことがあります";
+
+"DefaultSpeakSettingEditTableViewCell_AlertCanNotUseSpeakerSelection_title" = "話者を選択できません";
+"DefaultSpeakSetingEditTableViewCell_AlertCanNotSelectSpeakerSelection_message" = "iOS のバージョンが古いので話者の選択はできません。OS のバージョンを最新のものに変更してください。";
+"DefaultSpeakSettingEditTableViewCell_AlertCanNotSelectSpeaker_title" = "話者を選択できません";
+"DefaultSpeakSetingEditTableViewCell_AlertCanNotSelectSpeaker_message" = "選択できる話者データが一つ以下です。\n設定アプリ → アクセシビリティ → 読み上げコンテンツ → 声 → 日本語\nと手繰っていった所で音声データをダウンロードしてから、もう一度お試しください。";
+"SpeakSettingsTableViewController_ReadTheSentenceForTest" = "ここに書いた文をテストで読み上げます。";
+"SpeechModSettingsTableViewController_DisplayPattern" = "\"%@\" を \"%@\" に";
+"SpeechModSettingsTableViewController_SpeakTestPattern" = "%@を%@に";
+"SpeechModSettingsTableView_SearchTitle" = "検索";
+"SpeechModSettingsTableView_SearchPlaceholder" = "検索対象の文字列を入力します";
+"SpeechModSettingsTableViewControllerSwift_ThisNovelOnly" = "読みの修正(小説専用設定)";
+"SpeechSectionConfigsViewController_ConifirmDeleteSettingBecauseNoTargetNovelID" = "適用対象の小説が何もない状態になっています。\nこの発話変更設定を削除してもよろしいですか？";
+"SpeechSectionConfigsViewController_TitleOnlyThisNovel" = "発話変更設定(小説専用設定)";
+
+"SpeechViewController_Speak" = "Speak";
+"SpeechViewController_Detail" = "詳細";
+"SpeechViewController_Edit" = "編集";
+"SpeechViewController_BackupButton" = "バックアップ";
+"SpeechViewController_ContentReadFailed" = "文書の読み込みに失敗しました。";
+"SpeechViewController_Stop" = "Stop";
+"SpeechViewController_SpeechStopedByEnd" = "読み上げが最後に達しました。";
+"SpeechViewController_TweetMessage" = "%@ %@ #ことせかい %@ %@";
+"SpeechViewController_NoTwitterAccount_Title" = "Twitterアカウントが設定されていません";
+"SpeechViewController_NoTwitterAccount_Message" = "Twitterアカウントが設定されていません。設定ページでTwitterアカウントを設定か作成することができます。";
+"SpeechViewController_AddSpeechModSettings" = "読み替え登録";
+"SpeechViewController_SpeakAlertVoiceOver" = "VoiceOverが有効になっています。このまま再生しますか？";
+"SpeechViewController_SpeakAlertVoiceOverMessage" = "そのまま再生すると二重に読み上げが発生してしまいます。";
+"SpeechViewController_loading" = "loading...";
+"SpeechViewController_AnnounceSeekForward" = "早送り";
+"SpeechViewController_AnnounceSeekBackward" = "巻き戻し";
+"SpeechViewController_UnknownErrorForShare" = "不明なエラーでシェアできませんでした。";
+"SpeechViewController_CheckSpeechTextDialogTitle" = "読み上げに使われる文字列は以下のようになります。";
+"SpeechViewController_AddCheckSpeechText" = "読み替え後を確認";
+"SpeechViewController_SelectAllText" = "全てを選択する";
+"SpeechViewController_AddSpeechModSettingsForThisNovel" = "読み替え登録(この小説用)";
+"SpeechViewController_Subtitles" = "目次";
+"SpeechViewController_CanNotGetStorys" = "小説情報を参照できませんでした。";
+"SpeechViewController_SearchDialogTitle" = "検索";
+"SpeechViewController_SearchDialogMessage" = "本文中から指定された文字列が含まれる章を検索します";
+"SpeechViewController_SearchDialogPlaceholderText" = "空文字列で検索すると全ての章がリストされます";
+"SpeechViewController_SearchDialog_NotFoundTitle" = "指定された文字列は存在しませんでした。";
+"SpeechViewController_NowSearchingTitle" = "検索中";
+"SpeechViewController_NowLoadingText" = "本文を読込中……";
+"SpeechViewController_CurrentReadingStoryChangedFloatingButton_Format" = "他端末で更新された %d章 へ移動";
+"SpeechViewController_WaitingSpeakerReady" = "発話の準備が整うのを待っています。";
+"SpeechViewController_CurrentWebPageButton_VoiceOverTitle" = "現在のページをWeb取込タブで開く";
+"SpeechViewController_WebPageButton_VoiceOverTitle" = "Web取込タブで開く";
+"SpeechViewController_PreviousChapterButton_VoiceOverTitle" = "前のページ";
+"SpeechViewController_NextChapterButton_VoiceOverTitle" = "次のページ";
+"SpeechViewController_SkipBackwardButtonTitle" = "巻き戻し";
+"SpeechViewController_SkipForwardButtonTitle" = "少し先へ";
+"SpeechViewController_ShowTableOfContentsButtonTitle" = "目次";
+"SpeechViewController_SelectFolder_Title" = "続けて再生するフォルダを選択";
+"SpeechViewController_NotUseNextSpeechNovel" = "続けて再生を使わずに開始";
+"SpeechViewController_SearchByText_NotFound" = "ページ内に検索文字列を発見できませんでした。";
+"SpeechViewController_SearchByText_Found_Announce_to_VoiceOverUser_Formated" = "%@";
+"SpeechViewController_SearchByTextButton_AccessibilityLabel" = "ページ内を検索";
+"SpeechViewController_KeyboardShortcut_StartStopSpeech_Title" = "発話の開始/停止";
+"SpeechViewController_LoadingFailed_GlobalStateIsNull" = "本文の読み込みに失敗しました。全体設定を読み込めませんでした。";
+"SpeechViewController_LoadingFailed_GlobalStateIsNull" = "本文の読み込みに失敗しました。小説のページを読み込めませんでした。";
+"SpeechViewController_SearchButton_AccessibilityLabel" = "検索";
+"SpeechViewController_RefreshButton_AccessibilityLabel" = "この小説の更新確認を行う";
+"SpeechViewController_moreButton_AccessibilityLabel" = "隠れたメニュー項目を表示する";
+
+"SpeechWaitConfigSettingView_SettingUpdated" = "読み上げ時の間の設定を更新しました。";
+"SpeechWaitConfigSettingView_SettingUpdateFailed" = "読み上げ時の間の設定の更新に失敗しました。";
+"SpeechWaitConfigSettingView_PleaseSetSpeechText" = "読み上げテスト用の文字列を設定してください";
+"SpeechWaitConfigSettingView_SpeechTestTextBoxLeftSide" = "ここに書かれた文を";
+"SpeechWaitConfigSettingView_SpeechTestTextBoxRightSide" = "テストで読み上げます";
+"SpeechWaitConfigSettingView_NowTestSpeaking" = "読み上げ中です……";
+"SpeechWaitConfigTableView_TargetText_EnterEnter" = "<改行><改行>";
+"SpeechWaitConfigTableView_TargetText_Enter" = "<改行>";
+"SpeechWaitConfigTableView_DelayTimeInSec_Enabled" = "有効";
+"SpeechWaitConfigTableView_DelayTimeInSec_Disabled" = "無効";
+"SpeechWaitConfigSettingView_PleaseInputText" = "文字列を入力してください。";
+"SpeechWaitConfigTableView_TargetText_SpeechWaitSettingType" = "読み上げの間の仕組み";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingType_Experimental" = "非推奨型";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingType_Default" = "標準型";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingUpdated" = "読み上げの間の設定を \"%@\" に変更しました。";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingUpdateFailed" = "読み上げの間の設定の変更に失敗しました。";
+
+"NarouSerchViewController_OrderNew" = "新着順";
+"NarouSerchViewController_OrderOver-allJudgment" = "総合評価の高い順";
+"NarouSerchViewController_OrderOver-allJudgmentAsc" = "総合評価の低い順";
+"NarouSerchViewController_OrderNumberOfCoverBookmark" = "ブックマークの多い順";
+"NarouSerchViewController_NumberOfReview" = "レビュー数の多い順";
+"NarouSerchViewController_NumberOfImpression" = "感想の多い順";
+"NarouSerchViewController_NumberOfEvaluator" = "評価者数の多い順";
+"NarouSerchViewController_NumberOfEvaluatorAsc" = "評価者数の少ない順";
+"NarouSerchViewController_OrderNumberOfWeeklyUniqueUser" = "週間ユニークユーザ数順";
+"NarouSerchViewController_OrderStoryLength" = "本文の文字数順";
+"NarouSerchViewController_OrderStoryLengthAsc" = "本文の文字数の少ない順";
+"NarouSerchViewController_OrderOlder" = "古い順";
+
+"NarouSearchResultDetailViewController_GoToMypage" = "作者のマイページへ移動";
+"NarouSearchResultDetailViewController_GoToMyPageMessage" = "作者のマイページをSafariで表示します。よろしいですか？";
+
+"NarouSearchViewController_DoneKeyboardBarItem" = "決定";
+
+"NovelDetailViewController_PageTitle" ="小説の詳細・小説専用設定";
+"NovelDetailViewController_NovelLoadFailed" = "小説情報の取得に失敗しました。";
+"NovelDetailViewController_Title" = "小説名";
+"NovelDetailViewController_Writer" = "著者";
+"NovelDetailViewController_URL" = "URL";
+"NovelDetailViewController_SpeakerAlertRowTitle" = "標準の話者";
+"NovelDetailViewController_DetailSectionTitle" = "概要";
+"NovelDetailViewController_SettingSectionTitle" = "この小説専用の設定";
+"NovelDetailViewController_AddRubyToSpeechModButtonTitle" = "(実験的機能)小説中に出てくるルビ表記をこの小説用の読みの修正に上書き追加する";
+"NovelDetailViewController_CanNotGetNovelData" = "小説本文データの抽出に失敗しました。";
+"NovelDetailViewController_RubyNotFound" = "有効なルビ表記を発見できませんでした。";
+"NovelDetailViewController_SpeechModAdded" = "この小説用に以下の読み替えを登録しました";
+"NovelDetailViewController_AddToFolderButtonTitle" = "フォルダへ分類";
+"NovelDetailViewController_Tags" = "タグ";
+"NovelDetailViewController_CurrentPage" = "現在開いているページ";
+"NovelDetailViewController_ActionSectionTitle" = "この小説に対する操作";
+"NovelDetailViewController_ActionSection_CheckUpdate" = "この小説の更新確認を行う";
+"NovelDetailViewController_ActionSection_CheckUpdateDone_Message" = "更新チェックを開始しました";
+"NovelDetailViewController_ActionSection_CopyNovelTitleButton" = "小説名をコピーする";
+"NovelDetailViewController_ActionSection_CopyNovelTitleDone_Message" = "小説名をコピーしました";
+"NovelDetailViewController_ActionSection_CopyNovelWriterNameButton" = "著者名をコピーする";
+"NovelDetailViewController_ActionSection_CopyNovelWriterNameDone_Message" = "著者名をコピーしました";
+"NovelDetailViewController_ActionSection_CreateBackupForThisNovelButton" = "この小説のバックアップを生成する";
+"NovelDetailViewController_ActionSection_SearchButton_Title" = "この小説内を検索(何も入れずに検索すると章のリストを表示します)";
+"NovelDetailViewController_ActionSection_EditNovelButton" = "この小説を編集する";
+"NovelDetailViewController_LikeLevelSwitchRowTitle" = "お気に入り";
+"NovelDetailViewController_NovelUpdateCheck_SwitchRowTitle" = "この小説の更新確認を行わない";
+"NovelDetailViewController_ActionSection_ShareButton" = "この小説のURLをシェアする";
+"NovelDetailViewController_ActionSection_Title_PopupTitle" = "小説名をコピーしました";
+"NovelDetailViewController_ActionSection_Title_PopupMessage" = "小説名を変更する事もできます。";
+"NovelDetailViewController_ActionSection_Title_Popup_Cancel" = "変更しない";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit" = "この名前に変更";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit_Accepted" = "小説名を変更しました";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit_Rejected" = "小説名の変更に失敗しました";
+"NovelDetailViewController_ActionSection_Writer_PopupTitle" = "著者名をコピーしました";
+"NovelDetailViewController_ActionSection_Writer_PopupMessage" = "著者名を変更する事もできます。";
+"NovelDetailViewController_ActionSection_Writer_Popup_Cancel" = "変更しない";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit" = "この名前に変更";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit_Accepted" = "著者名を変更しました";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit_Rejected" = "著者名の変更に失敗しました";
+"NovelDetailViewController_ActionSection_CreateWholeTextButton" = "この小説の本文を一つのテキストファイルとして出力する";
+"NovelDetailViewController_ActionSection_Title_Copy" = "小説名をコピーする";
+"NovelDetailViewController_ActionSection_Title_Copy_Done" = "小説名をコピーしました";
+"NovelDetailViewController_ActionSection_Writer_Copy" = "著者名をコピーする";
+"NovelDetailViewController_ActionSection_Writer_Copy_Done" = "著者名をコピーしました";
+
+"NovelKeywordTagSelectorViewController_Title" = "タグを選択";
+"NovelKeywordTagSelectorViewController_AddTagTitle" = "タグの追加";
+"NovelKeywordTagSelectorViewController_AddTagTitlePlaceHolder" = "空文字列は指定できません";
+"NovelKeywordTagSelectorViewController_SearchButtonTitle" = "検索";
+
+"EditUserBookViewContoller_InputTextHeare" = "ここに本文を書き込んでください";
+"EditUserBookViewController_AddNewStoryFailed" = "新しい章の追加に失敗しました";
+"EditUserBookViewController_ConfirmDeleteThisChapter" = "この章を削除します。よろしいですか？";
+
+"EditBookViewController_TitleText" = "小説名";
+"EditBookViewController_EntryButtonTitle" = "登録";
+"EditBookViewController_AddNewChapterButtonTitle" = "章を追加";
+"EditBookViewController_DeleteChapterButtonTitle" = "章を削除";
+"EditBookViewController_StoryPlaceholderText" = "ここに本文を入力します。";
+"EditBookViewController_ConifirmDeleteStory_Title" = "この章を削除します";
+"EditBookViewController_ConifirmDeleteStory_Message" = "この操作は元に戻せません。削除しますか？";
+"EditBookViewController_ConifirmDeleteStory_OKButton" = "削除する";
+"EditBookViewController_NowDeleting_Title" = "削除中……";
+"EditBookViewController_ConifirmDeleteStory_IsNeedConifirmSwitch_Message" = "暫くの間は確認を求めないようにする";
+"EditBookViewController_SpeakTestButton_AccesibilityLabel" = "発話テストを開始する";
+"EditBookViewController_SpeakTestButton_AccesibilityLabel_Stop" = "発話テストを停止する";
+"EditBookViewController_WaitingSpeakerSetting" = "本文を設定し直しています。";
+"EditBookViewController_KeyboardBarButtonItem_Left" = "左へカーソル移動";
+"EditBookViewController_KeyboardBarButtonItem_Down" = "下へカーソル移動";
+"EditBookViewController_KeyboardBarButtonItem_Up" = "上へカーソル移動";
+"EditBookViewController_KeyboardBarButtonItem_Right" = "右へカーソル移動";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter" = "新しいページを1ページ目に追加するか、2ページ目に追加するかを選択してください";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter_page1" = "1ページ目に追加する";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter_page2" = "2ページ目に追加する";
+"EditBookViewController_InsertPageError" = "ページの追加に失敗しました";
+
+"NarouDownloadQueue_URLDownloadTitleFixed" = "ダウンロードしたものを「%@」の名前で本棚に登録します";
+"NarouDownloadQueue_URLDownloadTitleNotFound" = "ダウンロードしたもののタイトルを取得できなかったので、以下のURLのまま本棚に登録します。\n%@";
+"NarouDownloadQueue_URLDownloadFailedWithException" = "URLの取得に失敗しました。\n%@";
+
+"ImportFromWebPageViewController_loading" = "読み込み中です。\nWebサイトによってはかなりの時間がかかる場合があります。";
+"ImportFromWebPageViewController_CreateBookmark" = "ブックマーク名を入力";
+"ImportFromWebPageViewController_InvalidServerCertificate_CanContinue" = "このページのサーバ証明書に何らかの問題を確認しました。閲覧・利用は推奨できませんが、一応表示をしますか？(どうしても必要だというので無いのであれば、戻って別のページを閲覧することをおすすめします)";
+"ImportFromWebPageViewController_InvalidServerCertificate" = "このページのサーバ証明書には問題があります。閲覧を停止します。";
+"ImportFromWebPageViewController_NoMoreDisplay" = "もう表示しない";
+"ImportFromWebPageViewController_AuthenticationRequired" = "認証が必要です";
+"ImportFromWebPageViewController_UnknownHost" = "不明なホスト";
+"ImportFromWebPageViewController_MessageFrom..." = "%@からのメッセージ";
+"ImportFromWebPageViewController_ImputRequiredFrom..." = "%@が入力を求めています";
+"ImportFromWebPageViewController_ConifirmDeleteBookmark" = "このページのブックマークを削除します。よろしいですか？";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileTitle" = "ことせかい バックアップファイルのダウンロード";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileMessage" = "ダウンロードされたファイルは ことせかい のバックアップファイルのようです。このまま適用しますか？";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileCancel" = "適用しない(シェアメニューを開く)";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileOK" = "適用する";
+"ImportFromWebPageViewController_ApplyNovelSpeakerBackupFile_Success" = "バックアップファイルを適用しました";
+"ImportFromWebPageViewController_ApplyNovelSpeakerBackupFile_Failed" = "バックアップファイルの適用に失敗しました";
+"ImportFromWebPageViewController_RemoveBookmark" = "ブックマークの削除";
+"ImportFromWebPageViewController_RemoveBookmark_Confirm" = "%@\nを削除しますか？";
+"ImportFromWebPageViewController_RemoveBookmark_Delete" = "削除";
+
+"UriLoader_NSURLConnectionRequestFailed" = "Webサーバからの取得に失敗しました。(恐らくは接続に失敗しています。ネットワーク状況を確認してください。また、外出中など携帯電話網でしか接続されていない時でこの状況が発生する場合は、設定→携帯電話網ではダウンロードしないようにする の設定項目がONになっている可能性が考えられます)";
+"UriLoader_HTTPResponseIsInvalid" = "サーバから返されたステータスコードが正常値(200 OK等)ではなく、\"%ld\" を返されました。ログインが必要なサイトなどでこのエラーが出ている場合は、「Web取込」タブで対象のWebサイトを開いてログインした状態(または年齢の確認を行なった状態)にしてから再度お試しください。その上で同様の問題が出る場合はおそらく対応は難しいと思われます。といっても、対応できる問題かもわかりませんので、ことせかい のサポートサイト側のご意見ご要望フォームや設定→開発者に問い合わせる等から、このエラーの起こったURLとエラーが起こるまでの手順を添えて報告して頂ければと思います";
+"UriLoader_HTMLParseFailed_Parse" = "文書の解析に失敗しました。(有効なHTMLまたはXHTML文書等ではないようです。いまのところ、ことせかい は HTML, XHTML, PDF, RTF, RTFd のファイルのみをサポートしています)";
+"UriLoader_HTMLParseFailed_Xpath" = "HTMLの解析に失敗しました。(不正なxpathが指定されました。恐らくはこのサイトの解析に用いるための「wedataに登録されている情報」が古くなっているか書き間違えています。ことせかい のサポートサイト側のご意見ご要望フォームや設定→開発者に問い合わせる等から、このエラーの起こったURLを添えて報告して頂くか、OpenIDを使って自身でwedataを編集することで解決するかもしれません)";
+"UriLoader_HTMLParseFailed_ContentIsNil" = "HTMLの解析に失敗しました。(文書の中身を取り出せませんでした。ことせかい のサポートサイト側のご意見ご要望フォームや設定→開発者に問い合わせる等から、このエラーの起こったURLとエラーが起こるまでの手順を添えて報告して頂くことで解決できるかもしれません)";
+
+"NiftyUtility_URLSessionRequestFailedAboutError" = "エラー内容: %@\n\nサーバからのデータの取得に失敗しました。(エラー内容にもよりますが、インターネットへの接続状況が悪くなっている可能性がありますので、電波状況の良い所へ移動するなどしてから再度お試し下さい。また、「設定タブ」→「携帯電話網ではダウンロードしないようにする」の設定がONになっていて、WiFi接続をしていない場合などでもこのエラーが発生しますため、出先等WiFi接続がされていない時にこのエラーが出ている場合には「設定タブ」→「携帯電話網ではダウンロードしないようにする」がONになっていないかどうかを確認した方が良いかもしれません)";
+"NiftyUtility_FollowingPageAreNotAvailable" = "続ページ：無し";
+"NiftyUtility_FollowingPageAreAvailable" = "続ページ：有り";
+"NiftyUtility_TitleUnknown" = "不明なタイトル";
+"NiftyUtility_CancelImport" = "取り込まない";
+"NiftyUtility_Import" = "このまま取り込む";
+"NiftyUtility_CanNotAddToBookshelfTitle" = "不明なエラー";
+"NiftyUtility_CanNotAddToBookshelfBody" = "本棚への追加に失敗しました。";
+"NiftyUtility_ImportError" = "取り込み失敗";
+"NiftyUtility_ImportedButNoTextFound" = "取り込みは完了しましたが、内容が空でした。全ての内容がJavaScriptで生成されるHTML文書の場合などに起こることがあるかもしれません。ことせかい の開発側でできることはあまりないかもしれませんが、一応、ことせかい のサポートサイト側のご意見ご要望フォーム等から、このエラーの起こったURLとエラーが起こるまでの手順を添えて報告して頂くことで解決できるかもしれません";
+"NiftyUtility_ImportError_readySiteInfoCount_too_small" =  "Webサイト様毎の本文部分などを判別するための情報(SiteInfo)が読み込まれていないようです。恐らくはSiteInfoの読み込みに失敗していると考えられます。通信環境の良いところに移動して「設定タブ」→「SiteInfoを取得し直す」をお試しください。また、「設定タブ」→「アプリ内エラーのお知らせ」にエラーの詳細が出力されている可能性がありますので、確認していただけると助かります。";
+"NiftyUtility_FailedAboutAddNewNovelFromWithStoryTitle" = "小説の本棚への追加に失敗しました。";
+"NiftyUtility_FailedAboutAddNewNovelFromWithStoryMessage" = "既に登録されている小説などの原因が考えられます。";
+"NiftyUtility_FailedAboutAddNewNovel_DuplicateNovelID_OpenNovelButton" = "本棚側の小説を開く";
+"NiftyUtility_AddNewNovelToBookshelfTitle" = "本棚に小説を追加しました";
+"NiftyUtility_AddNewNovelToBookshelfMessage" = "続く章があればダウンロードを続けます。";
+"NiftyUtility_ImportSeparatedContent" = "テキトーに分割して取り込む";
+"NiftyUtility_ImportError_SendProblemReportMessage" = "\n\nなお、問題の起こったこの小説のURLについてこのダイアログの中から開発者にメールで報告する事もできます。ただ、この表示が出ているという事は恐らくは対応が難しい問題であると考えられますため、報告しても取り込む事ができるようにならない可能性の方が高いとお考えください。次に、送信される情報には今回取り込もうとしたWebサイトにまつわる情報が格納されていますため、そのような情報を送信しては困る場合には問題を報告しないでください。\nまた、このダイアログからの報告への返信は基本的には致しておりません。どうしても返信が欲しい場合には、お手数をおかけてしまい申し訳ありませんが「設定」→「開発者に問い合わせる」を用いて不都合報告として文面を作成し、「報告への返事」を「必須」にした上でご連絡ください。";
+"NiftyUtility_ImportError_SendProblemReportButton" = "報告メールを作成";
+"NiftyUtility_ImportError_SendProblemReport_Mail_Title" = "ことせかい 取り込み失敗レポート";
+"NiftyUtility_ImportError_SendProblemReport_Mail_Body" = "このまま編集せずに送信してください。\nなお、このメールへの返信は基本的には行っておりません。\n\nエラーメッセージ:\n";
+"NiftyUtility_ImportStoryStateConifirmToUser_NoContent" = "本文がありませんでした。";
+"NiftyUtility_FailedConvertiCloudToLocal_CreateRealmFailed" = "iCloud側のデータからlocalデータへの書き換えに失敗しました。(どちらかのデータを開けませんでした)\n念の為、アプリを再起動してもう一度試してみてください。";
+"NiftyUtility_FailedConvertiCloudToLocal_DoCopyFailed" = "iCloud側のデータからlocalデータへの書き換えに失敗しました。(データのコピー中にエラーが発生しました)\n念の為、アプリを再起動してもう一度試してみてください。";
+"NiftyUtility_iCloudDataVersionIsLow_Title" = "iCloudとの同期に問題があります";
+"NiftyUtility_iCloudDataVersionIsLow_Message" = "iCloud側に保存されているデータは、この ことせかい の扱っているデータよりも新しいバージョンになっているようです。このまま iCloud同期 を行い続けるにはアプリのバージョンアップが必要となります。\nなお、古いiOSでご利用中などでアプリのバージョンアップができない場合など、アプリのバージョンアップができない場合には iCloud同期 を解除して頂く必要があります。どちらかを選択してください。";
+"NiftyUtility_iCloudDataVersionIsLow_AppVersionUpButton" = "バージョンアップ";
+"NiftyUtility_iCloudDataVersionIsLow_DisableiCloudButton" = "iCloud同期を停止";
+"NiftyUtility_ImportRetryToWebImportTabButton" = "Web取込タブで試す(失敗した場合用)";
+"NiftyUtility_checkUrlAndConifirmToUser_ErrorHandle_NewVersionAppAlivedMessage" = "AppStoreに登録されている ことせかい のバージョンと、現在実行されている ことせかい のバージョンが違うようです。念の為、AppStore アプリから ことせかい をアップデートした後に同様の問題があるかを確認してからお試しください。";
+"NiftyUtility_checkUrlAndConifirmToUser_ErrorHandle_NewVersionAppAlivedMessage_ForceSendMail" = "それでも報告メールを作成する";
+
+"BugReportViewController_SectionHeader" = "不都合の報告";
+"BugReportViewController_BugReportTitle" = "不都合がある場合にはこのフォームで不都合報告ができます。";
+"BugReportViewController_TimeOfOccurrence" = "問題発生日時";
+"BugReportViewController_DescriptionOfTheProblem" = "問題の説明";
+"BugReportViewController_DescriptionOfTheProblemPlaceHolder" = "起こっている問題を説明してください。\n説明はできるだけ詳しく書いて頂けるとありがたいです。「〜ができません」や「〜すると落ちます」といった簡単な報告のみですと、開発者が状況を把握できず対応できません。";
+"BugReportViewController_ProblemOccurrenceProcedure" = "問題発生手順";
+"BugReportViewController_ProblemOccurrenceProcedurePlaceHolder" = "問題が発生するまでの操作手順を書いてください。\nアプリを触ったことが無い人でも同じ事ができるような操作方法を書くつもりで書いて頂けるといいと思います。";
+"BugReportViewController_IsNeedResponse" = "報告への返事";
+"BugReportViewController_IsNeedResponse_Never" = "不要";
+"BugReportViewController_IsNeedResponse_Maybe" = "無くても良い";
+"BugReportViewController_IsNeedResponse_Must" = "必須";
+"BugReportViewController_SendBugReportButtonTitle" = "不都合報告メールを作成する";
+"BugReportViewController_InvalidTimeOfOccurence" = "※ 不都合の起こった正確な日時を設定してください。なお、未来の日時は指定できません。";
+"BugReportViewController_NoDescriptonOfTheProblem" = "※ 問題の説明欄が空欄になっています。";
+"BugReportViewController_AddBehaviourLogAnnounce" = "ことせかい 内部に保存されている操作ログを不都合報告メールに添付しますか？\n\n操作ログにはダウンロードされた小説の詳細(URL等)が含まれます。開発者に公開されてしまっては困るような情報を ことせかい に含めてしまっている場合には「いいえ」を選択する必要があります。\nまた、操作ログが添付されておりませんと、開発者側で状況の再現が取りにくくなるため、対応がしにくくなる可能性があります。(添付して頂いても対応できない場合もあります)";
+"BugReportViewController_NO" = "いいえ";
+"BugReportViewController_YES" = "はい";
+"BugReportViewController_SendBugReportMailSubject" = "ことせかい 不都合報告";
+"BugReportViewController_SendBugReportMailInformation" = "\r\n\r\n===============\r\nここより下の行は編集しないでください。\r\nなお、問題の発生している場面のスクリーンショットなどを添付して頂けると、より対応しやすくなるかと思われます。";
+"BugReportViewController_SendBugReport_IsNeedResponse" = "返信";
+"BugReportViewController_SendBugReport_Description" = "不都合の概要";
+"BugReportViewController_SendBugReport_Procedure" = "不都合の再現方法";
+"BugReportViewController_ErrorDialog" = "問題のある入力項目があります";
+"BugReportViewController_InformationForIsNeedResponse" = "返信が許可されている場合には開発者から送信元のメールアドレスへ返信を行う場合があります。返信は遅くなる場合があります。また、@gmail.com からのメールを受け取れるようにしていない場合など、返信が届かない場合もあります。";
+"BugReportViewController_HiddenImportantInformationSectionHeader" = "お知らせ";
+"BugReportViewController_SendNewFeatureMailInformation" = "\r\n\r\n===============\r\nここより下の行は編集しないでください。\r\n";
+"BugReportViewController_SendNewFeatureMailSubject" = "ことせかい 新機能等のご提案・その他のお問い合わせ";
+"BugReportViewController_NoDescriptionOfTheNewFeature" = "お問い合わせ内容が空になっています";
+"BugReportViewController_SendNewFeatureButtonTitle" = "ご提案mailを作成する";
+"BugReportViewController_NewFeatureTextArePlaceHolder" = "既存の機能の改善案や新機能のご提案など、不都合以外のお問い合わせを書いてください。";
+"BugReportViewController_NewFeatureSectionHeader" = "新機能等のご提案・その他のお問い合わせ";
+"BugReportViewController_TypeSelect_NewFeature" = "新機能等のご提案・その他のお問い合わせ";
+"BugReportViewController_TypeSelect_BugReport" = "不都合報告";
+"BugReportViewController_TypeSelectTitle" = "お問い合わせの種類";
+"BugReportViewController_InformationOfTheProblemWriting" = "お手数ではございますが、不都合の再現手順についてはご自身でもう一度アプリを起動したところから同じ操作をして不都合が発生することをお確かめの上、ご報告ください。ご報告頂いた不都合再現手順では再現しない不都合報告が大変多く寄せられております。また、「〜すると〜になることがある」といっただけの内容よりも、「Web取込機能で取得した〜というWebサイトの〜という小説の〜章目の〜という辺りを読み上げている時に〜が起こった」といったような、実際に問題が起きた状態を詳らかにした情報を書いてください。開発者の手元で再現できないご報告は誠に残念ですが対応できかねます。不都合の再現手順に自信が無い場合は「この報告への返事が欲しい」をONにして送信して頂けますと、後ほど開発者の側から詳しいヒアリングのお返事をさしあげられるため、おすすめです。ただ、開発者側としましては返信を認めるのにも結構な時間を取られてしまっております。返信の要が減るだけでもとても助かりますので、以下の「問題の説明」の入力欄に「不都合が再現しなかった場合のみメールでの返信を希望します」と書き添えておいて頂けると助かります。";
+"BugReportViewController_InformationOfTheTime" = "不都合の発生日時はできるだけ正確に入力してください。単に1日前にずらしただけの値での報告が大変多く寄せられております。特に、操作ログを添付して頂ける場合には操作ログの該当の日時辺りのログを参照する事で確認作業が捗りますため、なるべく近い日時を入力してくださいますようお願い致します。";
+"BugReportViewController_InformationForNewFeatureSending" = "ことせかい は個人開発のアプリになりますので、開発力はとても低いです。提案された機能で簡単に実装できるものは実装されることが多いですが、実装しないと判断されるものも多くあります。それらについてはサポートサイトの下部にリンクがあります、Q&Aのページにて解説しておりますので、新機能をご提案なされる前に一度目を通しておいていただければ幸いです。\nまた新機能のご提案などでは、「何ができるようになると良いのか(実装して欲しい機能)」だけではなく「何故その機能があると嬉しいのか(実際にこのような事がしたいけれど、今はできないのでこういう機能があれば解決できると思っている、というような、『どうしてその機能が欲しくなったのか』の理由)」も書いて頂けますと助かります。";
+"BugReportViewController_PrivacyPolicyAgreementNeeded" = "ことせかい のプライバシーポリシーへの同意が必要です";
+"BugReportViewController_ConfirmEnableLogSend_title" = "確認";
+"BugReportViewController_ConfirmEnableLogSend" = "ことせかい 内部に保存されている操作ログを不都合報告mailに添付しますか？\n\n操作ログにはダウンロードされた小説の詳細(URL等)の個人情報に繋がりそうな情報が含まれるため、開発者に公開されてしまっては困るような情報を ことせかい に含めてしまっている場合にはOFFのままにしておく必要があります。\nなお、操作ログが添付されておりませんと、開発者側で状況の再現が取りにくくなるため、対応がしにくくなる可能性があります。(添付して頂いても対応できない場合もあります)\nまた、送信される操作ログは、「設定」→「ルビはルビだけ読む」を10回程ON/OFFすると「設定」の最下部に表示されるデバッグメニュー内の「デバッグログの表示」で表示される物と同じ物になりますので、内容を事前に確認したい場合はそちらをご参照ください。";
+"BugReportViewController_IsEnableLogSend" = "内部に保存されている操作ログを添付する";
+"BugReportViewController_IsEnableBackupFileSend" = "軽量バックアップファイルを添付する";
+"BugReportViewController_ConfirmEnableBackupFileSend_title" = "確認";
+"BugReportViewController_ConfirmEnableBackupFileSend" = "ことせかい の軽量バックアップファイルを不都合報告mailに添付しますか？\n\n軽量バックアップファイルにはダウンロードされた小説の詳細(URL等)が含まれるため、開発者に公開されてしまっては困るような情報を ことせかい に含めてしまっている場合にはOFFのままにしておく必要があります。\nなお、軽量バックアップファイルが添付されておりませんと、開発者側で状況の再現が取りにくくなるため、対応がしにくくなる可能性があります。(添付して頂いても対応できない場合もあります)";
+"BugReportViewController_TargetNovelName" = "問題が発生する小説(もしあれば)";
+"BugReportViewController_TargetNovelName_SelectorTitle" = "問題が発生する小説";
+"BugReportViewController_SendBugReport_TargetNovelNameList" = "問題の起こった小説:";
+"BugReportViewController_NoEMailApp_Title" = "メールが送信できません";
+"BugReportViewController_NoEMailApp_Message" = "メールを送信する事ができないようです。\n標準のメールアプリにメールアドレスが設定されていないか、標準のメールアプリが削除されている(又はアプリ内から利用できない状態である)と思われます。\nことせかい へのお問い合わせにはe-mailをご利用頂く事が必要となりますので適切に設定して頂けますようお願い致します。\nなお、標準のメールアプリは何らかの理由で削除しておりそれを入れる事ができないというような場合には別途サポートサイト下部にありますご意見ご要望フォームよりお問い合わせ頂ければ幸いです。";
+"BugReportViewController_BugReportIsDisabledNowLabel" = "ことせかい ユーザサポート停止中のお知らせ\n\nことせかい は現在ユーザサポートを停止しています。\nこれは、ユーザサポートへの対応業務にかかる時間を捻出するのが大変というのもさることながら、開発者側がお問い合わせ(ユーザ側で発生している何らかの問題)を認識してしまうと、そのお問い合わせに書かれている問題を解決しないと心が休まらないために、「お問い合わせを無視する」という対応が取れない事が問題で、お問い合わせを受ける事だけで心の負担が大きいためです。\nそのため、お問い合わせを受け付けること自体が問題となっており、これを排除するという対応を取ることにしました。\n酷い言い方をしますと、ユーザ様側で何らかの問題が発生していたとしましても、開発者の側で認識されなければ上記の問題を発生させませんため、そのユーザ様側で発生している問題を開発者側に伝える手段を止める、という対応になります。\nこの対応により、ことせかい で発生している不都合が直る頻度が激減する事が予想されるなど、ご不便をおかけすることになるかと思いますが、ご理解いただけますと幸いです。\nなお、ここで書いても読まれないかとは思いながら書きますが、AppStoreのレビュー欄にてお問い合わせを書かれましても、(少なくともユーザサポート停止中の間は、)開発者はAppStoreのレビュー欄を確認致しませんので対応はされない事をご理解下さい。(なお、ことせかい においてはAppStoreのレビュー欄にお問い合わせを書かれる事は、元々非推奨とさせていただいています)";
+"BugReportViewController_IsNeedAppLog" = "「アプリ内エラーのお知らせ」の内容を添付する";
+"BugReportViewController_IsAppendTargetNovelStoryText_Title" = "問題が発生する小説の本文も添付する(読み上げがおかしい場合など、小説本文に関わる場合はONでお問い合わせいただく事を推奨します)";
+"BugReportViewController_UpdateVersionAlivedMessage" = "AppStore に登録されているバージョンと、現在実行中の ことせかい のバージョンが違うようです。お問い合わせをされる前に、AppStoreアプリから ことせかい をアップデートし、それでも問題が発生するかどうかをご確認の上お問い合わせいただけますと助かります。\n\nなお、アップデートした後でもこのメッセージが出続けてしまう場合、iOS(やiPadOS)のバージョンが低い場合などが原因の可能性があります。既にこれ以上アップデートできないOSをご利用中の方は誠に残念ですがサポート致しかねますことをあらかじめご了承ください。";
+
+"NarouSearchResultDetailViewControllerSwift_DownloadButton" = "Download";
+"NarouSearchResultDetailViewControllerSwift_Writer" = "作者";
+"NarouSearchResultDetailViewControllerSwift_Title" = "タイトル";
+"NarouSearchResultDetailViewControllerSwift_UpdateDate" = "更新日時";
+"NarouSearchResultDetailViewControllerSwift_Point" = "総合点";
+"NarouSearchResultDetailViewControllerSwift_Storys" = "掲載話数";
+"NarouSearchResultDetailViewControllerSwift_Bookmark_num" = "ブックマーク数";
+"NarouSearchResultDetailViewControllerSwift_Point_mean" = "平均評価点";
+"NarouSearchResultDetailViewControllerSwift_Point_count" = "評価数";
+"NarouSearchResultDetailViewControllerSwift_Keyword" = "キーワード";
+"NarouSearchResultDetailViewControllerSwift_Story" = "あらすじ";
+"NarouSearchResultDetailViewControllerSwift_IsEnd" = "連載状態";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=0" = "完結 又は 短編小説";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=1" = "連載中";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=0&genelral_all_no>1" = "完結";
+
+"TextSizeSettingViewController_FontSettingTitle" = "字体設定";
+"TextSizeSettinvViewController_ColorSettingTitle" = "色設定";
+"TextSizeSettingViewController_FontSizeLabel_Text" = "文字の大きさ";
+"TextSizeSettingViewController_LineSpacingLabel_Text" = "行間";
+
+"FontSelectViewController_DefaultFontTitle" = "標準フォント";
+
+"StorySpeaker_SpeechStopedAndSpeechNextStory_Format" = "読み上げが最後に達したため、次に %@ を再生します。";
+"StorySpeaker_SpeechStopedAndRewindFirstStory" = "読み上げが最後に達したため、最初の章に戻って再生を繰り返します。";
+"StorySpeaker_StartSpeechCountExceeded_in_iOS16.3_Announce" = "利用しているメモリ量が大きくなっており、このままだと強制終了させられてしまうと判断したため、発話を停止します。このまま再生を再開させても良いですが、一旦アプリを終了させてから再度再生を開始する方が良さそうです。";
+
+"CoreDataToRealmTool_DefaultSpeaker" = "標準";
+"CoreDataToRealmTool_ProgressNovel" = "小説データを変換中";
+"CoreDataToRealmTool_ProgressGLobalState" = "設定項目を変換中";
+"CoreDataToRealmTool_ProgressSpeechMod" = "読み替え辞書を変換中";
+
+"MigrationViewController_DoingCoreDataMigration" = "旧データベースの更新を行っています。";
+"MigrationViewController_FetchAllCloudData_Progress" = "iCloud上のデータに利用可能なデータが残されているかを確認しています。";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Title" = "iCloud が使用できません";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Message" = "iCloud が利用できない状態のようなのですが、iCloud を利用する形で起動されています。内部に保存されている iCloud 側のデータも存在しないか消えてしまっているようなので、iCloud を利用しないように設定した上で起動します。";
+"MigrationViewController_InvalidiCloudStatus_UnknowniCloudError" = "不明な iCloud 状態エラー";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Title" = "iCloud が使用できません";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Title" = "iCloud が利用できません";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Message" = "iCloud が利用できない状態のようなのですが、iCloud を利用する形で起動されています。このまま利用を続けた場合、後で iCloud の利用が可能になった時などに動作が不安定になる可能性があるかもしれません(そのような場合の動作不良についての対応は致しかねます事は予めご承知おきください)。このまま iCloud を利用する設定のままで起動しますか？";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_ConvertToLocalButton" = "iCloudを利用しないように設定を変更した上で起動する";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_StayButton" = "iCloudを利用する設定のまま起動する";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Message_AppendErrorDescription" = "検出されたエラー: ";
+
+"SpeakerSetting_NewSpeakerSetting" = "新規話者設定";
+
+"SpeakSettingsViewController_SpeakSettingNameTitle" = "名前";
+"SpeakSettingsViewController_PitchTitle" = "高さ";
+"SpeakSettingsViewController_RateTitle" = "速度";
+"SpeakSettingsViewController_VolumeTitle" = "音量";
+"SpeakSettingsViewController_LangageTitle" = "言語";
+"SpeakSettingsViewController_LanguageDialogTitle" = "言語を選択してください";
+"SpeakSettingsViewController_VoiceIdentifierTitle" = "話者";
+"SpeakSettingsViewController_VoiceIdentifierDialogTitle" = "話者を選択してください\n\n話者は 設定アプリ → アクセシビリティ → 読み上げコンテンツ → 声 → 日本語 等からダウンロードすることで増やすこともできます";
+"SpeakSettingsViewController_TestSpeechButtonTitle" = "発音テスト";
+"SpeakerSettingsViewController_RemoveButtonRow" = "この話者の設定を削除";
+"SpeakSettingsViewController_ConifirmRemoveTitle" = "この設定を削除しますか？";
+"SpeakSettingsViewController_AddNewSettingButtonTitle" = "新しく話者設定を追加する";
+"SpeakSettingsViewController_SpeakerSettingAdded" = "末尾に話者設定を追加しました。\n(恐らくはスクロールする必要があります)";
+"SpeakSettingsViewController_SyncRateSetting" = "速度設定を同期する";
+"SpeakSettingsViewController_SyncVolumeSetting" = "音量設定を同期する";
+"SpeakerSettingsViewController_TitleText" = "発話設定";
+"SpeakerSettingViewController_NameValidateErrorNil" = "名前に空文字列は設定できません";
+"SpeakerSettingViewController_NameValidateErrorAlready" = "既に定義済みの名前です";
+"SpeakerSettingsViewController_AddNewSpeakerTitle" = "追加される話者の名前を入力してください";
+
+"SpeechWaitSettingViewController_SpeechWaitType" = "読み上げ時の間の仕組み";
+"SpeechWaitSettingViewController_SpeechWaitTypeSelectorTitle" = "読み上げ時の間の仕組みを選択してください。\n\n非推奨型にするとより細かい時間単位での制御ができるようになりますが、iOSのアップデート等で利用できなくなる可能性があるため、非推奨となります。";
+"SpeechWaitSettingViewController_TargetStringTitle" = "対象文字列";
+"SpeechWaitSettingViewController_TestText1" = "ここに書いた文を";
+"SpeechWaitSettingViewController_TestText2" = "テストで読み上げます";
+"SpeechWaitSettingViewController_DelayTimeTitle" = "間の時間";
+"SpeechWaitSettingViewController_RemoveButtonRow" = "この間の設定を削除";
+"SpeechWaitSettingViewController_AddNewSettingButtonTitle" = "新しく間の設定を追加する";
+"SpeechWaitSettingViewController_SpeakerSettingAdded" = "末尾に間の設定を追加しました。\n(恐らくはスクロールする必要があります)";
+"SpeechWaitSettingViewController_Usage" = "句読点や空白行を読み上げる時の間を設定します。\n「読み上げ時の間の仕組み」を非推奨型にするとより短い間の設定もできるようになりますが、将来的に動かなくなる可能性があります。改行については「<改行>」という文字列があるとそれを改行として認識するようになっています。";
+"SpeechWaitSettingViewController_CreateNewSettingTitle" = "間の設定対象となる文字列を指定してください";
+"SpeechWaitSettingViewController_CreateNewSettingPlaceholder" = "改行を含めたい場合は「<改行>」と入力してください。";
+"SpeechWaitSettingViewController_IsAlreadyDefined" = "既に定義されている文字列です。";
+
+"SpeechSectionConfigsViewController_Title" = "発話変更設定";
+"SpeechSectionConfigsViewController_SpeakerUnknown" = "不明";
+"SpeechSectionConfigsViewController_BeforeTextTitle" = "開始文字";
+"SpeechSectionConfigsViewController_AfterTextTitle" = "終了文字";
+"SpeechSectionConfigsViewController_SpeakerAlertRowTitle" = "発話設定";
+"SpeechSectionConfigsViewController_SpeakerSelectorTitle" = "話者を選択してください\n話者を増やすには「設定タブ」の「発話設定」で話者(の設定)を増やす必要があります。";
+"SpeechSectionConfigsViewController_RemoveButtonRow" = "この設定を削除";
+"SpeechSectionConfigsViewController_AddNewSettingButtonTitle" = "新しい発話変更設定を追加する";
+"SpeechSectionConfigsViewController_Usage" = "会話文などで読み上げ時の話者設定を変更するための設定です。\nそれぞれの設定をタップすると詳細が設定できます。開始文字と終了文字の間に挟まれた部分を読み上げる話者を選択します。必要のない設定は削除することもできます。";
+"SpeechSectionConfigsViewController_SpeakerSettingAdded" = "末尾に発話変更設定を追加しました。\n(恐らくはスクロールする必要があります)";
+"SpeechSectionConfigsViewController_AddNewSettingDialogTitle" = "話者設定の名前を指定してください";
+"SpeechSectionConfigsViewController_AddNewSettingDialogPlaceHolder" = "空文字列は指定できません";
+"SpeechSectionConfigsViewController_AddNewSettingDialogAlreadyDefined" = "既に存在する名前は指定できません";
+"SpeechSectionConfigsViewController_BeforeTextPlaceholder" = "空文字列は使用できません";
+"SpeechSectionConfigsViewController_AfterTextPlaceholder" = "空文字列は使用できません";
+
+"CreateSpeechModSettingViewControllerSwift_Title" = "読みの修正詳細";
+"CreateSpeechModSettingViewControllerSwift_BeforeTitle" = "読み替え前";
+"CreateSpeechModSettingViewControllerSwift_BeforeValidateErrorNil" = "空文字列は設定できません";
+"CreateSpeechModSettingViewControllerSwift_BeforeValidateErrorRegexp" = "正規表現に不備があります";
+"CreateSpeechModSettingViewControllerSwift_AfterTitle" = "読み替え後";
+"CreateSpeechModSettingViewControllerSwift_RegularExpressionTitle" = "正規表現マッチ";
+"CreateSpeechModSettingViewControllerSwift_BeforeSampleTitle" = "テスト用読み替え前";
+"CreateSpeechModSettingViewControllerSwift_AfterSampleTitle" = "テスト用読み替え後";
+"CreateSpeechModSettingViewControllerSwift_TestButtonTitle" = "発音テスト";
+"CreateSpeechModSettingViewControllerSwift_ApplyButtonTitle" = "保存する";
+"CreateSpeechModSettingViewControllerSwift_ValidateBeforeFailedTitle" = "読み替え前の文字列に問題があります";
+"CreateSpeechModSettingViewControllerSwift_ValidateBeforeFieldMessage" = "空文字列であるか、正規表現に不備があるようです。";
+"CreateSpeechModSettingViewControllerSwift_ValidateAfterFailedTitle" = "読み替え後の文字列に問題があります";
+"CreateSpeechModSettingViewControllerSwift_ValidateAfterFieldMessage" = "空文字列は設定できません。\n読み替え後に発話させないようにするには空白に読み替えさせる必要があります。";
+"CreateSpeechModSettingViewControllerSwift_AnyTargetName" = "全ての小説";
+"CreateSpeechModSettingViewControllerSwift_TargetNovelIDLabelTitle" = "適用対象";
+"CreateSpeechModSettingViewControllerSwift_ConifirmDeleteSettingBecauseNoTargetNovelID" = "適用対象の小説が何もない状態になっています。\nこの読みの修正を削除してもよろしいですか？";
+
+"MultipleNovelIDSelectorViewController_Title" = "小説を選択";
+"MultipleNovelIDSelectorViewController_SortButton" = "並び替え";
+
+"NovelDownloadQueue_DownloadFailedByErrorSiteInfo" = "SiteInfo の読み込みが失敗しているようなのでダウンロードを諦めます";
+
+"NovelDownloader_htmlStoryIsNil" = "小説のダウンロードに失敗しました。";
+"NovelDownloader_FailedByNoContent" = "取得された小説の本文がなかったため、読み込みを終了します。";
+"NovelDownloader_FailedByNoRealmNovel" = "小説が本棚に登録されていなかったため、ダウンロードを終了します。";
+"NovelDownloader_InvalidNovelID" = "小説のダウンロードに失敗しました。ダウンロードするためのデータ(URL等)を取得できずにダウンロードを開始できませんでした。小説データが保存されていないか削除された等の問題がありそうです。";
+"NovelDownloader_SiteInfoNotReady" = "小説の本文部分を取り出すためなどに必要なデータ(SiteInfo)が読み込めていないため、小説の本文をダウンロードすることができません。\nネットワーク状況が良い場所に移動するなどしてから「設定タブ」->「SiteInfoを取得し直す」でSiteInfoを取得し直した後に、再度小説のダウンロードをお試し下さい。";
+
+"AssignNovelFolderViewController_Title" = "フォルダへ分類";
+"AssignNovelFolderViewController_CreateNewTagTitle" = "新規フォルダ作成";
+"AssignNovelFolderViewController_CreateNewTagPlaceHolder" = "同じ名前のフォルダは生成できません";
+"AssignNovelFolderViewController_DeleteSwipeActionTitle" = "削除";
+
+"BookShelfRATreeViewController_Title" = "本棚";
+"BookShelfRATreeViewController_UpTo1DayAgo" = "1日前まで";
+"BookShelfRATreeViewController_UpTo7DayAgo" = "7日前まで";
+"BookShelfRATreeViewController_UpTo30DayAgo" = "30日前まで";
+"BookShelfRATreeViewController_UpTo6MonthsAgo" = "6ヶ月前まで";
+"BookShelfRATreeViewController_UpTo1YearAgo" = "1年前まで";
+"BookShelfRATreeViewController_BeforeThat" = "それ以前";
+"BookShelfRATreeViewController_UnknownWriter" = "(作者名不明)";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseNoStory" = "本文が何も読み込まれていないようです。この小説の再ダウンロードを試みますか？";
+"BookShelfRATreeViewController_BookshelfNoListed" = "(未分類)";
+"BookShelfRATreeViewController_SortTypeFolder" = "自作フォルダ順";
+"BookShelfRATreeViewController_SortTypeKeywardTag" = "タグ名順";
+"BookShelfRATreeViewController_SortTypeUpdateDateWithFilder" = "最終ダウンロード日時順(フォルダ分類版)";
+"BookShelfRATreeViewController_SorteTypeCreatedDate" = "本棚登録順";
+"BookShelfRATreeViewController_StoryTypeLastReadDate" = "小説を開いた日時順";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber" = "読み上げ位置がダウンロードされていない章を示しています。この小説の追加の章のダウンロードを試みますか？";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber_OK" = "ダウンロードする";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber_OpenFirstStory" = "最初の章を開く";
+"BookShelfRATreeViewController_NovelDeletingTitle" = "小説を削除しています……";
+"BookShelfRATreeViewController_ShowNovelInformationButtonTitle" = "小説情報を表示する";
+"BookShelfRATreeViewController_SortTypeLikeLevel" = "お気に入り順";
+"BookShelfRATreeViewController_WaitingiCloudSync_Message" = "iCloud上のデータ同期を待っています……\n同期が完了した場合、自動で再生を開始します。(なお、完了判定は失敗する事があります)";
+"BookShelfRATreeViewController_WaitingiCloudSync_DismissButton" = "同期を待たずに再生を開始";
+"BookShelfRATreeViewController_WaitingiCloudSync_CancelButton" = "再生をキャンセル";
+"BookShelfRATreeViewController_SorteTypeWebSite" = "Webサイト順";
+"BookShelfRATreeViewController_HostNameTable_novelspeaker.example.com" = "自作小説";
+"BookShelfRATreeViewController_ExpandFolderButton" = "フォルダ開閉";
+"BookShelfRATreeViewController_NowSwitchingFolderMessage" = "フォルダ開閉中……";
+"BookShelfRATreeViewController_SwitchFolderButton_VoiceOverTitle" = "フォルダ開閉";
+"BookShelfTreeViewController_ToggleCheckboxButton_AccessibilityLabel" = "複数選択";
+"BookShelfRATreeViewController_iCloudPullButton_VoiceOverText" = "iCloud上の更新データの強制読み込み";
+"BookShelfRATreeViewController_iCloudPullButtonTitle" = "iCloudから取得";
+"BookShelfRATreeViewController_iCloudPushButton_VoiceOverText" = "iCloudへのデータアップロードを開始";
+"BookShelfRATreeViewController_iCloudPushButtonTitle" = "iCloudへ送信";
+"BookShelfRATreeViewController_iCloudPullButton_Clicked" = "iCloud上の更新データの取得を開始しました。";
+"BookShelfRATreeViewController_iCloudPushButton_Clicked" = "iCloudへのデータのアップロードを開始しました。";
+"BookShelfRATreeViewController_stopDownloadButton_VoiceOverText" = "ダウンロードを停止";
+"BookShelfRATreeViewController_stopDownloadButtonTitle" = "停止";
+"BookShelfRATreeViewController_InitialDummyCellTitle" = "本棚の小説を読み込んでいます……";
+"BookShelfTreeViewController_checkboxselected_targetTitles_section" = "対象の小説";
+"BookShelfTreeViewController_checkboxselected_CreateBackupFile" = "バックアップファイルの生成";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck" = "更新を確認しないよう設定する";
+"BookShelfTreeViewController_checkboxselected_DeleteNovel" = "小説を削除する";
+"BookShelfTreeViewController_checkboxselected_confirm_delete" = "本当に%d件の小説を削除して良いですか？";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck" = "更新を確認するよう設定する";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck" = "お気に入りに登録する";
+"BookShelfTreeViewController_checkboxselected_DisableLikeCheck" = "お気に入り登録を外す";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck_done_mesage" = "%d件の小説で更新確認を行わないように設定しました";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck_done_mesage" = "%d件の小説で更新確認を行うように設定しました";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck_done_mesage" = "%d件の小説をお気に入りに設定しました";
+"BookShelfTreeViewController_checkboxselected_DisableLikeCheck_done_mesage" = "%d件の小説をお気に入りから外しました";
+"BookShelfTreeViewController_checkboxselected_confirm_delete_done_mesage" = "%d件の小説を削除しました";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck_working" = "%d件をお気に入りに登録中";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck_working" = "%d件の小説の更新確認を停止中";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck_working" = "%d件の小説の更新確認を有効にしています";
+"BookShelfTreeViewController_refreshButtonClicked_startingDownload_dialog" = "更新確認を開始しています\n小説の数が多いと開始登録に時間がかかります。\n(このダイアログは開始登録が終了すると自動で消えますが、手動で消すこともできます。ただし、手動で消した場合でも開始登録が継続されますので注意してください)";
+"BookShelfTreeViewController_refreshButtonClicked_startingDownload_dialog_neverAskMeSwitch" = "以降このダイアログを出さない";
+"BookShelfTreeViewController_checkboxselected_QueueNovelUpdateCheck" = "更新確認を行う";
+"BookShelfTreeViewController_checkboxselected_confirm_delete_working" = "%d個の小説を削除中";
+"BookShelfTreeViewController_downloadStatusBarButtonTapped_no_download_found" = "ダウンロードは実行されていませんでした";
+"BookShelfTreeViewController_checkboxselected_AssignFolder" = "フォルダへ追加・削除する";
+"BookShelfTreeViewController_checkboxselected_AssignFolder_MenuTitle" = "追加・削除対象のフォルダ";
+"BookShelfTreeViewController_toggleCheckBoxesButtonTapped_firstMenu_title" = "選択された小説への操作";
+"BookShelfTreeViewController_toggleCheckboxesButtonTapped_InformationMessage" = "小説の複数選択モードに入りました。\nこのモードを抜けるには先ほど押したボタンをもう一度押すか、メニューの「<戻る」を押す必要があります。";
+"BookShelfTreeViewController_toggleCheckboxesButtonTapped_Information_IsNotDisplayInformationSwitch" = "このメッセージを二度と出さない";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_StateLabel" = "選択数: %@";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_ClearButtonLabel" = "クリア";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_SelectFunctionButtonLabel" = "操作▼";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_BackNormalModeButtonLabel" = "＜ 戻る";
+"BookShelfRATreeViewController_SortTypePageCount" = "ページ数順";
+
+"BookShelfTreeViewCell_UnknownTitle" = "(小説名不明)";
+"BookShelfTreeViewCell_LikeStar_AccessibilityLabel" = "お気に入り、現在は設定中";
+"BookShelfTreeViewCell_NotLikeStar_AccessibilityLabel" = "お気に入り、現在は未設定";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_Finished_Format" = "%@。読み終わっています";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_NotRead_Format" = "%@。まだ読んでいません";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_Format" = "%@ %d%%まで読んでいます";
+"BookShelfTreeViewCell_AccessibilityLabel_Folder_Format" = "%@ フォルダ";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialogMessage" = "お気に入りを解除しますか？";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialog_Cancel" = "解除しない";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialog_OK" = "解除する";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialogMessage" = "お気に入りに登録しますか？";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialog_Cancel" = "登録しない";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialog_OK" = "登録する";
+"RealmToRealmCopyTool_Progress_SpeechModSetting" = "読み替え辞書を移行中";
+"RealmToRealmCopyTool_Progress_SpeechWaitConfig" = "読み上げ時の間の設定を移行中";
+"RealmToRealmCopyTool_Progress_SpeakerSetting" = "発話設定を移行中";
+"RealmToRealmCopyTool_Progress_SpeechSectionConfig" = "発話変更設定を移行中";
+"RealmToRealmCopyTool_Progress_SpeechQueue" = "読み上げリストを移行中";
+"RealmToRealmCopyTool_Progress_GlobalState" = "全体設定を移行中";
+"RealmToRealmCopyTool_Progress_DisplaySetting" = "表示文字等の設定を移行中";
+"RealmToRealmCopyTool_Progress_NovelTag" = "タグを移行中";
+"RealmToRealmCopyTool_Progress_Novel" = "小説情報を移行中";
+"RealmToRealmCopyTool_Progress_Story" = "小説本文を移行中";
+"RealmToRealmCopyTool_Progress_Bookmark" = "栞を移行中";
+"RealmToRealmCopyTool_Progress_NovelImportSetting" = "取り込み設定を移行中";
+
+"NovelSearchViewController_SearchResultZero" = "検索結果はありませんでした";
+"NovelSearchViewController_SearchButtonText" = "検索";
+"NovelSearchViewController_SearchingMessage" = "検索中";
+"NovelSearchViewController_SearchFailed_Title" = "検索失敗";
+"NovelSearchViewController_SearchField_Message" = "検索に失敗しました。\n恐らくは検索に利用されたWebサイト様側の仕様変更(HTML内容の変更)が影響していると思われます。「Web取込」側で取込を行うか、「Web検索」タブ用のデータが更新されるのをお待ち下さい。";
+"NovelSearchViewController_SearchFailedTitle" = "検索に失敗しました";
+"https://limura.github.io/NovelSpeaker/data/WebSearchInfo-ja_JP.json" = "https://limura.github.io/NovelSpeaker/data/WebSearchInfo-v2-ja_JP.json";
+"NovelSearchViewController_SearchInfoLoadError_Title" = "検索設定の読み込みに失敗";
+"NovelSearchViewController_SearchInfoLoadError_Message" = "検索設定の読み込みに失敗しました。ネットワーク接続がうまくいっていない場合にこの問題が生じる可能性があります。通信状況を確認してみてください。";
+"NovelSearchViewController_SearchWebSiteTitle" = "検索先のWebサイト";
+"NovelSearchViewController_Title" = "Web検索";
+"NovelSearchViewController_SearchResultView_Title" = "検索結果";
+"NovelSearchViewController_LoadNextPage" = "続きを検索しています……";
+"NovelSearchViewController_RadioSelectTarget_None" = "選択しない";
+"NovelSearchViewController_DescriptionDisplayedAndTryDownloadButtonTitle" = "仮読み込み";
+"NovelSearchViewController_LoadingSearchInfoTitle" = "Web検索用の情報を読み込んでいます……\n(インターネット接続が必要です)";
+"NovelSearchViewController_NoticeLabelText" = "注: 本画面の「Web検索」機能については、リストされているWebサイト様側の仕様が少しでも変わると途端に動作しなくなるような仕組みを用いておりますため、うまく利用できなくなる可能性がとても高い物となっております。\nこちらの「Web検索」側でうまく利用できなくなっている場合でも、隣のタブの「Web取込」機能側では取り込む事ができる場合もございますのでうまく動いていない場合はそちらをご利用頂くような形で回避していただけますと幸いです。";
+"NovelSearchViewController_ForceReloadSearchInfoButton_Title" = "検索設定の読み込みを試みる";
+"NovelSearchViewController_LoadingNextLink_Title" = "追加分を検索中……";
+"NovelSearchViewController_OpenWebSiteButtonText" = "このサイトを Web取込 タブで開く";
+"NovelSearchViewController_OpenWebImportButtonTitle" = "Web取込 タブで開いて確認する";
+"NovelSearchViewController_GenerateQueryURLFailedMessage" = "検索用URLの生成に失敗しています。入力が必要な項目が入力されていない可能性があります。";
+"NovelSearchViewController_GenerateQueryURLFailedTitle" = "エラー";
+
+"NovelDisplayColorSettingViewController_SampleText" = "メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。けれども邪悪に対しては、人一倍に敏感であった。\nきょう未明メロスは村を出発し、野を越え山越え、十里はなれた此のシラクスの市にやって来た。メロスには父も、母も無い。女房も無い。十六の、内気な妹と二人暮しだ。";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Default" = "標準(ダークモード等に追従します)";
+"NovelDisplayColorSettingViewController_ColorSettingButton_White" = "白地に黒で固定";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Cream" = "クリーム色地に黒で固定";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Gray" = "灰色地に白で固定";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Black" = "黒地に白で固定";
+"NovelDisplayColorSettingViewController_ColorSettingButton_UserDefined_Foreground" = "字の色を直接指定";
+"NovelDisplayColorSettingViewController_ColorSettingButton_UserDefined_Background" = "背景色を直接指定";
+"NovelDisplayColorSettingViewController_ColorPickerDoneTitle" = "この色で設定";
+
+"StoryFetcher_CanNotFindPageElementAndNextLink" = "指定されたURLからは本文や次ページを示すURLなどを取得できませんでした。";
+"StoryFetcher_FetchFirstContent_NoNextUrlAlive" = "本文を取り出せませんでした。(本文が掲載されている部分へのリンクが発見できませんでした)";
+"StoryFetcher_FetchFirstContent_ExceededCountToLive" = "本文を取り出せませんでした。(本文へのリンクが発見できないまま読み込み回数上限に達しました。このエラーが発生する場合は各Webサイト用の小説の本文部分がどこなのかを示すデータ(SiteInfo)の更新に失敗している場合があります。「設定タブ」→「アプリ内エラーのお知らせ」でSiteInfoの取得に失敗した、などといったエラーが出ていない事を確認してください)";
+"StoryFetcher_FetchError_RobotsText" = "Webサイト様側で機械的なアクセスを制限されているサイトであったため、ことせかい による取得ができません。(robots.txt で拒否されています)";
+"StoryFetcher_FetchSiteInfoError_SiteInfo" = "次点のSiteInfoデータの読み込みに失敗しました。この失敗により、小説をダウンロードする時に、小説の本文部分を抽出できず、本文以外の文字列も取り込む事になる可能性が高まります。\nネットワーク状況を確認の上、「設定タブ」→「SiteInfoを取得し直す」を実行して再取得を試みてください。\nそれでも同様の問題が報告される場合には、「設定タブ」→「開発者に問い合わせる」内の『「アプリ内エラーのお知らせ」の内容を添付する』をONにする事でこのエラーを添付した状態でお問い合わせください。";
+"StoryFetcher_FetchSiteInfoError_CustomSiteInfo" = "ことせかい 用のSiteInfoデータの読み込みに失敗しました。この失敗により、小説をダウンロードする時に、小説の本文部分を抽出できず、本文以外の文字列も取り込む事になる可能性が高まります。\nネットワーク状況を確認の上、「設定タブ」→「SiteInfoを取得し直す」を実行して再取得を試みてください。\nそれでも同様の問題が報告される場合には、「設定タブ」→「開発者に問い合わせる」内の『「アプリ内エラーのお知らせ」の内容を添付する』をONにする事でこのエラーを添付した状態でお問い合わせください。";
+"StoryFetcher_FetchSiteInfoError_FetchError" = "SiteInfoデータの読み込みに失敗しました。この失敗により、小説をダウンロードする時に、小説の本文部分を抽出できず、本文以外の文字列も取り込む事になる可能性が高まります。\nネットワーク状況を確認の上、「設定タブ」→「SiteInfoを取得し直す」を実行して再取得を試みてください。\nもし、「設定タブ」→「内部データ参照用URLの設定」で設定値を書き換えている場合、それらの値が正しいものかどうかを再度確認してください。それでも同様の問題が報告される場合には、「設定タブ」→「開発者に問い合わせる」内の『「アプリ内エラーのお知らせ」の内容を添付する』をONにする事でこのエラーを添付した状態でお問い合わせください。";
+"StoryFetcher_FetchSiteInfoError_DecodeSiteInfoData_Recoverd" =  "SiteInfoデータの取り込みに失敗しています。\n対象のURLのデータは読み出せましたが、期待されているJSONまたはTSV形式ではないようです。\nなお、以前正常に取得できていたデータから内容を復元できたのでそれを利用して処理を続けます。";
+"StoryFetcher_FetchSiteInfoError_FetchError_Recoverd" =  "SiteInfoデータの読み込みに失敗しました。この失敗により、小説をダウンロードする時に、小説の本文部分を抽出できず、本文以外の文字列も取り込む事になる可能性が高まります。\nネットワーク状況を確認の上、「設定タブ」→「SiteInfoを取得し直す」を実行して再取得を試みてください。\nもし、「設定タブ」→「内部データ参照用URLの設定」で設定値を書き換えている場合、それらの値が正しいものかどうかを再度確認してください。それでも同様の問題が報告される場合には、「設定タブ」→「開発者に問い合わせる」内の『「アプリ内エラーのお知らせ」の内容を添付する』をONにする事でこのエラーを添付した状態でお問い合わせください。\nなお、以前正常に取得できていたデータから内容を復元できたのでそれを利用して処理を続けます。";
+"StoryFetcher_FetchNext_ErrorSameContent" = "同じ内容が読み込まれているようです。次のページの検出に失敗しているとみなして失敗とします。\nこのエラーが出るという事は、対象のWebサイト様用の「次のページ」を検出するための情報が古くなっていて誤動作している可能性が考えられます。恐らくはこの問題が発生していることに気づかれておりませんので、「設定タブ」→「開発者に問い合わせる」よりこのエラーメッセージと、取り込もうとした小説のURLを添えてお問い合わせください。";
+"StoryFetcher_InvalidURLString_for_AutopagerizeSiteInfoURL" = "次点のSiteInfo として設定されていたURLの形式が不正(URLとして読み込めない文字列)であったため、無視して標準の物を使います。";
+"StoryFetcher_InvalidURLString_for_NovelSPeakerSiteInfoURL" = "ことせかい用SiteInfo として設定されていたURLの形式が不正(URLとして読み込めない文字列)であったため、無視して標準の物を使います。";
+"StoryFetcher_InvalidURLString_preferredSiteInfoURLList" = "「優先SiteInfoリスト」に含まれる文字列にWebのURLではない文字列があるようです。";
+
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_InvalidURL" = "有効なURL文字列ではないようです。";
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_GetURLFailed" = "指定されたURLからの読み出しには成功したようですが、期待されている内容ではなく、JSONからSiteInfoの読み出しに失敗しています。正しいデータであるかどうか確認してください。";
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_GetRequestError" = "指定されたURLからの読み出しに失敗しています。正しいURLを記入していることや、ネットワーク接続状態などを確認してください。";
+"StoryFetcher_FetchSiteInfoError_DecodeSiteInfoData" = "SiteInfoデータの取り込みに失敗しています。\n対象のURLのデータは読み出せましたが、期待されている JSON または TSV 形式ではないようです。\n認証の必要なネットワークに接続している時にSiteInfoの読み込みが発生した場合などにこの問題が報告されることがあります。その場合はネットワーク状況の良い所に移動し、「設定タブ」→「SiteInfoを取得し直す」を選択した後、「設定タブ」→「アプリ内エラーのお知らせ」に追加されたメッセージでエラーが無い事を確認してみてください。";
+
+"AutoSplitStringSettingViewController_Title" = "テキスト分割文字列の設定";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_Error_NoText" = "空文字列は指定できません";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_AlreadyAssigned" = "既に存在する設定です";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_Title" = "分割対象文字の追加";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_PlaceHolder" = "改行を表現するには <改行> と入力します";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_EnterButton" = "追加";
+
+"SpeechViewButtonType_SpeechStop" = "発話の開始・停止";
+"SpeechViewButtonType_OpenCurrentWebPage" = "現在のページをWeb取込タブで開く";
+"SpeechViewButtonType_OpenWebPage" = "Web取込タブで開く";
+"SpeechViewButtonType_Reload" = "その小説の更新確認を行う";
+"SpeechViewButtonType_Share" = "小説のURLをシェアする";
+"SpeechViewButtonType_Search" = "小説内で検索(何も入れずに検索すると章のリストを表示します)";
+"SpeechViewButtonType_Edit" = "小説を編集する";
+"SpeechViewButtonType_CopyTitle" = "小説名をコピーする";
+"SpeechViewButtonType_Backup" = "小説をバックアップする";
+"SpeechViewButtonSettingsViewController_Title" = "小説本文画面の右上に表示されるボタン群の編集";
+"SpeechViewButtonType_Detail" = "小説の詳細を表示する";
+"SpeechViewButtonType_SkipBackward" = "(再生中に)少し巻き戻す";
+"SpeechViewButtonType_SkipForward" = "(再生中に)少し進める";
+"SpeechViewButtonType_ShowTableOfContents" = "章リスト(目次)";
+"SpeechViewButtonType_AddPageToOtherNovel" = "他の小説にこのページを追加する";
+"AddPageToOtherNovel_ConfirmMessage" = "「%@」にこのページを追加しますか？";
+"AddPageToOtherNovel_Success" = "ページを追加しました。";
+"AddPageToOtherNovel_Failure" = "ページの追加に失敗しました。";
+"AddPageToOtherNovel_NoPage" = "追加できるページがありません。";
+"NovelDetailViewController_ActionSection_AppendThisNovelToOther" = "この小説を別の小説の末尾に追加する";
+"AppendNovelToOther_ConfirmMessage" = "「%@」の末尾に「%@」の全ページを追加しますか？";
+"AppendNovelToOther_Processing" = "追加しています……";
+"AppendNovelToOther_Success" = "全ページを追加しました。";
+"AppendNovelToOther_Failure" = "追加に失敗しました。";
+"SpeechViewButtonType_SearchByText" = "表示されているページ内で検索";
+
+"SearchFloatingView_SearchTextFieldPlaceHolder" = "検索する文字を入力します";
+"SearchFloatingView_AccessibilityHint_SearchTextField" = "検索文字を入力";
+"SearchFloatingView_AccessibilityHint_LeftButton" = "一つ前を検索";
+"SearchFloatingView_AccessibilityHint_RightButton" = "一つ後ろを検索";
+"SearchFloatingView_AccessibilityHint_CloseButton" = "検索窓を終了";
+
+"MultiVoiceSpeaker_getVoice_useGetNearVoice_Warning" = "指定された話者がこの端末では利用できない物であったので、代わりの話者を利用する事にします。(文字列的に近い話者を使用します)";
+"MultiVoiceSpeaker_getVoice_useVoiceIdentityChangeTable_Warning" = "指定された話者がこの端末では利用できない物であったので、代わりの話者を利用する事にします。(他のOS/OSバージョン向けのIdentity文字列を確認したので近い話者を選択します)";
+
+"NovelFolderManageTableViewController_AddButtonTitle" = "このフォルダに入れる小説を選択する";
+"NovelFolderManageTableViewController_DeleteButtonTitle" = "このフォルダを削除する";
+"NovelFolderManageTableViewController_ConifirmRemoveFolder_Title" = "フォルダの削除";
+"NovelFolderManageTableViewController_ConfifirmRemoveFolder_Message_Format" = "フォルダ %@ を削除しますか？";
+"NovelFolderManageTableViewController_ConifirmRemoveFolder_OKButton" = "削除";
+"NovelFolderManageTableViewController_ManageRow_AddNewSection_Title" = "新しいフォルダを追加する";
+"NovelFolderManageTableViewController_CreateNewFolderMessage" = "新しく作成するフォルダ名を入力してください";
+"NovelFolderManageTableViewController_CreateNewFolder_PlaceHolderMessage" = "既に存在する名前や空文字列は指定できません";
+"NovelFolderManageTableViewController_CreateNewFolder_Error_NoName" = "空文字列は指定できません";
+"NovelFolderManageTableViewController_CreateNewFolder_Error_SameNameAlive" = "同じ名前のフォルダが既に定義されています";
+"NovelFolderManageTableViewController_Title" = "自作フォルダの編集";
+"NovelFolderManageTableViewController_MultipleNovelIDSelectorViewControllerTitle_Formated" = "「%@」フォルダに登録される小説";
+"NovelFolderManageTableViewController_FolderNameChangeButton_Message" = "新しいフォルダ名を入力してください";
+"NovelFolderManageTableViewController_FolderNameChangeButtonTitle" = "このフォルダの名前を変更する";
+"NovelFolderManageTableViewController_SearchByTextButton_AccessibilityLabel" = "登録済みフォルダや小説の検索";
+
+"BookshelfViewButtonSettingsViewController_Title" = "本棚画面の右上に表示されるボタン群の編集";
+"BookshelfViewButtonType_DownloadStatus" = "ダウンロード状態の確認";
+"BookshelfViewButtonType_Reload" = "小説の更新確認";
+"BookshelfViewButtonType_SwitchFolder" = "フォルダ開閉";
+"BookshelfViewButtonType_Search" = "小説検索";
+"BookshelfViewButtonType_Edit" = "小説リストを編集(小説の削除)";
+"BookshelfViewButtonType_Order" = "小説の並び替え(順番)";
+"BookshelfViewButtonType_iCloudPull" = "iCloud上の更新データの強制取り込みを開始する(通常は必要ありません)";
+"BookshelfViewButtonType_iCloudPush" = "端末側のデータの「全て」をiCloudへ送信ししなおし始める(通常は必要ありませんし、本当に全てのデータをiCloud側に送信しますので通信量が増えますし、全てを送信し終えるには時間がかかるはずです)";
+"BookshelfViewButtonType_stopDownload" = "実行中の全てのダウンロードを止める";
+"BookshelfViewButtonType_multiSelect" = "複数小説の選択・操作";
+
+"HeadlessHttpClient_ErikError_noContent" = "ErikError.noContent: 何も読み込めませんでした。なお、ネットワーク接続に問題がある場合などでもこのエラーが発生する場合があります。";
+
+"SafeModeViewController_SectionTitle" = "セーフモード";
+"SafeModeViewController_TitleLabelTitle" = "短時間に複数回アプリが再起動したのを検知したため、セーフモードで起動しました。\n以下のメニューからバックアップファイルを生成することで、ことせかい に保存されているデータを取り出す事ができるかもしれません。ただ、取り出されたデータを元に ことせかい を復元したとしても、そのデータが原因で同様の強制終了が発生する可能性はあります。そのような場合には、「開発者に問い合わせる」を使って不都合報告メールを作成し、その強制終了が発生してしまうバックアップデータを添付して送って頂き、開発者の手元で同様の問題が再現しました場合には、問題を解消することができるようになるかもしれません。ただし、バックアップデータには ことせかい に保存されているデータが含まれますので、開発者に渡したくないデータが含まれている場合には添付しないようにしてください。";
+"SafeModeViewController_CreateShortBackupButton_Title" = "軽量バックアップを生成する(小説本文は保存されませんので、再度ダウンロードする必要があります)";
+"SafeModeViewController_CreateFullBackupButton_Title" = "完全バックアップを生成する(小説本文も保存されますが、時間とストレージ容量を必要とします)";
+"SafeModeViewController_SendProbremReport_Title" = "開発者に問い合わせる";
+"SafeModeViewController_ExitSafeModeButton_Title" = "セーフモードを終了し、通常起動する";
+
+"WebSpechViewController_ToggleInterfaceButton_Hide_Title" = "全画面表示";
+"WebSpechViewController_ToggleInterfaceButton_Display_Title" = "ボタン表示";
+
+"ScrollPullAndFireHandler_ForwardHintLabelText_Initial" = "強く引っ張って・・・";
+"ScrollPullAndFireHandler_BackwardHintLabelText_Initial" = "強く引っ張って・・・";
+"ScrollPullAndFireHandler_ForwardHintLabelText_Active" = "離して次のページへ";
+"ScrollPullAndFireHandler_BackwardHintLabelText_Active" = "離して前のページへ";
+
+"MenuButtonHandler_StartStopShortcutKey_Title" = "再生/停止";
+"MenuBarButtonHandler_NextShortcutKey_Title" = "次の章へ";
+"MenuBarButtonHandler_PreviousShortcutKey_Title" = "前の章へ";
+"MenuBarButtonHandler_SkipForwardShortcutKey_Title" = "少し前へ";
+"MenuBarButtonHandler_SkipBackwardShortcutKey_Title" = "少し後ろへ";
+"MenuBarButtonHandler_ControlMenu_Title" = "再生制御";
+
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_InvalidNovelID" = "不正なNovelIDが指定されています";
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_InvalidContent" = "本文の中身がありませんでした";
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_NovelAlreadyAlive" = "本棚に同じ小説が登録されています(URLが同じ場合はタイトルが変わっても同じ小説と判定されます)";
+
+"NovelImportSettingTargetSelectionView_info_text" = "何も選択されていない場合はすべてが選択されたものとして動作します";
+"NovelImportSettingTargetSelectionView_new_element_info_text" = "SiteInfo に新しい項目が追加された場合は、確認するまで取り込み対象として扱われます。";
+"NovelImportSettingSwiftUIView_selected_label" = "%d 選択中";
+"NovelImportSettingSwiftUIView_title" = "Webサイト毎の取込設定";
+"NovelImportSettingSwiftUIView_novel_title" = "この小説の取込設定";
+"NovelDetailViewController_NovelImportSettingButtonTitle" = "この小説の取り込み対象を指定する";
+"StoryFetcher_NovelImportSettingNewElements_Message" = "SiteInfo に新しい取り込み項目が追加されていたため、確認されるまではその項目も取り込み対象として扱います。";
+"StoryFetcher_NovelImportSettingEmptySelection_Message" = "取り込み設定の対象項目が SiteInfo 更新により見つからなくなったため、このページでは全ての取り込み項目を使用しました。";
+"StoryFetcher_NovelImportSettingLog_OpenSettingAction" = "取り込み設定を確認する";
+"StoryFetcher_NovelImportSettingLog_TargetSite" = "対象のWebサイト";
+"StoryFetcher_NovelImportSettingLog_TargetNovel" = "対象の小説";
+"StoryFetcher_NovelImportSettingLog_AddedElements" = "追加された項目";
+"StoryFetcher_NovelImportSettingLog_CurrentElements" = "現在利用できる項目";
+"AppInformationLogger_OccurrenceCount_Format" = "%d回発生しています。";
+
+"BookShelfTableViewController_SortTypeNcode" = "ID順";
+"BookShelfTableViewController_SortTypeWriter" = "作者名順";
+"BookShelfTableViewController_SortTypeNovelName" = "小説名順";
+"BookShelfTableViewController_SortTypeUpdateDate" = "最終ダウンロード日時順";
+"BookShelfTableViewController_SortTypeSelectButton" = "順番";
+"BookShelfTableViewController_AnnounceNewViersion" = "ことせかい は アップデートされました";
+"BookShelfTableViewController_SearchTitle" = "検索";
+"BookShelfTableViewController_SearchMessage" = "小説名 と 作者名 が対象となります";
+"BookShelfTableViewController_SearchClear" = "クリア";
+"BookShelfTableViewController_WarningForDeleteBookTitle" = "小説の削除";
+"BookShelfTableViewController_WarningDeleteBookMessage" = "小説を削除しますか？\n";
+"BookShelfTableViewController_WarningDeleteBookOKButtonTitle" = "削除";
+"BookShelfTableViewController_Resume:" = "▶︎ 再生: %@";
+"BookShelfTableViewController_AccessibilitySearchFormat" = "%1$@ を検索中";
+"BookShelfTreeViewController_refreshButton_AccessibilityLabel" = "小説の更新確認";
+"BookShelfTreeViewController_EditToggleButton_Done" = "完了";
+"BookShelfTreeViewController_EditToggleButton_Edit" = "編集";
+
+/* SiteInfo エディタ(最優先SiteInfo) */
+"SiteInfoEditor_Title" = "最優先SiteInfoの編集・追加";
+"SiteInfoEditor_TopWarning" = "注意: ここにある設定は下手に書き換えると ことせかい が正常に動作しなくなる可能性があります。書き換えを行う場合は内容を理解した上で行ってください。\n問題が起こった場合は「最優先SiteInfo」に追加された行を「編集」ボタンから全て削除することで標準の動作に戻せます。";
+"SiteInfoEditor_New" = "新規作成";
+"SiteInfoEditor_SearchPlaceholder" = "サイト名・url で絞り込み";
+"SiteInfoEditor_ActionSection" = "操作";
+"SiteInfoEditor_LocalHeaderDescEmpty" = "この端末で編集され、最優先で適用されるSiteInfo。まだありません。右上の＋で新規作成、または下の標準データから選んで編集できます。";
+"SiteInfoEditor_LocalHeaderDesc" = "この端末で編集され、最優先で適用されます。削除は右上の「編集」ボタンから。";
+"SiteInfoEditor_LocalSectionTitle" = "最優先SiteInfo";
+"SiteInfoEditor_StandardSectionTitleWithDate" = "標準データ(%@ 取得分)";
+"SiteInfoEditor_StandardSectionTitle" = "標準データ";
+"SiteInfoEditor_StandardHeaderDesc" = "アプリに読み込まれている標準のSiteInfo。選ぶと内容を引き継いで編集し、最優先SiteInfoとして保存できます。";
+"SiteInfoEditor_Export" = "CSVで書き出して共有(Export)";
+"SiteInfoEditor_NoName" = "(名称未設定)";
+"SiteInfoEditor_NoURL" = "(url未設定)";
+"SiteInfoEditor_ExportEmpty" = "書き出せる最優先SiteInfoがありません。先に編集・保存してください。";
+"SiteInfoEditor_ExportFileName" = "ことせかい_最優先SiteInfo.csv";
+"SiteInfoEditor_ExportCreateFailed" = "CSVファイルの作成に失敗しました。";
+"SiteInfoEditor_Test" = "テスト";
+"SiteInfoEditor_Save" = "保存";
+"SiteInfoEditor_ClearField" = "この項目を消去";
+"SiteInfoEditor_TestNow" = "この値で今すぐテスト";
+"SiteInfoEditor_TestURL" = "テスト用URL";
+"SiteInfoEditor_TestURL_Placeholder" = "1ページだけ取得して取得値を確認(空なら checkTargets 全件)";
+"SiteInfoEditor_ValueTest_BadURL" = "⚠️ テスト用URLが不正です: %@";
+"SiteInfoEditor_ValueTest_URL" = "URL: %@";
+"SiteInfoEditor_ValueTest_Failed" = "取得に失敗しました: %@";
+"SiteInfoEditor_ValueTest_Field_content" = "content (本文)";
+"SiteInfoEditor_ValueTest_GotHeader" = "取得できた項目:";
+"SiteInfoEditor_ValueTest_GotNone" = "取得できた項目: なし";
+"SiteInfoEditor_ValueTest_EmptyHeader" = "取得できなかった項目:";
+"SiteInfoEditor_ValueTest_ElementPresent" = "(要素あり)";
+"SiteInfoEditor_ValueTest_Elided" = "…(中略 全%1$d文字 / %2$d行)…";
+"SiteInfoEditor_ValueTest_ElidedChars" = "…(中略 全%d文字)…";
+"SiteInfoEditor_ValueTest_JudgeOK" = "checkTargets判定: 期待をすべて満たしました";
+"SiteInfoEditor_ValueTest_JudgeNG" = "checkTargets判定(未達): %@";
+"SiteInfoEditor_CopyForSpreadsheet" = "スプレッドシート用にコピー";
+"SiteInfoEditor_DebugEnableSpreadsheetCopy" = "SiteInfoエディタに「スプレッドシート用にコピー」を表示する";
+"SiteInfoEditor_FieldsSection" = "SiteInfo の項目";
+"SiteInfoEditor_Col_name" = "name (サイト名)";
+"SiteInfoEditor_Col_url" = "url (マッチ正規表現)";
+"SiteInfoEditor_Col_waitSecondInHeadless" = "waitSecondInHeadless (秒)";
+"SiteInfoEditor_Col_pageElementV2" = "pageElementV2 (本文のxpath。または複数の取り込み対象を指定するために複数行で『ID:タイトル/title=xpath』の形式)";
+"SiteInfoEditor_Col_forceErrorMessageAndElement" = "forceErrorMessageAndElement (gate文言:xpath)";
+"SiteInfoEditor_Col_checkTargets" = "checkTargets (検査対象。1行1エントリ / [auth] URL => content,nextLink)";
+"SiteInfoEditor_DiffMarker" = "⚠️ %@（標準データと差分あり）";
+"SiteInfoEditor_CannotSave" = "保存できません";
+"SiteInfoEditor_SaveURLEmpty" = "url(マッチ正規表現)が空です。保存するには url を入力してください。";
+"SiteInfoEditor_SaveURLRegexError" = "url 正規表現がコンパイルできません:\n%@";
+"SiteInfoEditor_Saved" = "保存しました";
+"SiteInfoEditor_SaveFailed" = "保存に失敗しました";
+"SiteInfoEditor_SavedMessage" = "この SiteInfo を最優先として保存しました。以降のダウンロード/テストでこの内容が優先されます。\n元に戻す(=最優先をやめる)には一覧へ戻り「編集」ボタンからこの行を削除してください。";
+"SiteInfoEditor_SaveWriteFailed" = "ファイルへの書き込みに失敗しました。";
+"SiteInfoEditor_Copied" = "コピーしました";
+"SiteInfoEditor_CopiedMessage" = "スプレッドシートの id 列のセルから貼り付けてください。pageElement(数式列)は触られず再計算されます。";
+"SiteInfoEditor_Test_URLRegexError" = "⚠️ url 正規表現がコンパイルできません(このままだと検査が走りません): %@";
+"SiteInfoEditor_Test_URLEmpty" = "⚠️ url が空です。isMatchUrl が常に false になり、本番ではこの SiteInfo が選ばれません。";
+"SiteInfoEditor_TestResultTitle" = "テスト結果";
+"SiteInfoEditor_Test_NoPageElementV2" = "pageElementV2 が無いため StorySiteInfo を生成できませんでした。";
+"SiteInfoEditor_Test_NoCheckTargets_1" = "checkTargets が未設定です。テスト対象URLがないため検査を実行できません。";
+"SiteInfoEditor_Test_NoCheckTargets_2" = "例) checkTargets 欄に下記のように記入してください:";
+"SiteInfoEditor_Test_NoCheckTargets_3" = "  [auth] 付きで未ログイン時 SKIP 扱いにできます。";
+"SiteInfoEditor_Testing" = "テスト中…\n(しばらくお待ちください)";
+"SiteInfoEditor_SettingsButton" = "最優先SiteInfoを編集・追加";
+"SiteInfoEditor_Import_NotSiteInfoCSV" = "このCSVファイルは最優先SiteInfo用のデータではないようです(pageElementV2 列が見当たりません)。取り込みを中止しました。";
+"SiteInfoEditor_Import_Done" = "最優先SiteInfo を取り込みました。\n追加: %d件 / 更新: %d件";
+"SiteInfoEditor_Validate_CheckTargets_EmptyURL" = "checkTargets: URL が空のエントリがあります";
+"SiteInfoEditor_Validate_CheckTargets_InvalidURL" = "checkTargets: URL として解釈できません(このエントリは無視されます): %@";
+"SiteInfoEditor_Validate_CheckTargets_UnknownToken" = "checkTargets: 未知のトークン(typo?): %@";
+"SiteInfoEditor_Validate_NPE_NoColon" = "pageElementV2 %d行目: ':' がありません(複数行では『ID:タイトル/title=xpath』形式が必要)";
+"SiteInfoEditor_Validate_NPE_EmptyID" = "pageElementV2 %d行目: 行頭の ID(':' より前)が空です";
+"SiteInfoEditor_Validate_NPE_NoEqual" = "pageElementV2 %d行目: '=' がありません(『ID:タイトル/title=xpath』形式が必要)";
+"SiteInfoEditor_Validate_NPE_EmptyXpath" = "pageElementV2 %d行目: '=' の右の xpath が空です";
+"SiteInfoEditor_Validate_ForceError_NoColon" = "forceErrorMessageAndElement: ':' がありません(『メッセージ:xpath』形式が必要。最初の ':' でメッセージと xpath を分けます)";
+"SiteInfoEditor_Validate_ForceError_EmptyMessage" = "forceErrorMessageAndElement: ':' より前のメッセージが空です";
+"SiteInfoEditor_Validate_ForceError_EmptyXpath" = "forceErrorMessageAndElement: ':' より後の xpath が空です";
+
+// スクレイプ検査(ScrapeInspector)の検査レポート・判定理由・設定UI
+"ScrapeInspector_ReportHeader" = "===== 検査結果 (%d件) =====";
+"ScrapeInspector_Reason_HostRedirect" = "別ホストへリダイレクト(未ログイン/年齢確認の可能性)";
+"ScrapeInspector_Reason_AuthNoEvidence" = "要確認: 未ログインの確証(gate/別ホスト)が無いのに取得できず。ログイン状態か取り込み設定の破損を確認";
+"ScrapeInspector_Reason_UnknownTokens" = "設定の無効トークン(typo?): %@";
+"ScrapeInspector_Reason_Timeout" = "タイムアウト(%d秒以内に応答なし)";
+"ScrapeInspector_Reason_NotExtracted" = "%@ (抽出できなかった)";
+"ScrapeInspector_Reason_MustBeEmptyButPresent" = "!%@ (空であるべきだが抽出された)";
+"SettingsTableViewController_ScrapeInspectButtonTitle" = "今すぐ全サイトを検査する";
+"SettingsTableViewController_ScrapeInspectProgressMessage" = "検査中…\n(しばらくお待ちください)";
+
+"SettingsViewController_ScrollFollowSuspendSecond" = "本文を自分でスクロールした時に発話位置への自動スクロールを止める秒数";
+"SettingsViewController_ScrollFollowSuspendSecond_Disabled" = "使わない";
+"SettingsViewController_ScrollFollowSuspendSecond_ValueFormat" = "%d秒";
+"SpeechViewController_SpeakFromHere" = "ここから発話開始";
+
+"SpeechViewBottomButtonSettingsViewController_Title" = "小説本文画面の下部に表示するボタン群の設定";
+"SpeechViewBottomButtonSettingsViewController_PositionSectionTitle" = "表示位置";
+"SpeechViewBottomButtonSettingsViewController_OverlapsChapterBar" = "ページ送りのバーに重ねて表示する\n(OFFにするとページ送りのバーの上に表示します)";
+"SpeechViewBottomButtonSettingsViewController_ButtonsSectionTitle" = "表示するボタン(全てOFFにすると何も表示しません)";
+
+"SettingsTableViewController_AppInformation_ClearConfirmTitle" = "今あるお知らせを全て消しますか?";
+"SettingsTableViewController_AppInformation_ClearConfirmButtonTitle" = "全て消す";
+
+"RealmModels_MenuItemsNotRemoved_Name_copyLinkToHighlight" = "強調表示部分のリンクをコピー (WebView表示の時のみ)";
+
+"BookShelfTableViewController_AnnounceNewVersionMessage" = "Version 2.13.0
+
+-「設定タブ」→「開発者に問い合わせる」の「問題が発生する小説」の選択一覧のところで、検索して表示されている小説のリストを絞ることができるように
+-「小説本文画面」で文字を選択したときに出てくるメニューに「全てを選択する」を追加
+-「小説本文画面」の右上に表示されるボタン群に「他の小説にこのページを追加する」ボタンを追加
+-「小説の詳細・小説専用設定」の「この小説に対する操作」欄あたりに「他の小説にこのページを追加する」「この小説を別の小説の末尾に追加する」の二つのボタンを追加
+-「設定タブ」→「最優先SiteInfoを編集・追加」でSiteInfoを編集・テストする画面で、テキスト入力ができる部分に \"x\" のような感じの、入力されている文字を全部消すボタンを設置
+- 発話中に手動で本文をスクロールした時、発話位置への自動スクロールを一定時間止めることができるように
+- 発話中に本文を長押しすると「ここから発話開始」の表示が出るように
+-「設定タブ」→「小説本文画面の下部に表示するボタン群の設定」を追加
+-「設定タブ」→「画面右上のボタン群の間隔」を「小説本文画面や本棚画面のボタン群の間隔」に改名
+-「設定タブ」→「アプリ内エラーのお知らせ」の「今あるお知らせを全て消す」に確認を追加
+- 本棚画面や小説本文画面での右上のボタン群周りの修正
+- rubyタグ周りの取り込みで意図しない閉じカッコが残る場合があった問題を修正
+-「設定タブ」→「本文中の長押しメニュー項目を減らす」をONにした時に出てくる「残される長押しメニュー項目」について、色々設定できていなかった項目を追加
+
+現在までのアップデートについての詳しい情報は「設定」タブの「更新履歴」を参照してください。";
+
+"UpdateLogViewController_UpdateLog" = "
+Version 2.13.0
+
+インタフェース・内部動作の変更
+
+-「設定タブ」→「開発者に問い合わせる」の「問題が発生する小説」の選択一覧のところで、検索して表示されている小説のリストを絞ることができるように
+-「小説本文画面」で文字を選択したときに出てくるメニューに「全てを選択する」を追加
+-「小説本文画面」の右上に表示されるボタン群に「他の小説にこのページを追加する」ボタンを追加
+-「小説の詳細・小説専用設定」の「この小説に対する操作」欄あたりに「他の小説にこのページを追加する」「この小説を別の小説の末尾に追加する」の二つのボタンを追加
+-「設定タブ」→「最優先SiteInfoを編集・追加」でSiteInfoを編集・テストする画面で、テキスト入力ができる部分に \"x\" のような感じの、入力されている文字を全部消すボタンを設置
+- 発話中に手動で本文をスクロールした時、発話位置への自動スクロールを一定時間止めることができるように
+- 発話中に本文を長押しすると「ここから発話開始」の表示が出るように
+-「設定タブ」→「小説本文画面の下部に表示するボタン群の設定」を追加
+-「設定タブ」→「画面右上のボタン群の間隔」を「小説本文画面や本棚画面のボタン群の間隔」に改名
+-「設定タブ」→「アプリ内エラーのお知らせ」の「今あるお知らせを全て消す」に確認を追加
+
+問題の修正
+
+- 本棚画面や小説本文画面での右上のボタン群周りの修正
+- rubyタグ周りの取り込みで意図しない閉じカッコが残る場合があった問題を修正
+-「設定タブ」→「本文中の長押しメニュー項目を減らす」をONにした時に出てくる「残される長押しメニュー項目」について、色々設定できていなかった項目を追加
+
+
+Version 2.12.1
+
+問題の修正
+
+- 歯抜け小説の更新確認/補完DL時に、手元にある章を無駄に再取得していた問題を修正
+- アプリを再起動するまで発話が開始できなくなる問題について色々修正
+- 「設定タブ」→「CarPlay接続時に音声モードを変える〜」がONの時の挙動が意図通りになっていなかった問題を修正
+
+
+
+Version 2.12.0
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」→「Webサイト毎の取り込み対象を指定する」(取り込み時の本文部分とみなす箇所を選択できる機能)を追加
+- 「設定タブ」→「アプリ内エラーのお知らせ」の仕組みを少し変更
+- 「設定タブ」→「最優先SiteInfoを編集・追加」を追加
+- 小説の本文取得時の挙動を一部変更
+
+問題の修正
+
+- 「本棚画面」の左上の「検索」で検索できなくなっている小説があった問題を修正
+- 発話中にコントロールセンターなどから再生位置を変えるような指示を与え続けた場合などでアプリを再起動するまで発話できなくなる場合がある問題を修正
+- 一部のWebサイトからの取り込み時に時間がかかった上に取り込みが失敗する場合があった問題を修正
+
+
+Version 2.11.2 (2.11.2)
+
+インタフェース・内部動作の変更
+
+- 小説本文の取り込み時に ruby タグの中に rb, rp, rt 以外のHTMLタグが現れるとルビとして認識しない問題を修正
+
+問題の修正
+
+- 小説の更新確認時に無駄にCPU負荷を上げていた部分を修正
+
+
+Version 2.11.1 (2.11.1)
+
+インタフェース・内部動作の変更
+
+- 本棚画面右上の順番(上向きと下向きの矢印のアイコン)に、「ページ数順」を追加
+
+問題の修正
+
+- ボタンを押さないと次のページに行けない場合などに取り込み失敗していた問題を修正
+
+
+Version 2.11.0
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」に「端末が熱い場合などにダウンロードの並列数を減らす」のON/OFF設定(defaultはON)と、それがONの時に「最大同時ダウンロード数(サイトごとの制限あり、標準値は5)」の値設定項目を追加
+- 端末の熱や電池残量により、ダウンロード時の次のページを読み込む前の待ち時間を可変するようにします
+- 更新確認時の挙動を一部変更
+- WKWebView からの PrivacyTracking 関連のドメインへのアクセスを遮断するように
+- iPad で「設定タブ」→「開発者に問い合わせる」からメールを作成した時のダイアログを小さくします
+
+問題の修正
+
+- 小説の取り込み時に強制終了する場合がある問題の一部を修正
+- 「本棚画面」にて、フォルダ開閉ができるような「順番」の時に強制終了してしまう可能性があった問題を修正
+- mac Catalyst でダイアログが画面幅以上に広がって選択できないボタンがある問題を修正
+- mac Catalyst だと不都合報告メールなどが改行されない問題があったので修正
+
+
+Version 2.10.7
+
+問題の修正
+
+- 「Web取込」タブにおいてSSL証明書の検証で問題があった時に強制終了する場合がある問題を修正
+
+
+Version 2.10.6
+
+問題の修正
+
+- Dynamic Typeなどで表示される文字が大きくなっている場合に一部のスライダが操作不能になってしまう問題を修正
+- 発話中や複数選択中にレイアウト変更した場合にいくつかアイコンが期待していない状態になっていた問題を修正
+- ダークモード時に「設定タブ」→「小説本文表示画面の設定」→「色設定」で「白地に黒で固定」にしたり、それぞれをその逆にした時に、画面上部の時刻や電池残量といった表示が見えなくなる(黒地に黒で描かれたりする)問題に対処
+- 画面右上のボタン群周りの表示時にレイアウト変更を検知して配置し直していたものが誤動作でCPUを食いまくってしまう場合があったのを修正
+
+
+Version 2.10.5
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」→「小説本文画面の右上に表示されるボタン群の編集」に「発話開始・停止」を追加します
+- 小説本文画面右上のボタンの中で文字列だったものに対してアイコンを指定します
+- 本棚画面の右上のボタン群についても幅を狭めてアイコン化します(編集ボタンはアイコン化していません)
+- 小説本文画面と本棚画面の右上のボタン群の隙間を設定で変更できるようにします
+- 「設定タブ」→「小説本文表示画面の設定」→「色設定」の「字の色を直接指定」と「背景色を直接指定」で利用されるカラーピッカーをApple標準のものに変更
+
+問題の修正
+
+- 「設定タブ」→「小説本文表示画面の設定」の「色設定」で指定した背景色うまく効いていない問題を修正
+- 「設定タブ」→「小説本文画面での左右スワイプでページめくりができるようにする」がONになっていても左右スワイプで前後のページに遷移しない場合があった問題を修正
+
+
+Version 2.10.4
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」->「タブの表示を画面下部にする〜」を追加します
+- 「小説の編集」画面に「この章のタイトル」を追加して、表示されている章のタイトルを変更できるようにします
+-「Web取込タブ」のホームに表示されるブックマークについて、「ゴミ箱の絵文字」を表示してそれを押すとそのブックマークを削除できるようにします
+- 本棚に登録されている小説の更新確認時に、歯抜けになっている章(ページ)がある場合にはその章(ページ)を再取得しようと試みるようになります
+- 設定タブに「CarPlay接続時に音声モードを変える」のON/OFF設定を追加します
+
+問題の修正
+
+- wedata様 上にある AutoPagerize様 の SiteInfo を使わないようにします
+
+
+
+Version 2.10.3
+
+問題の修正
+
+- Safari等からのシェア機能からの ことせかい 呼び出しが正しく動作しなくなっていた問題を修正
+
+
+Version 2.10.2
+
+インタフェース・内部動作の変更
+
+- アプリ内からの問い合わせ時に、最新バージョンで動作していない場合に警告を表示するように
+- SiteInfoの取得時の動作を変更
+- 「本棚画面」で「複数選択モード」に入ったときに専用メニューを表示するように
+
+問題の修正
+
+- eloquence voices が期待された言語で選択できない問題を修正
+- iPad OS 18 でタブバーが画面上部に移動したことで小説本文画面の下部に隙間が空いている問題に対応
+- 小説本文画面の下部の「◀(前のページに戻るボタン)」の縦幅がおかしくなっていて小説本文部分の左下が少し欠けていた問題を修正
+
+
+Version 2.10.1
+
+インタフェース・内部動作の変更
+
+- 読み上げ中にスクロールする位置の計算方法を変更
+- 文字数が多いページを開いた時にスクロール周りがうまく動かなかった問題へ対処
+- ことせかい 向けのSiteInfoを取得する先のURLをGoogleスプレッドシートのTSVに変更
+
+
+Version 2.10.0
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」->「小説を削除する時に確認する」をONにしていても本棚画面で小説を削除しようとした時に確認画面が出なくなっていた問題を修正
+- 「設定タブ」で「小説を削除するときに確認する」がONの場合の時に「本棚画面でスワイプや「編集」から小説を削除できないようにする」のON/OFF設定を追加
+
+問題の修正
+
+- 再生時にロック画面から次のページや少し先の文を読ませたりするとアプリが強制終了する問題を修正
+- 本棚画面で複数選択機能を使ってフォルダに小説を追加した場合にフォルダの並び順が滅茶苦茶になってしまう問題を修正
+
+
+Version 2.9.4
+
+インタフェース・内部動作の変更
+
+- 「設定タブ」->「自作フォルダを編集する」でフォルダ名や小説名での検索ができるように
+- 本棚画面を刷新
+- 本棚画面の右上に表示されるボタンに「複数小説の選択・操作」を追加
+- 本棚画面でフォルダ分割されるモードの場合、フォルダに格納されている小説の数を表示するように
+- 一度に更新確認を行う小説が多い場合、更新確認登録に時間がかかっていた(場合によっては10秒程度かかっていた)ものを少し高速化
+
+
+Version 2.9.3
+
+問題の修正
+
+- URIと識別するものについて、16進数表記の a-f が小文字のみにマッチしている問題を解消
+- 本棚画面でスクロールバーが表示されていなかった問題を修正
+
+
+Version 2.9.2
+
+- Version 2.0.0 以降のバックアップファイルの適用時には、全ての発話変更設定を削除してから適用するようにします
+- SiteInfo に isNeedWhitespaceSplitForTag を追加します
+- 小説のダウンロード時のうち、内部データベースへの保存時の挙動を変更します
+- 内蔵ブラウザでの読み込み時に、ページ読み込み時のタイムアウト時間を5分にします
+- 「設定タブ」→「自作フォルダを編集する」画面にフォルダの名前を変えるボタンを追加します
+- Version 2.* 以降で作成されたバックアップファイルの適用時に、新しくダウンロードされていた小説の章(ページ)がなかったことにされていた問題を修正
+- 複数のSiteInfoが設定されている場合、優先度が一番高いものしか採用していなかった場合のある問題を修正します
+
+
+Version 2.9.1
+
+インタフェース・内部動作の変更
+
+- 出力されるバックアップファイルのフォーマットを変更
+- 「Web取込」機能で小説を取り込もうとした時に同じ小説が本棚に登録されていて失敗した場合のダイアログに「本棚側の小説を開く」ボタンを追加
+
+問題の修正
+
+- 読み上げ中に、ページの途中にも関わらず次のページへと移行してしまう可能性を減らします
+- iCloud同期をOFFにしている状態にも関わらず、「他端末で更新された XX章 へ移動」というメッセージが表示される可能性を減らします
+
+
+Version 2.8.2
+
+インタフェース・内部動作の変更
+
+- SiteInfo に scrollTo という概念を追加
+- 「設定タブ」->「内部データ参照用URLの設定」に「優先SiteInfo」を追加
+- 「設定タブ」->「開発者に問い合わせる」画面に「問題が発生する小説の本文も添付する」のON/OFF設定を追加
+
+問題の修正
+
+- 内部データが読み込めなくなって誤動作した時の問題に対応します
+
+
+Version 2.8.1
+
+問題の修正
+
+- バックアップファイルを適用している時のダイアログメッセージがおかしかった部分を修正
+- 起動時に時間がかかってシステム側から強制終了される場合があった問題に対応
+− 「本棚画面」の「順番」の「自作フォルダ順」での処理が遅かった問題を修正
+
+
+Version 2.8.0
+
+インタフェース等の変更
+
+- 「本棚画面」の「順番」に「本棚登録順」を追加
+- 「設定タブ」->「本棚でお気に入りボタンを押した時の動作」を追加
+- 小説本文画面にキーボードショートカットを追加
+- 標準の辞書を更新
+
+問題の修正
+
+- 小説本文の保存時にNUL文字(0x00の文字)を排除するように
+- 「設定タブ」->「内部データ参照用URLの設定」内の「標準の読み替え設定」で一旦何か文字を入れてしまうと空文字列を設定できない問題を修正
+
+
+Version 2.7.4
+
+問題の修正
+
+- 発話中に「本棚タブ」以外のタブへ移動したり、アプリをバックグラウンドに回した後、再度「本棚タブ」を表示すると読み上げ位置表示が読み上げている場所よりも進んだ場所に移動してしまう問題を修正
+- rubyタグ周りでマッチしにくいものがあった問題への暫定的な対応
+
+
+Version 2.7.3
+
+- 発話時にメモリを確保しすぎているようであれば、メモリ解放を試みて、開放できているようであれば発話を再開するように
+
+
+Version 2.7.2
+
+動作の変更
+
+- 「設定タブ」->「小説の自動更新」がONの時に自動更新を試みるときのダウンロードの並列度を1(並列ダウンロードしない)に
+- iOS 16.3 で発話させるとそのうち強制終了してしまう問題に対して、利用しているメモリ量を監視してある程度以上使っているのを確認した時には発話を停止するような小細工を導入
+
+問題の修正
+
+- 「設定タブ」->「URIを読み上げないようにする」で URI と判断される正規表現について、ALPHA が [a-z] となっており、[A-Z] を無視していた問題を修正
+
+
+Version 2.7.1
+
+問題の修正
+
+- 一つの小説を読み上げ終わった後に、「読み上げが最後に〜」というアナウンスがあった後に一部の操作が不能になる問題を修正
+
+
+Version 2.7.0
+
+インタフェースの変更・機能追加等
+
+- 異なるOS間やOSバージョン間の話者のIdentity文字列の差異による問題を、その差異を吸収するテーブルを使って回避できるように
+- 「設定タブ」→「本文中の長押しメニューを ことせかい 由来の物のみにする」がONの時に表示される「残される長押しメニュー項目」を追加
+- 「設定タブ」→「本文中の長押しメニューを ことせかい 由来の物のみにする」の表記を「本文中の長押しメニュー項目を減らす」に変更
+- 「Web検索」タブで使っているWebサイト毎の検索周りの定義を色々拡張
+
+問題の修正
+
+- ログインが必要なWebサイト等のCookieを利用しているWebサイトでダウンロードが失敗していた可能性のある問題を修正
+
+
+Version 2.6.3
+
+インタフェースの変更・機能追加等
+
+- 小説の本棚への追加に失敗した時のエラーメッセージを少しわかりやすく変更
+- 「設定タブ」->「ファイルの取り込み」を追加
+- ファイル取り込み時に、このiPhone(またはiPad等)の上のテキストファイルであった場合はそのファイルの更新確認を行うように
+- ファイル読み込み(シェアメニューからの読み込み)での対応ファイルタイプに HTML を追加
+- Share Extension で WebURL を受け取ることができるように
+- Action Extension(「ことせかい へ読み込む」) を廃止(直上の Share Extension 側(シェアメニュー上のカラーのアイコンのもの)が同様の動作になります)
+- iOSにて、「設定タブ」->「画面の回転に追従する」を追加(iPadではON/OFFできず常にONなので表示されません)
+
+問題の修正
+
+- 一部のWebサイトでページを飛ばして読み込んでしまう場合のあった問題を修正
+
+
+# Version 2.6.2
+
+インタフェースの変更
+
+- 「設定タブ」→「小説本文表示画面の設定」の文字の大きさと行間のそれぞれの数値を表示するように
+- 「設定タブ」→「小説本文画面の右上に表示されるボタン群の編集」に「表示されているページ内で検索」ボタンを追加
+- 小説の詳細画面の「小説名」と「著者名」をタップした時に出てくるダイアログに「〜をコピーする」ボタンを追加
+- 小説の編集画面の「章を追加」ボタンを、最後のページ以外でも押せるように
+
+問題の修正
+
+- 「設定タブ」→「本棚に栞の位置を表示する」がONの時に「読み上げが最後に達しました」とのアナウンスがあるにもかかわらず、栞の位置表示のバーの色が紫色にならない問題を修正
+
+
+# Version 2.6.1
+
+対応OSバージョンを iOS 15, iPad OS 15 以降にしました。
+
+インタフェースの変更
+
+- 「設定タブ」に「保存されている全てのCookieを削除する」ボタンを追加
+
+
+# Version 2.6.0
+
+インタフェースの変更
+
+- 「設定タブ」->「読み上げ中はスリープモードに入らないようにする」のON/OFF設定を追加
+- 「設定タブ」->「サポートサイト内のQ&A(よくある質問とその答え)を開く」を追加
+- 「設定タブ」->「自作フォルダの編集」から「このフォルダに入れる小説を選択する」を選んだ時に表示される小説のリストに、他のフォルダに登録されている小説の場合はそのフォルダ名のリストを付記するように
+- 「設定タブ」->「小説本文画面の右上に表示されるボタン群の編集」に「現在のページをWeb取込タブで開く」を追加
+- 自作小説の場合「小説の詳細画面」に「この小説の本文を一つのテキストファイルとして出力する」を追加
+
+# Version 2.5.1
+
+インタフェースの変更
+
+- 小説本文の編集画面での読み上げ時にはその章の最後まで読み上げた場合にそのまま停止するようにします
+- SiteInfo(小説の本文部分を抽出する時等に使っているデータ)の取得(正確には定期更新用の取得)に失敗している場合の挙動を変更
+
+問題の修正
+
+- 小説の編集画面の上下左右へのカーソル移動ボタンにVoiceOver環境下用のアクセシビリティラベルを設定
+
+
+# Version 2.5.0
+
+インタフェースの変更
+
+-「設定タブ」->「再生が末尾に達した時の動作」に「指定フォルダの小説のうち未読の物を再生」と「同じ作者の別の小説を再生」、「同じWebサイトの別の小説を再生」を追加
+- 「本棚画面」で「最終ダウンロード日時順(フォルダ分類版)」のフォルダ内の順番を最終ダウンロード日時順にします
+- 「本棚画面」で「作者名順」のフォルダ内の順番を小説名順にします
+-「設定タブ」->「再生が末尾に達した時の動作」が特定の設定の場合に現れる「再生が末尾に達した時の次の小説の選択方式」を追加
+
+
+# Version 2.4.0
+
+インタフェースの変更
+
+- 「開発者に問い合わせる」内に『「アプリ内エラーのお知らせ」の内容を添付する』のON/OFF設定を追加
+- Web取込画面で download属性のついたリンク を選択した時にファイルとしてシェアされるように(iOS 14.5以上のみ)
+- 「設定タブ」->「小説本文画面の右上に表示されるボタン群の編集」に「章リスト(目次)」を追加
+- 小説の編集画面でキーボードを閉じた時に小説の本文部分の表示領域が元に戻らない問題を修正
+- 小説の編集画面に「Speak」ボタンを追加
+- 小説の編集画面にカーソル移動ボタンを追加
+
+内部仕様の変更
+
+- HTMLを取り込む時に無視するタグに frame を追加
+
+問題の修正
+
+- 読み上げ開始時に読み上げ位置表示が前の方に一回飛んでしまう場合のある問題を修正
+
+
+# Version 2.3.2
+
+インタフェースの変更
+
+- 起動時に「設定タブ」->「バックアップ用データの生成」で生成されたバックアップファイルを削除するように
+- 「Web取込」画面で about:blank が表示されている時(最初に表示されている物で、家のアイコンを押した時にも表示されるURL)は「取り込む」ボタン等を押せないように
+- 小説の編集画面で、任意の章を削除できるように
+
+
+# Version 2.3.1
+
+インタフェースの変更
+
+- 「設定タブ」->「発話設定」に音量(ボリューム)の設定を追加
+- 「設定タブ」->「再生が末尾に達した時の動作」で「お気に入りのうち未読の物を再生」を選択していた時に、次に読み上げられようとする小説の順番を、画面表示上の上側を優先するように変更
+
+問題の修正
+
+- 一部のWebサイトからの読み込み時にエラーしてしまう場合の動作を少し変更
+- 「設定タブ」->「再生が末尾に達した時の動作」で「お気に入りのうち未読の物を再生」か「同じフォルダの小説のうち未読の物を再生」のどちらかが選択されている時に、一つの小説を読み終えた後に別の小説に切り替わらない場合がある問題を修正
+- 特定の状態で「Speak」ボタンを連打すると二重に発話される可能性があった問題の一部を修正
+
+
+# Version 2.3.0
+
+- 一部のタグを取得できていないWebサイトにおいて、取得できる場合を多くなるように
+- 「本棚画面」の右上の「順番」で出てくる PickerView (ドラムみたいな表示で何か一つを選択するUI)を別の形式の物に
+- 「設定タブ」→「ルビはルビだけ読む」がONの時に「ことせかい 由来のルビ表記のみを対象とする〜」のON/OFFを選択できるように
+- 日本語環境下などUTCと違う環境で「設定タブ」->「最大連続再生時間」を変更すると、「最大連続再生時間」が年単位の値になってしまう場合がある問題を修正
+
+
+# Version 2.2.5
+
+問題の修正
+
+- 小説のページを開いた時に、「発話変更設定」「読みの修正」「読み上げ時の間の設定」の中に空文字列に対しての設定があった場合に強制終了してしまう問題を修正
+
+
+# Version 2.2.4
+
+インタフェースの変更
+
+- 短時間に何度も再起動した場合にセーフモードになるように
+
+問題の修正
+
+- 小説本文画面の右上に設置できる「少し先へ」ボタンのVoiceOver用名称が未設定であった問題を修正
+- 発話中に別アプリ等の影響で発話が中断した時に動作がおかしくなる場合がある問題を修正
+- 短時間に複数回読み上げ開始の指示が飛んできた場合に、同じ箇所を複数回読み上げる可能性があった部分の一部を回避できるように
+- 「-」が5個以上連続している場合は空白に変換するような読み替え設定を起動時に強制的に追加するように
+
+
+# Version 2.2.3
+
+問題の修正
+
+- 「設定タブ」->「読みの修正」から「読みの修正詳細」に移行する時に、「適用対象」に必ず「全ての小説」がセットされた状態で開いてしまう問題を修正
+- 「設定タブ」->「読みの修正」->「読みの修正詳細」にて「読み替え前」又は「読み替え後」のどちらか又は両方が空欄の状態で「保存する」等を選択しようとしてエラーが出た後に挙動がおかしくなる問題を修正
+- 「設定タブ」->「SiteInfoを取得し直す」を押した時に、SiteInfoの読み込みの終了を待たずに「アプリ内エラーのお知らせ」に「手動による SiteInfo の読み込みが終了しました」と追加されてしまっていた問題を修正
+
+# Version 2.2.2
+
+インタフェースの変更
+
+- Web取込等での仮読み込み中のタイトル部分を編集しようとした時に全削除をしやすく
+- 「設定タブ」->「新規自作小説の追加」で小説を追加しようとしている時等に全削除をしやすく
+- 「設定タブ」->「発話設定」の「速度設定を同期する」のON/OFFは、アプリが終了するまでは状態を保存するように
+
+問題の修正
+
+- 「Web検索タブ」の検索条件をいれているシーンで、ON/OFF設定ができる検索設定において、表示される項目名が省略されてしまう場合があった問題を修正
+- 「設定タブ」->「発話変更設定」の「開始文字」や「終了文字」を空にした直後の日本語入力の1文字目がうまく動かなくなる問題を修正
+- 「設定タブ」->「自作フォルダを編集する」で設定した順番が「本棚画面」に反映されていなかった問題を修正
+- シェアメニューからファイルを「ことせかい」に渡した時に、正常に読み込めない場合がある(何も起こらない場合がある)問題を修正
+- ダウンロード中に一つ前のページの内容とと全く同じページの内容であった場合にはエラーとしてダウンロードを停止するように
+- 読み上げ位置が不正な値になっている小説がある場合に、本棚画面で強制終了する可能性があった問題を修正
+
+
+# Version 2.2.1
+
+問題の修正
+
+- 本棚でのVoiceOver対応を少し強化
+- 「設定タブ」->「読みの修正」で「+」を押した時に作られる読みの修正の対象小説の初期値が空になっていたものを、「全ての小説」に変更
+- Version 2.* で作成したバックアップファイルからの復元時に「読みの修正」と「発話変更設定」が復元できない問題を修正
+
+
+# Version 2.2.0
+
+インタフェースの変更
+
+- 「設定タブ」->「小説本文画面での左右スワイプでページめくりができるようにする」のON/OFF設定を追加
+
+問題の修正
+
+- 「設定タブ」のタブ側(?)に「！」がついている時に、「！」のついている「開発者からのお知らせ」や「アプリ内エラーのお知らせ」を開いてもタブ側の「！」が消えなかった場合があった問題を修正
+- 起動時に「設定タブ」->「開発者からのお知らせ」に新しいお知らせがあった時、「設定タブ」側には「！」がつくけれど、「設定タブ」->「開発者からのお知らせ」には「！」がつかない場合があった問題を修正
+- URLに日本語等の URL encode されそうな文字の含まれる小説が開けなくなる(または開いても本文が読めなくなる)問題を修正
+
+
+# Version 2.1.0
+
+アイコンの変更
+
+ことせかい のアイコンを変更致しました
+
+インタフェースの変更
+
+- 「設定タブ」に「読み上げ停止後に再開する場合にその旨を告知する」のON/OFF設定を追加
+- 「設定タブ」->「本棚画面の右上に表示されるボタン群の編集」に「実行中の全てのダウンロードを止める」を追加
+- 「設定タブ」に「普段は使う必要の無いもの」というセクションを追加
+- 「設定タブ」->「普段は使う必要の無いもの」に「内部データ参照用URLの設定」「SiteInfoを読み直す」「Web検索タブの検索データを読み直す」を移動
+- 「小説の詳細」画面で小説名や作者名をタップした時に、それぞれをコピーした上で編集メニューが出るように
+- SiteInfoの読み込みに失敗した場合、「アプリ内エラーのお知らせ」にお知らせを出すように
+- 「設定タブ」->「小説本文表示画面の設定」に「行間」のスライダを追加
+
+問題の修正
+
+- 発話中の「少し先へ進む」「少し前へ戻す」「早送り」「巻き戻し」のそれぞれが機能しなくなっていた問題を修正
+- 「設定タブ」の「発話設定」や「発話変更設定」「読みの修正」「読み上げ時の間の設定」のいづれかを全て消すと再起動時に初期値が入力される問題を修正
+- 「設定タブ」->「読みの修正」->「読みの修正詳細」で一番上の「読み替え前」とその一つ下の「読み替え後」に日本語モードで何らかの日本語文字の入力を行い、入力欄右側の「x」ボタンを押して全てを消した後にもう一度何らかの日本語文字を入力しようとすると、最初の1文字が変換候補から外れる、という問題を修正
+- 全ての小説の更新確認を行うなどで小説のダウンロードインジケータが表示されている時に、ダウンロードが停止されてもそのインジケータだけは消えない問題を修正
+
+
+# Version 2.0.1
+
+- Version 1.* から Version 2.0.0 へのアップデート時に「小説の章の順番がめちゃくちゃになる」という問題を修正
+- Safariからの取り込みの時に「Web取込タブで試す」を押してもWeb取込タブでそのURLが開かない場合があった問題を修正
+- Web取込時に一部のルビ表記をルビとして認識せずに取り込んでしまう事がある問題を修正
+- 「設定タブ」->「内部データ参照用URLの設定」で「Web検索タブ用ヒント情報」に値を書き入れると「標準の読み替え設定」側の値が書き換わってしまう問題を修正
+
+
+
+# Version 2.0.0
+
+- 内部データベースを変更
+- ほぼ全てのソースコードをObjective-CからSwiftに書き換え
+- 機能追加
+  - 小説のダウンロードの仕組みを変更
+  - iCloudによる端末間同期機能を追加
+  - 会話文等で話者自体を変更できるように
+  - 本棚画面での順番に複数の要素を追加
+  - 本棚画面でお気に入りの表示を追加
+  - 小説本文画面に「詳細」ボタンを追加。小説毎の設定が追加されます
+  - Web検索画面を追加 (なろう検索画面は削除されました)
+  - 自作フォルダの概念を追加
+  - その他色々と変更されました。見た目は変わっていないように見えて中身はほぼ全て書き換わっています。
+
+
+# Version 1.1.72
+
+問題の修正
+
+- 一部のURLで読み込みが失敗する可能性があった問題に対処
+- Web取込タブで表示されている画像を長押しした時に「\"写真\"に追加」を選択すると落ちる問題に対応
+
+
+# Version 1.1.71
+
+インタフェースの変更
+
+- 本棚画面と小説本文画面のボタンの一部について、VoiceOverで選択した時の読み上げ文字を設定
+
+問題の修正
+
+- 大量の小説(本文)が登録されている ことせかい で、設定タブ -> バックアップ用データの生成 -> 完全バックアップ〜 でバックアップファイルを作成しようとすると落ちる問題に対応
+
+
+# Version 1.1.70
+
+問題の修正
+
+- 本棚画面で小説の更新確認時に、最後に開いていた小説の選択状態が解除される場合がある問題を修正
+
+
+# Version 1.1.69
+
+インタフェースの変更
+
+- 本棚画面にて、最後に開いていた小説が選択状態になるように
+
+
+# Version 1.1.68
+
+問題の修正
+
+- 「設定」->「読み上げ時の間の設定」にて「<改行>」を設定している場合に、一部の文書では改行をうまく検出できない場合があった問題を修正
+- アプリ起動時にはバッジが消えなかった問題を修正
+
+
+# Version 1.1.67
+
+インタフェースの変更
+
+- 「設定」->「開発者に問い合わせる」で選択できる「新機能等のご提案」を「新機能等のご提案・その他のお問い合わせ」に名称変更
+
+問題の修正
+
+- 完全バックアップファイルの小説本文を保存しているフォルダの中にゴミファイルが混ざっていると正常に本文を取り込めない場合がある問題について修正
+
+
+# Version 1.1.66
+
+インタフェースの変更
+
+- Web取込に失敗した時に、mail を送れる状態であるなら「取り込み失敗報告メール」を送信できるように
+
+問題の修正
+
+- 小説の取り込み中に、現在読込中の小説のインジケータが消える場合があったため消えないように変更
+
+
+# Version 1.1.65
+
+インタフェースの変更
+
+- 標準のメールアプリが利用できない状態の場合の動作を変更
+
+問題の修正
+
+- Web取込タブにおいて、SSL証明書が不正と判定されるリクエストが複数あるWebページの場合にアプリが強制終了する場合がある問題に対応
+
+
+# Version 1.1.64
+
+インタフェースの変更
+
+- 設定->開発者に問い合わせる で不都合報告を選択している時に現れる選択項目に「軽量バックアップファイルを添付する」を追加
+
+
+# Version 1.1.63
+
+問題の修正
+
+- 一部のWebサイトからの取込時に、不必要な改行が追加されるのを抑制
+
+
+# Version 1.1.62
+
+インタフェースの変更
+
+- 設定→開発者に問い合わせる で不都合報告を選択している時に現れる選択項目に「問題が発生する小説(もしあれば)」を追加
+
+問題の修正
+
+- 小説を取り込む時の小説名について、前後の空白を削除して取り込むように
+- 小説のダウンロード中のインジケータが消えない場合がある問題を解消
+- 設定→開発者に問い合わせる で「不都合報告メールを作成する」を選んだ後に何も起こらない可能性があった問題を修正
+
+# Version 1.1.61
+
+インタフェースの変更
+
+- 内部データベースを CoreData から Realm に変更
+- ほぼ全てのViewController(画面)をObjective-CからSwiftに書き換え
+- なろう検索 タブの機能を削除
+- 色々な所で Dynamic Type に対応しようとした
+- 本文中の長押しメニューに「読み替え後の文字列を確認する」と「この小説用の読み替え辞書へ登録」を追加
+- ダウンロード周りの動作を変更
+- 話者関係の設定項目を変更
+- テキストファイル等の取込時にテキトーに章を分ける機能を追加
+- 小説毎の専用設定の概念を追加
+
+# Version 1.1.61
+
+インタフェースの変更
+
+・英語表記を添削していただいたので反映しました。
+
+
+# Version 1.1.60
+
+# Version 1.1.59
+
+インタフェースの変更
+
+- 設定 -> バックアップ用データの生成 にて、生成されたデータについて「ファイルとしてシェア」が選択できるように
+
+
+# Version 1.1.58
+
+インタフェースの変更
+
+- 設定 -> 小説を削除する時に確認する の設定項目を追加
+- 設定 -> お知らせ で出てくるダイアログに「過去のお知らせを確認する」ボタンを追加
+- DynamicType 対応部分を増やしました
+
+問題の修正
+
+- VoiceOver環境下において、本棚の右上にある「順番」などで出てくるピッカーダイアログが選択できなくなっていた問題を修正
+- Web取込タブ内のブックマークで削除できない項目が発生し得た問題を解消
+
+
+# Version 1.1.57
+
+インタフェースの変更
+- 「設定」->「小説本文表示画面の設定」(旧「表示文字の設定」)に小説本文部分の表示部での色設定を追加
+  (この設定と重複するため「設定」->「小説を読む時に背景を暗くする」は削除されました。同設定をONにされていた方はお手数をおかけしますが、再度上記の設定にて背景を暗くする設定をするようお願いいたします)
+
+問題の修正
+- バックアップファイルから復元時にアプリが終了する可能性があった問題を修正
+
+
+# Version 1.1.56
+
+インタフェースの変更
+
+- DarkMode へ対応しました
+- 小説本文シーンに検索ボタンを追加
+- 設定 -> 声質の設定にて、スライドバーの値を表示するように
+- 設定 -> 携帯電話網ではダウンロードしないようにする の ON/OFF 設定を追加
+
+問題の修正
+
+- 日本語環境下においてアプリ名が ことせかい ではなく NovelSpeaker になっていたのを ことせかい になるように修正
+- 読み上げ中は読み上げ位置表示の上に出るメニューを出さないように
+
+
+# Version 1.1.55
+
+インタフェースの変更
+
+- 読み込んだ章の最初と最後の空白や改行部分を削除するように
+- 「設定」→「再ダウンロード用データの生成」のタイトルを「バックアップ用データの生成」に変更
+- Web取込 で取り込んだ小説について、編集から章の削除ができないように
+
+不都合の修正
+
+- 自作小説を編集中に章の削除をしようとした時に、その削除した章が栞のはさまれた章だった場合にその章が削除されなかった問題を修正
+
+
+# Version 1.1.54
+
+インタフェースの変更
+
+- 新しい告知があった場合に 設定タブ にバッジがついたりして確認を促すように
+- 設定 → 開発者へ問い合わせる に「内部に保存されている操作ログを添付する」のON/OFF設定を追加
+
+不都合の修正
+
+- Web取込側で新しく小説を取り込んだ時に、本棚に小説が追加されていないように見えてしまっていた場合の有る問題を修正
+
+
+# Version 1.1.51
+
+インタフェースの変更
+
+- Web取込 機能側での一回で取り込まれる小説の章の数の最大値を100から1000に増加
+- ルビはルビだけ読む 機能でルビとして判断される文字列の扱いを少し変更
+
+
+# Version 1.1.50
+
+インタフェースの変更
+
+- 「なろう検索」タブの削除方針に則り、「なろう検索」タブにて告知を開始
+
+問題の修正
+
+- Web取込機能において、同じページを読み込み続けてしまう可能性のある問題を修正
+
+
+# Version 1.1.49
+
+インタフェースの変更
+
+- HTML上のルビ(rubyタグ)を取り込む時には一律で \"|文字(ルビ)\" の形式で読み込まれるようにすることで、「ルビはルビだけ読む」がより意図通りに動作するように
+
+
+# Version 1.1.48
+
+インタフェースの変更
+
+- 読み上げの話者が未設定の場合、標準のもの(kyoko)ではなく利用可能な中でリッチな話者を選択するように
+- iOS 10 以降の対応に変更(以前は iOS 8 以降でした)
+- 設定 -> 起動時に前回開いていた小説を開く のON/OFF設定を追加
+- 設定 -> 小説の自動更新 が ON になっている時の更新通知に更新された小説名を追加
+
+
+# Version 1.1.47
+
+問題の修正
+
+- なろう検索 経由での小説本文のダウンロードが失敗するようになった問題に対応
+
+
+# Version 1.1.46
+
+インタフェースの変更
+
+- 設定 → 他のアプリで音楽が鳴っていても止まらないように努力する の ON/OFF 設定を追加
+
+問題の修正
+
+- 設定 → ルビはルビだけ読む の ON/OFF を切り替えた前後で開いていた小説のページが変わらないまま読み上げを開始するとその設定が反映されない問題を修正
+- 設定 → ルビはルビだけ読む でルビとして判断される基準を少し変更
+- Web取込 で取り込んだ小説が多めにある時に、本棚で全ての小説のダウンロードを開始してしばらくすると落ちる問題の一部を修正
+- 小説本文が表示される時に別アプリがバックグラウンド再生している音楽等が止められる可能性がある問題に対応
+- 設定 -> 小説の自動更新 を ON から OFF に切り替えた時に、実際は自動更新が停止していなかった問題を修正
+
+
+# Version 1.1.45
+
+インタフェースの変更
+
+- 文章を表示している画面のスライドバーの最大値を、ダウンロードされている章(ページ)の数に変更
+- 最大連続再生時間を超えて再生が停止する時にそのようにアナウンスをするようになります
+- バージョン更新時のダイアログを消した後でも最後に読んでいた小説を開くように
+- 起動直後の一回だけ、最後に読んでいた小説が一番上に表示されるように本棚の表示位置が移動されるるように
+- 本棚の左上に検索ボタンを配置
+
+問題の修正
+
+- 最大連続再生時間のカウントダウンが、読み上げ中にページ切り替えが発生した時にリセットされていた問題を修正
+- 読み上げ中にイヤホンジャックからイヤホンを引き抜いた時に、再生位置がかなり前に戻ってしまう問題を修正
+- ページめくりの時に鳴る音の扱いを、システムサウンドからアプリ側サウンドに変更
+  - アプリ側サウンドになった影響により、読み上げ中以外ではページめくり音が出ないように
+- 本文上で長押しして出てくる「読み替え辞書へ登録」を押した後の読みの修正詳細にて、読み替え前の文字列を選択されていた文字で初期化するように
+
+
+
+# Version 1.1.44
+
+インタフェースの変更
+
+- 設定 -> 読みの修正 で個々の変換ルールをタップすると詳細画面に移行するように
+
+不都合の修正
+
+- HTTP 200 OK 以外でダウンロードが成功していた場合があった問題を修正
+- 空白や空行のみといった表示されない文字だけの本文が読み込まれた場合にもダウンロードが失敗したことと判定するように
+
+
+# Version 1.1.43
+
+インタフェースの変更
+
+- 標準の読み替え辞書にいくつかの正規表現を使った設定を追加
+- iOS 12 において、読み上げ中の文字の表示位置がおかしくなる場合がある問題への暫定的対処のON/OFF設定を追加
+- iPhone X 等のノッチのある iPhone で、ダウンロード中の表示が画面上部のインジケータに出なくなっていた問題に対処
+
+問題の修正
+
+-  設定タブの読み上げ時の間の設定 で、個別の設定を変えたり追加した後に読み上げ時の間の設定に戻ってもそれらの変更が反映された表示にならない問題を修正
+
+
+# Version 1.1.42
+
+インタフェースの変更
+
+- キーボードが出るシーンにおいて、キーボードが閉じられない場合があったのを改行を入れるなどで閉じられるように変更
+
+
+# Version 1.1.41
+
+インタフェースの変更
+
+- 「読みの修正」で正規表現による読み替えができるように
+- 「読みの修正」でのテスト読み上げの時に「声質の設定」の標準設定を使うように
+- 内部データベースの保存場所を移動しました
+
+
+# Version 1.1.40
+
+問題の修正
+
+- 「小説を読む時に背景を暗くする」がONになっているときに、小説本文のスクロールバーが見えなくなっていた問題を修正
+
+
+# Version 1.1.39
+
+インタフェースの変更
+- 「設定」タブの「開発者に問い合わせる」内の「報告への返事」を「不要」「無くても良い」「必須」の選択式に変更
+
+問題の修正
+- 「ルビはルビだけ読む」機能で、 |...《...》 の形式のルビにおいて、｜(全角) には反応していなかった問題を修正
+
+
+# Version 1.1.38
+
+不都合の修正
+
+- 繰り返し再生時に、読み上げ位置が先頭に戻らない場合があった問題を修正
+
+
+# Version 1.1.37
+
+インタフェースの変更
+
+- 「再ダウンロード用データの生成」で保存される設定項目を増加
+- 「再ダウンロード用データの生成」で小説の本文を含むバックアップもできるように
+- 対応読み込みファイルタイプに RTF(Rich Text Format) を追加
+- 設定タブに「ことせかい について」(バージョン番号の確認)を追加
+- 設定タブに「繰り返し再生」の項目を追加
+
+
+# Version 1.1.36
+
+問題の修正
+
+- 編集可能な小説を編集中に、最初に開かれている章(現在読んでいる章)から別の章へ移動した時にその変更が保存されない問題を修正
+
+
+#Version 1.1.35
+
+問題の修正
+
+- 「小説を読むときに背景を暗くする」がONのときに、ステータスバーの色が白に変わったまま読めなくなる場合があった問題を修正
+
+
+# Version 1.1.34
+
+インタフェースの変更
+
+- 読み上げ時の間の設定にて、「<改行>」と書いたもの(英語環境化では\"<Enter>\")が改行として扱われるように仕様変更
+
+問題の修正
+
+- 「小説を読むときに背景を暗くする」がONのときに、ステータスバーの文字色が黒のままで読めなかったのを修正
+
+
+# Version 1.1.33
+
+インタフェースの変更
+
+- 小説の本文を表示している時の上部にある地球のアイコンからその小説のWebPageを表示する時に、Web取込タブ側で表示するように
+- 設定タブに利用許諾を参照するボタンを追加
+- 設定タブにプライバシーポリシーを参照するボタンを追加
+
+問題の修正
+
+- コントロールセンターで前の章/後の章へ移動する時に、きちんと移動できていなかった問題を修正
+
+
+# Version 1.1.32
+
+問題の修正
+
+- 次/前の章へ移動すると表示位置が末尾になってしまっていた問題を修正
+
+
+# Version 1.1.31
+
+インタフェースの変更
+
+- ダウンロード中には画面上部のネットワークアクティビティインジケータ(くるくる回る奴)を表示するように
+
+
+# Version 1.1.30
+
+インタフェースの変更
+
+- Web取込や自作小説の編集画面において、小説のタイトルをタップした時に全ての文字が選択状態になるように
+
+
+# Version 1.1.29
+
+問題の修正
+
+- 日付と時刻の設定で24時間表示をOFFにしている場合、なろう検索での検索結果に出てきた小説の更新日時が \"-\" になってしまう問題を修正
+
+
+# Version 1.1.28
+
+インタフェースの変更
+
+- アプリ内からの問い合わせフォームにて、「この問い合わせに返事が欲しい」の初期値を「はい」に変更
+
+問題の修正
+
+- Web取込等で小説を新しく取り込んだ時に、空の「新規ユーザ小説」が作成されてしまう問題を解消
+- \"*\" が連続している部分を読み上げると落ちる問題について、以前は \"*\" に関する読み替え辞書が登録されている場合は書き換えを行わなかったが、それでも落ちる人が居るようなので強制的に \"*\" は \" \" に読み替えるように起動時に上書きするように変更
+
+
+# Version 1.1.27
+
+インタフェースの変更
+
+- なろう検索 経由で取得した小説の詳細画面に連載状態(完結や連載中等の状態)を追加
+
+問題の修正
+
+- 「新規自作小説の追加」で追加した小説にページを追加すると最初のページが消える問題を修正
+
+
+# Version 1.1.26
+
+インタフェースの変更
+
+- 本棚で「下に引っ張って更新」ができるように(iOS10以上のみ)
+- ページめくり時に音を鳴らすのON/OFF設定を設定タブに追加
+- URIを読み上げないようにする設定を設定タブに追加
+
+問題の修正
+
+- 小説の本文を表示した状態でタブを何度か切り替えると、前後の章へのスキップが1章分ではなく複数章分スキップしてしまっていた問題を修正
+
+
+# Version 1.1.25
+
+インタフェースの変更
+
+- コントロールセンターに再生時間を表示するか否かの設定を設定タブに追加
+- 小説の本文の表示時に画面を黒系の背景にするか否かの設定を設定タブに追加
+
+問題の修正
+
+- Bluetoothイヤホンのボタン操作で再生が停止しなかった問題を修正
+
+
+# Version 1.1.24
+
+インタフェースの変更
+
+- コントロールセンターでの前の章や次の章へのボタンを少し巻き戻し、少し進めるボタンへ変更する設定を設定タブに追加
+- イヤホンからの巻き戻し・早送りコマンドに対応
+
+
+# Version 1.1.23
+
+インタフェースの変更
+
+- 本棚での栞の位置表示ゲージについて、読み終わっている場合にはゲージの色が変わるように
+- 読み上げ中のスクロール位置を読み上げている場所より少し先までスクロールするように変更
+
+
+# Version 1.1.22
+
+インタフェースの変更
+
+- 小説の本文を長押しした時に出るメニューを「読み替え辞書へ登録」のみにするかどうかの指定を設定タブに追加
+- 小説の本文を表示する字体を選択するボタンを設定タブの「表示文字サイズの設定」上部に追加
+
+
+# Version 1.1.21
+
+インタフェースの変更
+
+- 設定タブに「本棚に栞の位置を表示する」のON/OFFの設定を追加
+
+問題の修正
+
+- Web取込機能にて取込を行った小説を開いた時に、読み込まれた章の数がうまく表示できていなかった問題を修正
+- ダウンロード中に本棚から小説を削除した時に、ダウンロードが継続することで壊れた小説ができてしまう問題を修正
+
+
+# Version 1.1.20
+
+インタフェースの変更
+
+- 設定タブにある「開発者へ問い合わせる」機能に新機能等の提案用のフォームを追加
+- 小説の本文を表示している時、上部に追加された地球のアイコンからその小説のWebPageをSafariで開けるように
+
+問題の修正
+
+- 自作小説の編集中に登録を押さずに戻っても、内容が保存されるように
+
+
+# Version 1.1.19
+
+問題の修正
+
+- 小説を開いた時(又は別の章に移動した時)に表示位置が変化しなかった問題を修正
+
+
+# Version 1.1.18
+
+問題の修正
+
+- 読み上げ時に別のタブに切り替えたりするなどをすると読み上げ位置がズレたりと色々問題が多かったため、読み上げ中に別タブに移動するなどした場合には読み上げを停止するように
+- 最後まで読み上げた後の終了時のアナウンスが発声されない場合があった問題を修正
+- 小説の本文を表示している状態から本棚等に戻った時に、読み上げている小説の情報が壊れる可能性があった問題を修正
+
+
+# Version 1.1.17
+
+問題の修正
+
+- 文字入力が必要な部分で、Enterを押さないと保存されなかった問題を画面外タップ等でキーボードを消しても反映されるように修正
+- Bluetooth機器が外れた時に再生が停止しなかった問題を修正
+
+
+# Version 1.1.16
+
+問題の修正
+
+- 「ルビはルビのまま読む」がONになっていても最初の1章分は効いていなかった問題を修正
+- \"*\" が連続している部分を読み上げようとすると落ちるので、無害な文字へと読み替える読み替え辞書として追加するように
+
+
+# Version 1.1.15
+
+インタフェースの変更
+
+- Web取込機能を使って取り込んだ小説について、個々の章を表示している画面に再ダウンロード用のボタン(回転している矢印)を追加
+
+問題の修正
+
+- バックアップファイルで小説等を読み込み直す時に、画面が凍りついたり ことせかい が落ちやすくなっていた問題を(一部)修正
+
+
+# Version 1.1.14
+
+インタフェースの変更
+
+- なろう検索で観られる小説の詳細ページのレイアウトを変更(画面の小さいデバイスで表示が崩れるため)
+
+
+# Version 1.1.13
+
+インタフェースの変更
+
+- テキストファイルを自作小説として取り込めるように
+- PDFファイルを自作小説として取り込めるように(iOS 11以上のみ)
+- 設定タブに「不都合報告をメールで開発者に送る」機能を追加
+
+問題の修正
+
+- Web取込で取り込んだ小説について、取り込んだ時間で更新日時を更新するように
+- Web取込機能で、HTTP 400 BadRequest でエラーしていた問題の一部を解消
+
+
+#Version 1.1.12
+
+インタフェースの変更
+
+- ユーザ自作小説等を編集しようとした時に、読み上げ位置から編集が開始されるように変更
+
+問題の修正
+
+- iPhone X で本の内容の表示の最初の1,2行が隠れてしまう問題を修正
+
+
+# Version 1.1.11
+
+インタフェースの変更
+
+・Web取込タブにて、Googleのような検索サイトへのアクセスを閉じました(「無制限のWebアクセス」によるレーティング17+を回避する方策です)
+
+
+# Ver 1.1.10
+
+インタフェースの変更
+
+・「ダウンロード状態」タブを潰して「Web取込」タブを新設。Web取込では表示されているWebPageの文字を取り込む事ができるようになるはずです。使い方の詳しい説明はサポートサイトを参照してください
+・Safariから取り込む 機能でも、タイトルや内容を確認してから取り込む事ができるように
+・小説を読んでいる画面にて、左右へのスワイプで章の切り替えができるように
+
+問題の修正
+
+・小説のタイトルやあらすじに&quot;等があった時にそのまま表示されてしまっていた問題を修正
+
+
+# Ver 1.1.9
+
+問題の修正
+
+・新規ユーザー小説の登録が必ず失敗するようになっていた問題を修正
+
+
+# Ver 1.1.8
+
+インタフェースの変更
+
+・設定タブのUIを少し作り直し(機能は変わりません)
+・設定タブの「ルビをルビだけ読むようにする」をONにした時に、ルビとして認識しない文字を指定できるように
+・設定タブの読みの修正内にて、修正項目の検索ができるように
+
+問題の修正
+
+・iPhone SE等の画面の小さい端末で、文字が見切れていた問題を一部修正
+・「ルビをルビだけ読むようにする」機能で、ルビ以外の部分を読み飛ばしてしまう問題を修正
+
+# Ver 1.1.7
+
+インタフェースの変更
+
+・設定タブに、「ルビをルビだけ読むようにする」のON/OFF設定を追加
+・「設定」→「再ダウンロード用URLの取得」、を「再ダウンロード用データの生成」に変更します。小説家になろうのものだけでなく、自作小説、Safariから ことせかい に読み込ませたもの、読みの修正用辞書のバックアップが可能となります
+・Safari から「ことせかい に読み込む」機能を使って読み込ませた時、タイトルが確定した時点でタイトルをダイアログで表示するようになります
+
+問題の修正
+
+・小説を読み上げ中に設定タブなどへ移動して戻ってくると、読み上げ位置が過去のものに戻されてしまう問題を修正
+・全ての小説を再ダウンロードする時に、更新が無いものについてはダウンロードキューに追加しないようになります
+
+
+# Ver 1.1.6
+
+インタフェースの変更
+
+・再生中にイヤホンジャックからイヤホンが引き抜かれた場合、再生が停止するようになります
+・実験的機能の追加(詳しくはAppStoreの Version 1.1.6 のアップデートノートを参照してください)
+
+問題の修正
+
+・「なろう検索」からのダウンロードが失敗する問題を修正
+・ある本の読み上げを停止した後、別の本を開いて読み上げを開始しようとした時に、読み上げ開始位置が先程停止した読み上げ位置にズレてしまう問題を修正
+・連続再生時間で指定した時間が経つ前にページ切り替えが起こると連続再生時間での自動停止が効かなくなる問題を修正
+
+# Ver 1.1.5
+
+インタフェースの変更
+
+・iOS 9 以上で、発音される音声データを選択できるようになります。設定タブの声質の設定に項目が増えます。
+利用可能な音声データは初期状態では一つだけですので、音声データを増やしたい場合は
+設定アプリ > 一般 > アクセシビリティ > スピーチ > 声 > 日本語
+と手繰っていった所で音声データをダウンロードしてください。
+(なお、Siriさんの音声データは O-ren(拡張) という名前になっているもののようです）
+・Voice Over が有効になっている場合、読み上げ開始時に警告を発するようになります。
+・本棚の並び順を変更できるようになります。本棚タブの右上にボタンが増えます。
+・小説の更新分を自動で取得させることができるようになります。設定タブに設定項目が増えます。
+
+問題の修正
+
+・小説の更新分を読み込むなどをした時に、読み上げ位置が初期化される問題を修正
+・電話がかかってきた時など、ことせかい 以外のアプリで音が使われる時に再生を停止しなかった問題を修正
+・アプリ名が NovelSpeaker になっていたのを ことせかい になるように修正
+・iPhone 6 Plus 等で上下に黒帯が入る事がある問題を修正
+・内部DBへのアクセス時に落ちる問題を修正
+
+
+# Ver 1.1.4
+
+インタフェースの変更
+
+・文章上で長押しした時に出るメニューに、「読み替え辞書へ登録」を追加しました。コピーしてペーストする手間が少しだけ減ります。
+・設定タブの下の方に「新規自作小説の追加」が増えます。自分で書いた文章を読み上げさせる時などにご利用ください。
+作成した自作小説を再度編集したい場合、自作小説を表示している時に編集ボタン(小説家になろうの小説の場合は「詳細」ボタンがあった位置にあります)を押すことで再度編集できます。
+なお、この自作小説の登録機能は、ちょっと汚い形で組み込んでしまったので、今後のアップデートでもう少し違った形での実装に変更するかもしれません。その場合はもしかすると自作小説自体を新形式に移行出来ない可能性があります(できるだけ残そうと努力はするつもりですけれども)。もしそうなってしまった場合はご容赦お願いしつつ、自作小説は別途バックアップを取っておいていただきますようお願い致します。
+
+問題の修正
+
+・読み上げが勝手に停止する問題を修正しました(多分これで根本的な対応になると思います)
+
+
+# Ver 1.1.3
+
+問題の修正
+
+・なろう検索のタブで、検索用文字列を入力できなくなっていた問題を修正しました。
+
+
+# Ver 1.1.2
+
+インタフェースの変更
+
+・なろう検索のタブで、検索時の順位付けの部分を、タップしてから選択するタイプに変更しました。(検索開始ボタンがスクロールしないと見えない状態だったのを解消しました)
+・設定タブに更新履歴の情報を追加しました。
+・アプリの更新があった時に、一回だけダイアログを表示するようにしました。
+
+
+# Ver 1.1.1
+
+インタフェースの変更
+
+・読み上げの間の設定に 0.1刻み で変化させるボタンを追加しました。また、簡単な文を使っての読み上げテストができるようになります。
+
+・小説の詳細ページの右上に、作者のマイページをSafariで表示するためのボタンを追加しました。
+
+・なろう検索のタブで、検索時の順位付けを「総合評価の高い順」などから選べるようにしました。ただ、「検索開始」ボタンが画面外に押し出されてちょっと使いづらくなっています。すみません。
+
+問題の修正
+
+・読み上げの間の設定を「非推奨型」にした場合に文末の単語を2回読み上げる事がある問題を修正
+
+・読み上げ対象の文字列に \"@\" が含まれている章を選択すると落ちる問題を修正
+
+・読み上げ開始時に読み上げが失敗すると、アプリを落とさないと読み上げができなくなる問題を一部修正(再度再生させようとした時に読み上げられない問題を解決しただけで、読み上げが勝手に停止する問題については直せていません。すみません)
+
+
+# Ver 1.1
+
+インタフェースの変更
+
+・本棚、なろう検索、ダウンロード状態 のアイコンを変更しました。
+
+・小説の表示用の文字サイズを変更できるようにしました。「設定」に項目が増えます。
+
+・iPadでも表示できるようにしました(ユニバーサルアプリとなります)。
+
+・読み上げ中に最後の章を読みきった時に、「読み上げが最後に達しました」とアナウンスするようになります。
+
+・起動時に最後に読んでいた小説を表示するようになります。
+
+・最大連続再生時間の指定を設定ページに入れました。標準では23時間55分になっています。再生を開始してから、ここで設定された時間が経つと再生が停止します。
+
+・読み上げ時に「……」や「、」「。」等でも読み上げの間をつけられるような設定項目を設定ページに追加しました。
+
+・小説の詳細ページの作者名を押すと、その作者の小説を検索するようになります。
+
+・小説を読むページにシェアボタンを追加しました。今読んでいるページへのURLやことせかいのアプリへのリンクなどをTwitterやmailでシェアすることができます。
+
+・URLスキーム novelspeaker://downloadncode/ncode-ncode-ncode... という形式で、ncode を指定して小説をダウンロードさせる事ができるようになります。「設定」タブの「再ダウンロード用URLの取得」で本棚に登録されている小説についてのダウンロード用URLを取得できますので、機種変更等の際にご利用ください。
+
+
+
+# Ver 1.0.2
+
+インタフェースの変更
+
+・小説を読んでいる画面で前と後の章への移動用にボタンをつけました。左右フリックでの移動はできなくなります。
+
+
+
+問題の修正
+
+・リロードした最新のものがダウンロードできなかった問題を修正
+
+・バックグラウンド再生中に章を移動した時、再生が停止する可能性があった問題を修正
+
+・小説の表示がステータスバーやナビゲーションバーにかぶって表示されて見えなくなることがある問題を修正
+
+・読み替えの設定を増やすと再生開始や章の切り替わり時に長時間無反応になる問題を\"ある程度\"修正。(件数が増えれば遅くはなります)
+
+・大量の小説をダウンロードした状態だと動作が遅くなっていた問題を修正
+
+# Ver 1.0
+
+最初のリリースです
+";
+"UpdateLogViewController_Title" = "更新履歴";

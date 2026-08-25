@@ -1,0 +1,710 @@
+//
+//  CoreDataObjectHolder.m
+//  CoreDataTest
+//
+//  Created by IIMURA Takuji on 2014/08/28.
+//  Copyright (c) 2014年 IIMURA Takuji. All rights reserved.
+//
+
+#import "CoreDataObjectHolder.h"
+#import <CoreData/CoreData.h>
+#import "LPPerformanceChecker.h"
+
+@implementation CoreDataObjectHolder
+
++ (NSObject*)GetSyncObject{
+    static NSObject* syncObject = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        syncObject = [NSObject new];
+    });
+    return syncObject;
+}
+
+/// モデル名(XXXX.xcdatamodel の XXXX の部分)、ファイル名、フォルダタイプを指定して初期化します。
+/// 生成されるファイルは "ファイル名.sqlite" という名前になります。
+- (CoreDataObjectHolder*)initWithModelName:(NSString*)modelName fileName:(NSString*)fileName folderType:(CoreDataObjectHolderFolderType)folderType mergePolicy:(id)mergePolicy
+{
+    self = [super init];
+    if (self == nil) {
+        return nil;
+    }
+    
+    m_ModelName = modelName;
+    m_FileName = fileName;
+    m_FolderType = folderType;
+    m_MergePolicy = mergePolicy;
+
+    m_PersistentStoreCoordinator = nil;
+    m_ManagedObjectModel = nil;
+    m_Thread_to_NSManagedObjectContext_Dictionary = [NSMutableDictionary new];
+    //m_MergeThreadManagedObjectContext = nil;
+    //m_MergeThreadDispatchQueue = dispatch_get_main_queue();
+    //m_MergeThreadDispatchQueue = dispatch_queue_create("com.limuraproducts.coredataextension.mergethread", NULL);
+    
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (NSString*)GetCurrentThreadID
+{
+    return [[NSString alloc] initWithFormat:@"%@", [NSThread currentThread]];
+}
+
+- (void)removeSqliteFile:(NSString*)sqliteFilePath {
+    NSFileManager* defaultManager = [NSFileManager defaultManager];
+    if (sqliteFilePath == nil || [defaultManager fileExistsAtPath:sqliteFilePath] == false) {
+        return;
+    }
+    NSArray* fileList = @[@"", @"-shm", @"-wal"];
+    for (NSString* fileTypes in fileList) {
+        NSString* targetFile = [sqliteFilePath stringByAppendingString:fileTypes];
+        [defaultManager removeItemAtPath:targetFile error:nil];
+    }
+}
+
+/// CoreData の sqlite ファイルを削除します
+- (void)removeCoreDataDataFile {
+    m_PersistentStoreCoordinator = nil;
+    m_ManagedObjectModel = nil;
+    [m_Thread_to_NSManagedObjectContext_Dictionary removeAllObjects];
+    m_Thread_to_NSManagedObjectContext_Dictionary = nil;
+    [self removeSqliteFile:[[self GetSqlFileURL_Old] path]];
+    [self removeSqliteFile:[[self GetSqlFileURL] path]];
+}
+
+/// SQLiteのファイルが存在するかどうかを取得します
+- (BOOL)isAliveSaveDataFile
+{
+    NSURL *storeURL = [self GetSqlFileURL];
+    if (storeURL == nil) {
+        return false;
+    }
+    
+    NSString* path = [storeURL path];
+    if (path == nil) {
+        return false;
+    }
+
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:path];
+    //NSLog(@"isAliveSaveDataFile: %@, %@", result ? @"YES" : @"NO", path);
+    [self isAliveOLDSaveDataFile];
+    return result;
+}
+
+/// 古いディレクトリにSQLiteのファイルが存在するかどうかを取得します
+- (BOOL)isAliveOLDSaveDataFile{
+    NSURL* storeURL = [self GetSqlFileURL_Old];
+    if (storeURL == nil) {
+        return false;
+    }
+    NSString* path = [storeURL path];
+    if (path == nil) {
+        return false;
+    }
+    if(/* DISABLES CODE */ (false)){
+        NSURL* url = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+        NSString* path = [url path];
+        NSError* err = nil;
+        NSArray* pathList = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:&err];
+        NSLog(@"%@ have %lu files:", path, (unsigned long)[pathList count]);
+        for (NSString* path in pathList) {
+            NSLog(@"  %@", path);
+        }
+    }
+    
+    
+    BOOL result = [[NSFileManager defaultManager] fileExistsAtPath:path];
+    //NSLog(@"isAliveOLDSaveDataFile: %@, %@", result ? @"YES" : @"NO", path);
+    return result;
+}
+
+/// 古いディレクトリにあるSQLiteのファイルを新しいディレクトリに移動します
+- (BOOL)moveOLDSaveDataFileToNewLocation{
+    NSURL* storeURL = [self GetSqlFileURL_Old];
+    if (storeURL == nil) {
+        return false;
+    }
+    NSString* fromPath = [storeURL path];
+    if (fromPath == nil) {
+        return false;
+    }
+    NSFileManager* fileManager = [NSFileManager defaultManager];
+    if(![fileManager fileExistsAtPath:fromPath]){
+        return false;
+    }
+    storeURL = [self GetSqlFileURL];
+    if (storeURL == nil) {
+        return false;
+    }
+    NSString* toPath = [storeURL path];
+    if (toPath == nil) {
+        return false;
+    }
+    if (![self CreateCoreDataDirectory]){
+        return false;
+    }
+    NSArray* fileList = @[@"", @"-shm", @"-wal"];
+    for (NSString* fileTypes in fileList) {
+        NSError* err = nil;
+        NSString* targetFile = [fromPath stringByAppendingString:fileTypes];
+        NSString* toFilePath = [toPath stringByAppendingString:fileTypes];
+        if (![fileManager fileExistsAtPath:targetFile]) {
+            continue;
+        }
+        BOOL moveResult = [fileManager moveItemAtPath:targetFile toPath:toFilePath error:&err];
+        if (moveResult == false && [fileTypes compare:@""] == NSOrderedSame) {
+            return false;
+        }
+    }
+    NSLog(@"moveOLDSaveDataFileToNewLocation success.");
+    return true;
+}
+
+
+/// マイグレーションが必要かどうかを取得します。
+- (BOOL)isNeedMigration
+{
+    NSURL *storeURL = [self GetSqlFileURL];
+    NSError* error = nil;
+    
+    NSDictionary* sourceMetaData =
+    [NSPersistentStoreCoordinator metadataForPersistentStoreOfType:NSSQLiteStoreType URL:storeURL options:
+      @{
+        NSMigratePersistentStoresAutomaticallyOption: @YES,
+        NSInferMappingModelAutomaticallyOption: @YES,
+      } error:&error];
+    if (sourceMetaData == nil) {
+        return NO;
+    } else if (error) {
+        NSLog(@"Checking migration was failed (%@, %@)", error, [error userInfo]);
+        abort();
+    }
+    /*
+    if (false) {
+        NSLog(@"metadata:");
+        for (NSString* key in sourceMetaData) {
+            NSLog(@"%@", key);
+        }
+        NSLog(@"done.");
+    }
+    */
+    
+    BOOL isCompatible = [[self GetManagedObjectModel] isConfiguration:nil
+                                     compatibleWithStoreMetadata:sourceMetaData];
+    
+    return !isCompatible;
+}
+
+/// マイグレーションを行います。(マイグレーションが終了するか、失敗するまで帰りません)
+- (BOOL)doMigration
+{
+    // PersistentStoreCoordinator を取得した時点でマイグレーションが走ります。
+    if([self GetPersistentStoreCoordinator] == nil)
+    {
+        return false;
+    }
+    return true;
+}
+
+/// 保存している .sqlite ファイルを削除します。
+/// 同時に保持している core data の object は開放されます。
+- (void)deleteStoreFile
+{
+    NSURL* storeURL = [self GetSqlFileURL];
+    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+    
+    m_PersistentStoreCoordinator = nil;
+    m_ManagedObjectModel = nil;
+    [m_Thread_to_NSManagedObjectContext_Dictionary removeAllObjects];
+    //m_MergeThreadManagedObjectContext = nil;
+}
+
+/// 今のthreadでのデータを他のthreadに向けて sync します。(ファイルへの保存(セーブ)はしません)
+- (BOOL)sync
+{
+    return [self save];
+}
+
+/// writer queue までデータを送り、ファイルへの保存を行います。
+- (BOOL)save
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    __block BOOL isChanged = false;
+    [context performBlockAndWait:^{
+        isChanged = [context hasChanges];
+    }];
+    if (!isChanged) {
+        return true;
+    }
+    __block BOOL result = true;
+    [context performBlockAndWait:^{
+        NSError* error = nil;
+        if (![context save:&error]) {
+            NSLog(@"CoreData save error: %@ %@", error, error.userInfo);
+            result = false;
+        }
+    }];
+    return result;
+}
+
+
+
+- (NSManagedObjectModel*)GetManagedObjectModel
+{
+    if (m_ManagedObjectModel != nil) {
+        return m_ManagedObjectModel;
+    }
+    
+    NSURL* modelURL = [[NSBundle mainBundle] URLForResource:m_ModelName withExtension:@"momd"];
+    
+    m_ManagedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return m_ManagedObjectModel;
+}
+
+- (NSURL*)GetStoreDirectoryURL
+{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSURL *directoryURL = nil;
+    
+    switch (m_FolderType) {
+        case DOCUMENTS_FOLDER_TYPE:
+            directoryURL = [[fileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject];
+            break;
+        case CACHE_FOLDER_TYPE:
+            directoryURL = [[fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask] lastObject];
+            break;
+        default:
+            NSLog(@"ERROR: FolderType is unknown.");
+            return nil;
+            break;
+    }
+    // フォルダを追加したい場合はこのようにします。
+    // [directoryURL URLByAppendingPathComponent:m_SaveFolderName];
+    return directoryURL;
+}
+
+- (NSURL*)GetSqlFileURL_Old
+{
+    NSURL* storeDirectoryURL = [self GetStoreDirectoryURL];
+    if (m_FolderType == DOCUMENTS_FOLDER_TYPE) {
+        NSFileManager* fileManager = [NSFileManager defaultManager];
+        storeDirectoryURL = [[fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+    }
+    
+    return [[storeDirectoryURL URLByAppendingPathComponent:m_FileName] URLByAppendingPathExtension:@"sqlite"];
+}
+
+- (NSURL*)GetSqlFileURL
+{
+    return [[[self GetStoreDirectoryURL] URLByAppendingPathComponent:m_FileName] URLByAppendingPathExtension:@"sqlite"];
+}
+
+/// Core Data用にディレクトリを(なければ)作ります。
+- (BOOL)CreateCoreDataDirectory
+{
+    NSURL* directory = [self GetStoreDirectoryURL];
+    NSError* err = nil;
+    if(![[NSFileManager defaultManager] createDirectoryAtPath:[directory path] withIntermediateDirectories:YES attributes:nil error:&err])
+    {
+        NSLog(@"can not create directory %@, %@", err, [err userInfo]);
+        return NO;
+    }
+    return YES;
+}
+
+- (NSPersistentStoreCoordinator*)GetPersistentStoreCoordinator
+{
+    if (m_PersistentStoreCoordinator != nil) {
+        return m_PersistentStoreCoordinator;
+    }
+    
+    NSManagedObjectModel* model = [self GetManagedObjectModel];
+    if (model == nil) {
+        NSLog(@"NSManagedObjectModel load failed.");
+        return nil;
+    }
+    
+    [self CreateCoreDataDirectory];
+
+    NSError* error = nil;
+    NSURL* fileURL = [self GetSqlFileURL];
+    
+    NSDictionary* migrateOptions =
+        [[NSDictionary alloc] initWithObjectsAndKeys:
+         [NSNumber numberWithBool:YES]
+         , NSMigratePersistentStoresAutomaticallyOption
+         , [NSNumber numberWithBool:YES]
+         , NSInferMappingModelAutomaticallyOption
+         , nil];
+
+    NSPersistentStoreCoordinator *coordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    if (![coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:fileURL options:migrateOptions error:&error]) {
+        NSLog(@"ERROR: PersistentStoreCoordinator load failed. %@, %@", error, [error userInfo]);
+        return nil;
+    }
+    // 成功したのでこのまま返して終了です。
+    m_PersistentStoreCoordinator = coordinator;
+    return coordinator;
+}
+
+/// NSManagedObjectContext:save:error が行われた時の Notification のレシーバ
+- (void)mergeChanges:(NSNotification*)notification
+{
+    // 自分が呼び出し元の時に、自分以外の全ての context の mergeChangesFromContextDidSaveNotification を呼び出す
+    // これでどの thread で save されても merge されるようになる。
+    NSManagedObjectContext* sendorContext = notification.object;
+    NSManagedObjectContext* thisContext = [self GetManagedObjectContextForThisThread];
+    if (sendorContext != thisContext) {
+        return;
+    }
+    
+    for (NSString* threadID in [m_Thread_to_NSManagedObjectContext_Dictionary keyEnumerator]) {
+        NSManagedObjectContext* context = m_Thread_to_NSManagedObjectContext_Dictionary[threadID];
+        if (context != nil && context != sendorContext) {
+            [context performBlock:^{
+                [context mergeChangesFromContextDidSaveNotification:notification];
+            }];
+        }
+    }
+}
+
+/// NSManagedObjectContext を取得します。
+/// 呼び出された Thread毎 に object を生成して返します。
+/// こちらも GetPersistentStoreCoordinator と同じように呼び出した時点で
+/// マイグレーションがかかる可能性があります。
+- (NSManagedObjectContext*)GetManagedObjectContextForThisThread
+{
+    // 最初に検索してあればそれを返します。
+    NSString* threadID = [self GetCurrentThreadID];
+    NSManagedObjectContext* context = [m_Thread_to_NSManagedObjectContext_Dictionary objectForKey:threadID];
+    if (context != nil) {
+        return context;
+    }
+    
+    // 無いようなので作成します。
+    
+    // とりあえず何を作るにも NSPersistentStoreCoordinator は必要なので取得します。
+    NSPersistentStoreCoordinator *coordinator = [self GetPersistentStoreCoordinator];
+    if (coordinator == nil) {
+        NSLog(@"ERROR: NSPersistentStoreCoordinator is null. Can not create NSManagedObjectContext.");
+        return nil;
+    }
+    
+    // その thread用 の ManagedObjectContext を生成します。
+    if ([NSThread isMainThread]) {
+        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+    }else{
+        context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    }
+    // 親は Main です。
+    //[context setParentContext:m_MainManagedObjectContext];
+    [context performBlockAndWait:^{
+        [context setPersistentStoreCoordinator:coordinator];
+        [context setMergePolicy:self->m_MergePolicy];
+    }];
+    
+    // 他のthread の context で書き換えが起きた時の Notification ハンドラを登録します。
+    NSNotificationCenter *notify = [NSNotificationCenter defaultCenter];
+    [notify addObserver:self
+               selector:@selector(mergeChanges:)
+                   name:NSManagedObjectContextDidSaveNotification
+                 object:nil];
+    // m_Thread_to_NSManagedObjectContext_Dictionary に登録します。
+    [m_Thread_to_NSManagedObjectContext_Dictionary setObject:context forKey:threadID];
+
+    return context;
+}
+
+
+//------------------------------------------------------------
+//   utility methods.
+//------------------------------------------------------------
+
+/// 新しい Entity を生成して返します
+- (id)CreateNewEntity:(NSString*)entityName
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSDate* startDate = [NSDate date];
+    id entity = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+    [LPPerformanceChecker CheckTimeInterval:@"CreateNewEntity時間かかりすぎ" startDate:startDate logTimeInterval:1.0f];
+    return entity;
+}
+
+/// Entity を一つ削除します
+- (void)DeleteEntity:(NSManagedObject*)entity
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        [context deleteObject:entity];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:@"DeleteEntity時間かかりすぎ" startDate:startDate logTimeInterval:1.0f];
+}
+
+- (void)FetchAllEntityWithBlock:(NSString*)entityName sortAttributeName:(NSString*)sortAttributeName ascending:(BOOL)ascending block:(void(^)(NSObject*))block {
+    NSUInteger count = [self CountEntity:entityName];
+    if (count <= 1000) {
+        NSArray* allEntity = [self FetchAllEntity:entityName];
+        if (allEntity != nil) {
+            for (NSObject* obj in allEntity) {
+                if (block != nil) {
+                    block(obj);
+                }
+            }
+        }
+        return;
+    }
+
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+
+    NSUInteger bulkCount = 500;
+    for (NSUInteger index = 0; index < count; index += bulkCount) {
+        NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+        [fetchRequest setEntity:entity];
+        NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortAttributeName ascending:ascending];
+        NSArray* sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        fetchRequest.fetchLimit = bulkCount;
+        fetchRequest.fetchOffset = index;
+        __block NSError* err = nil;
+        __block NSArray* results = nil;
+        [context performBlockAndWait:^{
+            results = [context executeFetchRequest:fetchRequest error:&err];
+        }];
+        if (err != nil) {
+            NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+            results = nil;
+        }
+        if (results != nil) {
+            for (NSObject* obj in results) {
+                if (block != nil) {
+                    block(obj);
+                }
+            }
+        }
+    }
+}
+
+/// 全ての Entity を検索して返します
+- (NSArray*)FetchAllEntity:(NSString*)entityName
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    __block NSError* err = nil;
+    __block NSArray* results = nil;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"FetchAllEntity (%@) 時間かかりすぎ", entityName] startDate:startDate logTimeInterval:1.0f];
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        results = nil;
+    }
+    return results;
+}
+
+/// 登録されている Entity の個数を取得します
+- (NSUInteger)CountEntity:(NSString*)entityName
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSUInteger count = 0;
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    // 数を数えるだけなのでidしか返却しないようにします。
+    [fetchRequest setIncludesPropertyValues:NO];
+    
+    __block NSError* err = nil;
+    __block NSArray* results;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"CountEntity (%@) 時間かかりすぎ", entityName] startDate:startDate logTimeInterval:1.0f];
+  
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        count = 0;
+    }else{
+        count = [results count];
+    }
+    return count;
+}
+
+
+/// 全ての Entity を検索して返します(sort用のattribute指定版)
+- (NSArray*)FetchAllEntity:(NSString*)entityName sortAttributeName:(NSString*)sortAttributeName ascending:(BOOL)ascending
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    __block NSArray* results = nil;
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortAttributeName ascending:ascending];
+    NSArray* sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    __block NSError* err = nil;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"FetchAllEntity %@ sortAttributeName: %@ 時間かかりすぎ", entityName, sortAttributeName] startDate:startDate logTimeInterval:1.0f];
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        results = nil;
+    }
+
+    return results;
+}
+
+- (void)SearchEntityWithBlock:(NSString*)entityName predicate:(NSPredicate*)predicate sortDescriptor:(NSSortDescriptor*)sortDescriptor block:(void(^)(NSObject*))block {
+    if (block == nil) {
+        return;
+    }
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+
+    NSUInteger bulkSize = 500;
+    for (NSUInteger offset = 0; ; offset += bulkSize) {
+        NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+        NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+        [fetchRequest setEntity:entity];
+        [fetchRequest setPredicate:predicate];
+        if (sortDescriptor != NULL) {
+            fetchRequest.sortDescriptors = @[sortDescriptor];
+        }
+        fetchRequest.fetchLimit = bulkSize;
+        fetchRequest.fetchOffset = offset;
+
+        __block NSError* err = nil;
+        __block NSArray* results;
+        [context performBlockAndWait:^{
+            results = [context executeFetchRequest:fetchRequest error:&err];
+        }];
+        if (err != nil) {
+            break;
+        }
+        if (results.count <= 0) {
+            break;
+        }
+        for (NSObject* obj in results) {
+            block(obj);
+        }
+        [self refreshAllObjects];
+    }
+}
+
+/// Entity を検索して返します(検索用の NSPredicate 指定版)
+- (NSArray*)SearchEntity:(NSString*)entityName predicate:(NSPredicate*)predicate
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    [fetchRequest setPredicate:predicate];
+    
+    __block NSError* err = nil;
+    __block NSArray* results;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"SearchEntity %@ predicate: %@ 時間かかりすぎ", entityName, predicate] startDate:startDate logTimeInterval:1.0f];
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        return nil;
+    }
+
+    return results;
+}
+
+/// Entity を検索して返します(検索用の NSPredicate と sort用のattribute指定版)
+- (NSArray*)SearchEntity:(NSString*)entityName predicate:(NSPredicate*)predicate sortAttributeName:(NSString*)sortAttributeName ascending:(BOOL)ascending
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    [fetchRequest setPredicate:predicate];
+
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortAttributeName ascending:ascending];
+    NSArray* sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+
+    __block NSError* err = nil;
+    __block NSArray* results;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"SearchEntity %@ predicate: %@ sortAttributeName: %@ 時間かかりすぎ", entityName, predicate, sortAttributeName] startDate:startDate logTimeInterval:1.0f];
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        return nil;
+    }
+    
+    return results;
+}
+
+
+/// 登録されている Entity の個数を取得します(検索用の NSPredicate 指定版)
+- (NSUInteger)CountEntity:(NSString*)entityName predicate:(NSPredicate*)predicate
+{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:entityName inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    
+    [fetchRequest setPredicate:predicate];
+
+    // 数を数えるだけなのでidしか返却しないようにします。
+    [fetchRequest setIncludesPropertyValues:NO];
+
+    __block NSError* err = nil;
+    __block NSArray* results;
+    NSDate* startDate = [NSDate date];
+    [context performBlockAndWait:^{
+        results = [context executeFetchRequest:fetchRequest error:&err];
+    }];
+    [LPPerformanceChecker CheckTimeInterval:[[NSString alloc] initWithFormat:@"CountEntity %@ predicate: %@ 時間かかりすぎ", entityName, predicate] startDate:startDate logTimeInterval:1.0f];
+    if (err != nil) {
+        NSLog(@"CoreData fetchRequest failed. %@ %@", err, err.userInfo);
+        return 0;
+    }
+
+    return [results count];
+}
+
+/// 現在のthreadでの NSManagedObjectContext で、performBlockAndWait を実行します。
+- (void)performBlockAndWait:(void(^)(void))block{
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    //@synchronized([CoreDataObjectHolder GetSyncObject]){
+        [context performBlockAndWait:^{
+            block();
+        }];
+    //}
+}
+
+/// [NSManagedObjectContext refreshAllObjects] 呼び出しを行います
+/// 強制的に NSManagedObjectContext が掴んでいる NSManagedObject を開放させたい時に使用します。
+- (void)refreshAllObjects {
+    NSManagedObjectContext* context = [self GetManagedObjectContextForThisThread];
+    [context refreshAllObjects];
+}
+
+
+@end

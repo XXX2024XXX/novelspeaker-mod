@@ -1,0 +1,2428 @@
+/* 
+  Localized.strings
+  NovelSpeaker
+
+  Created by 飯村卓司 on 2014/08/30.
+  Copyright (c) 2014年 IIMURA Takuji. All rights reserved.
+*/
+
+"OK_button" = "OK";
+"DownloadButton" = "Download";
+"Setings_button" = "Settings";
+"Cancel_button" = "Cancel";
+"Disagree_Button" = "Disagree";
+"Agree_Button" = "Agree";
+"Close_button" = "Close";
+//"DisplayDateFormat" = "YYYY-MM-dd HH:mm:ss";
+
+"WatchOS_NowloadingText" = "Loading...";
+"WatchOS_NovelSupportMenuView_StorySelector" = "Chapter selection";
+"WatchOS_NovelSupportMenuView_VolumeControl" = "Volume control";
+
+"SpeakPitchSettingView_NoTitleStringAlert" = "No title string.";
+"SpeakPitchSettingView_AlreadyExistingSetting" = "Setting already exists.";
+"SpeakPitchSettingView_AppendFailed." = "Voice setting append failed.";
+"SpeakPitchSettingView_AppendSuccess" = "Voice setting append Success.";
+"CreateSpeechModSettingView_ReadItForAAAinBBB" = "Pronounce \"%@\" as \"%@\"";
+"CreateSpeechModSettingView_ERROR_NoStringSetting" = "Missing input or output.";
+"CreateSpeechModSettingView_SettingFailed" = "Setting failed.";
+"DownloadStatusViewController_ThereIsNoThingDownloading" = "There is nothing downloading.";
+"DownloadStatusViewController_WaitingDownloading" = "Awaits downloading";
+
+"GlobalDataSingleton_CanNotGetValidNCODE" = "Invalid NCODE";
+"GlobalDataSingleton_AlreadyDownloaded" = "Already Downloaded";
+"GlobalDataSingleton_NoPlaing" = "Nothing is Playing";
+"GlobalDataSingleton_Conversation1" = "Conversation 1";
+"GlobalDataSingleton_Conversation2" = "Conversation 2";
+"GlobalDataSingleton_NewUserBookTitle" = "Generate a new Novel";
+"GlobalDataSingleton_NovelUpdateAlertBody" = "%d novels updated.";
+"GlobalDataSingleton_NovelUpdateAlertAction" = "Starting app";
+"GlobalDataSingleton_URLisAlreadyDownload" = "This novel is already in your bookshelf.";
+"GlobalDataSingleton_PDFToStringFailed_Title" = "Failed to load the PDF text";
+"GlobalDataSingleton_PDFToStringFailed_Body" = "Failed to load text string from the PDF file.\nIt may be the text format within the PDF. Also it may be iOS 11 or previous version does not work well with PDF.";
+"GlobalDataSingleton_RTFToStringFailed_Title" = "Failed to read RTF";
+"GlobalDataSingleton_BackupDataLoaded" = "The settings was loaded. Now downloading backed novels. It may take a while.";
+"GlobalDataSingleton_RestoreFullBackupEnd" = "Backup restored.";
+"GlobalDataSingleton_RestoreingBookProgress" = "Step 2\r\nRestoring novels";
+"GlobalDataSingleton_RestoreBackupFromJSONProgress_RestoreSettings" = "Step 1\r\nRestoring settings";
+"GlobalDataSingleton_RestoreBackupDataFailed" = "Restore backup data failed.";
+"GlobalDataSingleton_AnnounceStopedByTimer" = "The maximum reading time limit has reached. Reading paused";
+"GlobalDataSingleton_NotificationRequestAuthorizationMessage" = "Background activity permission required for automatic download and updates.";
+
+"NarouSearchResultDetailViewController_FailedInAdditionToDownloadQueue" = "Failed to add the novel into download queue.";
+"NarouSearchResultDetailViewController_AddSuccess_Title" = "Title: %@";
+"NarouSearchResultDetailViewController_AddSuccess_ItWasAddedToDownloadQueue" = "The novel was added to download queue.";
+"NarouSearchResultTableViewController_SearchResult" = "Search result";
+"NarouSearchViewController_SearchTitle_Searching" = "Searching";
+"NarouSearchViewController_SearchMessage_NowSearching" = "Now searching";
+"NarouSearchViewController_NarouSearchTabDeletedAnnounceText" = "Notice of the end of the \"Search\" tab.\n\nAs notified from before, the \"Search\" tab related functions have been removed. Please use \"Web import\" function from now on. Please use the search page on the side where \"let's become a novelist\". The novel imported by the \"Web import\" function is almost as easy to use as the novel imported via \"Search\". How to import a novel on the \"Web import\" tab is roughly.\n\n Set the text of the novel you want to import displayed, and then press the \"Import\" button on the lower right.\n\nIt can be done by things. Please refer to the \"Web取込機能について\" page at the bottom of the support site for details on how to import novels using the \"Web Import\" function.";
+
+
+"PickerViewDialog_DoneKeyboardBarItem" = "done";
+
+"DebugLogViewControllerSwift_Copied" = "Copied";
+
+"SettingsTableViewController_Information" = "Information";
+"SettingsTableViewController_Information_CanNotGetInformation" = "Information update failed.";
+"SettingsTableViewController_Information_NoImportantInformationAlived" = "There is no important information right now.";
+"SettingsTableViewController_Information_ShowOutdatedInformation" = "Check previous notifications";
+"SettingsTableViewController_Information_PastInformationTitle" = "Previous notifications";
+"SettingsTableViewController_SettingOfTheQualityOfVoice" = "Quality of reading voice";
+"SettingTableViewController_CorrectionOfTheReading" = "Corrections for pronounciation";
+"SettingTableViewController_SettingOfTheTextSize" = "Text display settings";
+"SettingTableViewController_SettingOfTheSpeechDelay" = "Setting for punctuation delays";
+"SettingTableViewController_MaxSpeechTime" = "Maximum reading time limit";
+"SettingTableViewController_AddDefaultCorrectionOfTheReading" = "Add default correction to pronounciation";
+"SettingTableViewController_GetNcodeDownloadURLScheme" = "Create backup";
+"SettingTableViewController_AnAddressAddedAStandardParaphrasingDictionary" = "Added a standard pronounciation dictionary.";
+"SettingTableViewController_NoContentHave" = "There are no novels in the bookshelf";
+"SettingTableViewController_ShareNcodeListURLScheme" = "Bookshelf backup URL generated.";
+"SettingTableViewController_ConfirmAddDefaultSpeechModSetting" = "Confirm";
+"SettingtableViewController_ConfirmAddDefaultSpeechModSettingMessage" = "Proceed to overwrite the pronounciation corrections to deafult?";
+"SettingTableViewController_GoToReleaseLog" = "Update log";
+"SettingTableViewController_CreateNewUserText" = "Create a novel";
+"SettingTableViewController_RightNotation" = "Copyrights";
+"SettingTableViewController_BackgroundFetch_Enabled" = "Auto updates: Enabled";
+"SettingTableViewController_BackgroundFetch_Disabled" = "Auto updates: Disabled";
+"SettingTableViewController_BackgroundFetch" = "Automatic updates for novels";
+"SettingTableViewController_ConfirmEnableBackgroundFetch_title" = "Conifirm";
+"SettingtableViewController_ConfirmEnableBackgroundFetch" = "Granting NovelSpeaker to access the internet in the background allows auto updates when the newest chapters become available";
+"SettingTableViewController_OverrideRubyIsEnabled" = "Ruby will read when available: Enabled";
+"SettingTableViewController_OverrideRubyIsDisabled" = "Ruby will read when available: Disabled";
+"SettingTableViewController_OverrideRuby" = "Ruby will read when available";
+"SettingTableView_SendEmailForBackupTitle" = "Backup for NovelSpeaker";
+"SettingTableView_SendEmailForBackupBody" = "Loading the attached file will regenerate the Novel list and the corrections for pronounciation.";
+"SettingTableViewController_EditNotRubyStringTitle" = "Decides if Ruby takes over.";
+"SettingTableViewController_EditNotRubyStringHint" = "If ruby only emphsizes here, then the original pronounciation would be spoken";
+"SettingTableViewController_EditNotRubyStringPlaceHolder" = "・";
+"SettingTableViewController_ForceSiteInfoReload" = "Force reload SiteInfo";
+"SettingTableViewController_ShowDebugLog" = "Show debug log";
+"SettingTableViewController_GoToSupportSite" = "NovelSpeaker support site";
+"SettingTableViewController_SendBugReport" = "Send inquiries to developers via E-mail";
+"SettingTableViewController_DisplayBookmarkPositionOnBookshelf" = "Display bookmarks on the Bookshelf";
+"SettingTableViewController_OnlyDisplayAddSpeechModSettings" = "Long press only pops: corrections for pronounciation";
+"SettingTableViewController_ShortSkipIsEnabled" = "Replace Next chapter and previous chapter in the control center  with fastward and rewind.";
+"SettingTableViewController_PlaybackDurationIsEnabled" = "Display remaining time in the control center. (Approximation only)";
+"SettingTableViewController_DarkThemeIsEnabled" = "Dark Theme";
+"SettingTableViewController_PageTurningSoundIsEnabled" = "Sounds effect when turning pages";
+"SettingTableViewController_IgnoreURISpeechIsEnabled" = "Ignore URI";
+"SettingTableViewController_LICENSE" = "NovelSpeaker LICENSE";
+"SettingTableViewController_LISENSE_file_can_not_read" = "Cannot load LICENSE.txt\nPlease use NovelSpeaker LICENSE.txt on GitHub project as a reference.";
+"SettingTableViewController_PrivacyPolicy_can_not_load" = "The latest Privacy Policy cannot be loaded. Try using a browser.";
+"SettingTableViewController_PrivacyPolicy" = "NovelSpeaker's privacy policy";
+"SettingTableView_SendEmailWithLargeFileWarning" = "Please note that the file attached is very large with %@. There are possibilities of error codes due to internet flucuation. \r\n Try using Mail Drop from iCloud Drive (supports up to 5GB)";
+"SettingTableViewController_About" = "About NovelSpeaker";
+"SettingTableViewController_isAnnounceAtRepatSpeechTimeTitle" = "Announce to that effect when resuming after stopping reading";
+"SettingsViewController_CreatingBackupData" = "Generating backup\r\n";
+"SettingsViewController_GenerateBackupDataFailed" = "Backup Generation failed.";
+"SettingsViewController_IsCreateFullBackup?" = "Would you like to backup the entire bookshelf including the text?\r\nWhen there are a large number of registered novels, it may be time and storage consuming.";
+"SettingsViewController_ChooseCancel" = "Stop generating backups";
+
+"SettingsViewController_SpeechModSettingsButtonTitle" = "Speaker change setting (setting to change voice quality with conversational text etc)";
+"SettingsViewController_RemoveDefaultSpeechModSettings" = "The same as the standard reading correction is deleted from the dictionary replacement registration";
+"SettingsViewController_RemoveDefaultSpeechModSettings_ConifirmTitle" = "Confirm";
+"SettingsViewController_RemoveDefaultSpeechModSettings_ConifirmMessage" = "Among the corrections of readings, delete the same one as the correction of standard readings. Is it OK?";
+"SettingsViewController_RemoveDefaultSpeechModSettings_DeletedMessage" = "Of the registration of the correction of reading, the same one as the correction of standard reading was deleted.";
+"SettingsViewController_IsUseiCloud_Title" = "Use iCloud sync";
+"SettingsViewController_IsUseiCloud_ConifirmTitle" = "Do you want to enable iCloud sync?";
+"SettingsViewController_IsUseiCloud_ConifirmMessage" = "When iCloud Sync is enabled, iCloud will try to communicate each time you rewrite data in the area. For example, opening a novel or reading aloud will rewrite the data, so communication will occur frequently.";
+"SettingsViewController_IsUseiCloud_EnabledButNextStart" = "iCloud Sync has started. Once you quit the app.";
+"SettingsViewController_IsUseiCloud_ConifirmTitle_disable" = "Do you want to disable iCloud sync?";
+"SettingsViewController_IsUseiCloud_DisabledButNextStart" = "iCloud Sync has stopped. Once you quit the app.";
+"SettingsViewController_IsUseiCloud_SyncProgress" = "Data is registered on iCloud side";
+"SettingsViewController_IsUseiCloud_SyncProgress_Push" = "Waiting for data to be registered";
+"SettingsViewController_IsUseiCloud_CopyFailed" = "Failed to register data.";
+"SettingsViewController_IsUseiCloud_DisableSyncProgress" = "Fetching data from iCloud side";
+
+"SettingsViewController_CopyingCloudToLocal" = "Acquisition of iCloud side data";
+"SettingsViewController_CopyCloudToLocalFailed" = "Failed to get iCloud data.";
+"SettingsViewController_iCloudDisable_done" = "iCloud sync has stopped";
+"SettingsViewController_CopyingLocalToCloud" = "Registering current data with iCloud";
+"SettingsViewController_CopyLocalToCloudFailed" = "Registration of current data to iCloud has failed.";
+"SettingsViewController_iCloudEnable_done" = "iCloud sync has started.\nSynchronization has started, but the synchronization (transfer) work on the terminal side and iCloud side has not been completed.\nIf you have a lot of data to transfer, it may take a long time to finish the transfer.\nUnfortunately, there is no way (as far as the developer knows) to know if the transfer is complete. Also, according to Apple's commentary, even if the application is closed for 24 hours, it will receive it behind the scenes and will continue the transfer if you restart the application, but you may not be very relieved not.\nIf there is unsent or unreceived data, we will try to turn the indicator during communication, but the disappearance of this indicator may not mean that the transfer has ended. Please understand (actually, I've seen more than 200 novels added to the bookshelf after the indicator disappeared, so you can think that you can't trust it at all. The iCloud side When you try to read data from or write data from (the current state is exactly that), there is a gap of about 30 seconds to 2 minutes after a certain amount is sent from Apple or sent to Apple. It seems that the data flows a little again, and it opens for a while ... It seems that the data flows like a intermittent spring. Probably, it is restricted so that the data can not be flowed at once. I think that is applied). Since it means\n, if the number of registered items such as novels, texts, and translation dictionaries registered in the novel is large, the novel registered in one terminal will be the one in the other terminal. It is likely that synchronization will not be completed immediately, such as not being registered on the bookshelf. In that case, please be patient and wait.";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseLocalOnly" = "Erase all data on iCloud and send current data to iCloud";
+"SettingsViewController_RemoveICloudData" = "Deleting data on iCloud";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData" = "There seems to be data available on the iCloud side. Select whether to use the iCloud data as it is or overwrite the data on iCloud with the current data.";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseiCloud" = "Use iCloud data as it is";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_ChooseLocal" = "Overwrite data on iCloud with current data";
+"SettingsViewController_IsUseiCloud_ChooseiCloudDataOrLocalData_Cancel" = "Stop iCloud sync";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling_Title" = "Checking iCloud data.";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling" = "If you have used iCloud in the past with NovelSpeaker, or if iCloud is stored in another device such as NovelSpeaker, this work may take a long time if the iCloud side stores a large amount of data.";
+"SettingsViewController_IsUseiCloud_FailedSyncEngineStart" = "Failed to connect to iCloud.";
+"SettingsViewController_CloudPullProcessingDialog" = "Loading data from iCloud.";
+"SettingsViewController_CloudPushProcessingDialog" = "Writing data to iCloud side.";
+"SettingsViewController_IsUseiCloud_ConifirmRemoveLocalData" = "I will use the data on iCloud.\nThe current data is discarded.\nThis operation can not be undone.\nIs it OK?";
+"SettingsViewController_iCloudAccountInvalid_restricted" = "Your iCloud account is in a restricted state and can not be used.";
+"SettingsViewController_iCloudAccountInvalid_noAccount" = "iCloud account has not been set up.";
+"SettingsViewController_iCloudAccountInvalid_temporarilyUnavailable" = "It looks like your iCloud account isn't available. It seems to be a problem that may occur during processing on the OS side, so it may be better to wait for a while and try again. (temporarilyUnavailable)";
+"SettingsViewController_iCloudAccountInvalid_cloudNotDetermine" = "Could not get the status of your iCloud account.";
+"SettingsViewController_InvalidiCloudStatus" = "There was a problem with the state of iCloud.";
+"SettingsViewController_ClearSiteInfoCache" = "Get SiteInfo again";
+"SettingsViewController_ClearSiteInfoCache_done" = "The saved SiteInfo information has been deleted and reacquisition has started.";
+"SettingsViewController_IsNeedRestartApp_Title" = "App restart required";
+"SettingsViewController_IsNeedRestartApp_Message" = "In order to do this operation, you need to restart the application once. Quit the application from the App switcher, restart it, and then try again.";
+"SettingsViewController_FailedCheckIcloudDataIsValid" = "Failed to check the data on iCloud side.";
+
+"NovelSpeakerUtility_ExportingNovelData" = "Exporting novel";
+"NovelSpeakerUtility_ExportOtherSettings" = "Exporting settings";
+"NovelSpeakerUtility_RestoreingJSONType" = "Loading settings from backup file.";
+"NovelSpeakerUtility_RestoreingNovelData" = "Loading novels from backup file.";
+"NovelSpeakerUtility_UnzipProgress" = "Decompressing backup file";
+"NovelSpeakerUtility_RestoreBackupTitle" = "Loading backup data";
+"NovelSpeakerUtility_RestoreBackupMessage" = "-";
+"NovelSpeakerUtility_FirstStoryURLString" = "https://limura.github.io/NovelSpeaker/topics/en/00001.html";
+"NovelSpeakerUtility_FirstStoryTitleString" = "Introduction (How to use NovelSpeaker)";
+
+"SettingsViewController_ChooseFullBackup" = "Generate a full backup (comparably slower)";
+"SettingsViewController_ChooseSmallBackup" = "Generate a lightweight backup (comparably faster)";
+"SettingsViewController_ShareBackupDataSelectHow_Title" = "Select a export option for the backup ";
+"SettingsViewController_ShareBackupDataSelectHow_Mail" = "Attach to email";
+"SettingsViewController_ShareBackupDataSelectHow_ShareButton" = "Share as a file";
+"SettingsViewController_ShareBackupSelect_FailedAppendToMail" = "Failed to attach te file.";
+"SettingTableViewController_IsDisallowsCellularAccess" = "Disable download and updates with cellular data";
+"SettingsViewController_FailediCloudEnableBecauseDataVersionInvalid_Title" = "App version upgrade required";
+"SettingsViewController_FailediCloudEnableBecauseDataVersionInvalid_Message" = "The data stored on the iCloud side was created with the new version of NovelSpeaker. To perform iCloud synchronization, you need to upgrade the app version.";
+"SettingsViewController_FailedCheck_NetworkError" = "Failed to check the data on iCloud side. It doesn't seem to be connected to the network. There may be problems such as being in airplane mode or being out of reach of radio waves. Please perform the first check of iCloud synchronization in an environment where you can have a stable internet connection.";
+"SettingsViewController_ChooseInvalidiCloudData_Message" = "I confirmed that the data existed on the iCloud side, but I couldn't get the necessary data to use it in the world.\n\nThere are various cases such as when the network condition is bad, the amount of data stored on the iCloud side is large, the data of the terminal that has previously performed iCloud synchronization has not been completely transferred to the iCloud side, etc. However, it is unlikely that it will be able to be used normally as it is.\n\nYou can also turn on iCloud synchronization by overwriting the data on this device on the iCloud side. When overwriting and saving on the iCloud side, the settings and novels that exist on both the iCloud side and this terminal side will remain in the values on this terminal side, and the settings and novels that exist only on the iCloud side will remain on the iCloud side. I will.\n\nDo you want to start iCloud sync by overwriting?";
+"SettingsViewController_ChooseiCloudDataProcessForInterruptedSync_Message" = "It was interrupted while acquiring data on the iCloud side. \nIf the network condition is bad or the amount of data stored on the iCloud side is large, it may take a considerable amount of time to read the data on the iCloud side, and in such cases it will be interrupted. This behavior occurs when: However, it has not been confirmed that the correct data is stored on the iCloud side. You can trust the data on the iCloud side and \"use the data on the iCloud side as it is\", but there is a possibility that the operation will be strange (it may work without problems just because the data has not been received) It's not without gender). Also, by \"overwriting the data on iCloud with the current data\", the data currently stored on the iCloud side will be destroyed, but you can continue to use the data as it is.";
+"SettingsViewController_IsUseiCloud_CheckiCloudData_pulling_cancelButton" = "Stop checking data";
+"SettingsViewController_ClearWebSearchSiteInfoCache" = "Reread the search data on the Web Search tab";
+"SettingsViewController_ClearWebSearchSiteInfoCache_done" = "I set it to reload when I return to the Web search tab.";
+"SettingsViewController_AutoSplitStringSetting" = "Text segmentation character string setting (setting to divide and read by a specific character string when trying to read a sentence of only one page)";
+"SettingsViewController_RemoteDataURLSetting" = "Setting URL for internal data reference";
+"SettingsViewController_RepeatTypeGoToNextSameFolderdNovel_NoFolderFoundWarning" = "It seems that no folder has been created. This setting is not available unless the folder has been created.\nTo create a folder, edit it by selecting \"Settings tab\" -> \"Edit your own folder\", or open the novel in the \"Bookshelf tab\" and press the \"Details\" button in the upper right corner. Select \"Classify to Folder\" from the details screen of and add a folder.";
+"SettingsViewController_ManageFolderOrderButton" = "Edit folder";
+"SettingsViewController_ManageNovelLikeOrderButton" = "Edit like order";
+"SettingsViewController_UploadAllDataToiCloud_Title" = "Upload all current data to iCloud";
+"SettingsViewController_UploadAllDataToiCloud_iCloudNotEnabled_Message" = "Not currently using iCloud.";
+"SettingsViewController_UploadAllDataToiCloud_Message" = "I started uploading all my data to iCloud. The more data you have, the longer it will take to complete the upload.";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus" = "Reload all data on iCloud";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus_Message" = "Would you like to reload all the data on iCloud?\nIf you perform this operation, all the data saved on iCloud will be reloaded, so if the amount of data saved on iCloud is large, it will take a considerable amount of time.";
+"SettingsViewController_iCloudPullWithRefreshiCloudStatus_Message" = "Started reloading iCloud data.";
+"SettingsViewController_isUseWebSearchTabDisabledSite_Title" = "Show hidden sites on the Web Search tab";
+"SettingsViewController_isDebugMenuAlreadyEnabled_Title" = "Always turn on this debug menu";
+"SettingsViewController_DontUsallyUseSection_Title" = "Things you don't normally need to use";
+"SettingsViewController_ClearSiteInfoCache_SiteInfoLoadEnd" = "Manual loading of SiteInfo is complete.\nIf there are no other error messages, it seems that the SiteInfo load was successful.";
+"SettingsViewController_ClearSiteInfoCache_SiteInfoLoadEnd_Failed" = "There is an error loading SiteInfo manually. (Probably there is a problem with the network connection. It seems that detailed information is written on the error side that is output at the same time, so check them and take appropriate action.)";
+"SettingTableViewController_IsEnableSwipeOnStoryView" = "Make it possible to turn pages by swiping left and right on the novel text screen";
+"SettingsTableViewController_AppInformation" = "Notification of in-app error";
+"SettingsTableViewController_AppInformation_IncludedForDebug" = "Notification of in-app error (including for debugging)";
+"SettingTableViewController_AppInformation_IncludeForDebug_OutputByJSON" = "Notification of in-app error(JSON)";
+"SettingsTableViewController_AppInformation_ClearButtonTitle" = "Clear notification";
+"SettingsTableViewController_AppInformation_CopyLogButtonTitle" = "Copy notification";
+
+"SettingTableViewController_IsNeedConfirmDeleteBook" = "Confirm when deleting a novel";
+"SettingTableViewController_RepeatTypeTitle" = "Operation at the end of playback";
+"SettingTableViewController_RepeatType_NoRepeat" = "Stop";
+"SettingTableViewController_RepeatType_RewindToFirstStory" = "Play from the beginning";
+"SettingTableViewController_RepeatType_RewindToThisStory" = "Replay the current chapter";
+"SettingTableViewController_RepeatType_GoToNextLikeNovel" = "Play another favorite novel";
+"SettingTableViewController_RepeatType_GoToNextSameFolderdNovel" = "Play another novel in the same folder";
+"SettingTableViewController_RepeatType_GoToNextSelectedFolderdNovel" = "Play another novel in the specified folder";
+"SettingTableViewController_RepeatType_GoToNextSameWriterNovel" = "Play another novel by the same author";
+"SettingTableViewController_RepeatType_GoToNextSameWebsiteNovel" = "Play another novel on the same website";
+"SettingTableViewController_RepeatLoopTypeTitle" = "Selection method for the next novel when playback reaches the end";
+"SettingTableViewController_RepeatSpeechLoopType_Normal" = "Play from the continuation of the unread part";
+"SettingTableViewController_RepeatSpeechLoopType_NoCheckReadingPoint" = "Play from the first page in order";
+"SettingTableViewController_IsEscapeAboutSpeechPositionDisplayBugOniOS12Enabled" = "A hotfix to unsynced audio and reading progress to IOS 12";
+"SettingTableViewController_ConfirmEnableEscapeAboutSpeechPositionDisplayBugOniOS12_title" = "Confirm";
+"SettingtableViewController_ConfirmEnableEscapeAboutSpeechPositionDisplayBugOniOS12" = "When this setting is enabled, it is set to change to \"α\"(alpha) for possible characters (such as blanks and line feeds are not displayed) that are thought to be wrong with the reading position display being read aloud.\nAt the time of implementing this function, \"α\"(alpha) is a character that can not be read aloud, so it seems that it will be a problematic operation in general. However, there is a possibility that it will be read aloud as iOS due to change in iOS speech synthesis engine side in the future.\nAlso, iOS 12 (or later) is supposed to need this function.\nDo you enable this setting after understanding the above?";
+"SettingTableViewController_DummySilentSoundEnable" = "Potentially possible background white noice would be noticed";
+"SettingTableViewController_MixWithOthersIsEnabled" = "Continue reading when other media plays (Does not works with headphones or control center)";
+"SettingTableViewController_DuckOthersIsEnabled" = "Decreases volume for other applications";
+"SettingTableViewController_IsOpenRecentBookInStartTime" = "Startup with the last read book";
+"SettingTableViewController_DisableNarouRuby" = "Only the ruby notation derived from the NovelSpeaker is targeted (effective when you want to avoid the notation \"Kanji (Hiragana or Katakana)\" being judged as ruby).";
+"SettingTableViewController_isNeedDisableIdleTimerWhenSpeechTime" = "Avoid entering sleep mode while speaking";
+"SettingTableViewController_isSupportAutoRotate" = "Follow the rotation of the screen";
+"SettingTableViewController_GoToSupportSite_Q&A" = "Open Frequently Asked Questions and Answers on the support site";
+"SettingsViewController_ClearAllCookiesButton_Title" = "Delete all stored cookies";
+"SettingsViewController_ClearAllCookiesResult_Title" = "Deleted all stored cookies";
+"SettingsViewController_ClearAllCookiesDialog_Message" = "Do you want to delete all stored cookies?\nThe login status for each website is initialized. In some cases, you may not be able to download the novel. This operation is irreversible.";
+"SettingsViewController_ClearAllCookiesDialog_OKButton" = "Delete";
+"SettingsViewController_ImportOuterFile" = "File import";
+"SettingsViewController_UIDocumentPickerViewTitle" = "Please specify the file to import into NovelSpeaker";
+"SettingsViewController_PickRealmData_Title" = "Extract internal database (Realm) files (It will be the last resort in an emergency. Therefore, we can not provide support for the extracted files.)";
+"SettingsViewController_PickRealmData_FailGetFilePath" = "Failed to get internal database file path.";
+
+"SettingTableViewController_menuItemsNotRemoved" = "Long press menu items left behind";
+"SettingsViewController_isNeed_OpenInWebImportTab_ButtonOnNovelSearchTargetCheckDialog" = "Add \"Open in WebImport tab and check\" button to each search result dialog in Web Search tab";
+"SettingTableViewController_isDisableWillSpeakRange" = "Skip reading position display (This is a countermeasure to the memory leak problem that has been occurring since iOS 16.3. This option will be removed after the problem is resolved)";
+"SettingTableViewController_MoreSplitTargetsMinimumCount" = "The minimum number of characters that will not be separated when dividing the reading range in a single breath when the reading range becomes long.\nSpecifies the number of characters to separate the reading by the number of characters in.\nHowever, if you specify a large value, the reading position will not be updated to the expected position when you stop speaking in the middle of reading. Therefore, please set a value that you think is appropriate (As an individual developer, I think that about 50 can be reasonably used.)\nIn addition, only punctuation marks, spaces, and line breaks are delimited. , so even if you specify \"1\", it will be spoken without a certain length.\nThis option will be removed after the problem is resolved.)";
+"SettingTableViewController_IsInspectableWkWebView" = "Make WkWebView Inspectable from Safari on mac.";
+"SettingTableViewController_likeButtonDialogType" = "Behavior when pressing the favorite button on the bookshelf";
+"SettingTableViewController_LikeButtonDialogType_noDialog" = "don't check";
+"SettingTableViewController_LikeButtonDialogType_dialogOnRequested" = "Confirm only when adding";
+"SettingTableViewController_LikeButtonDialogType_dialogOffRequested" = "Ask only when deleting";
+"SettingTableViewController_LikeButtonDialogType_dialogAlwaysRequested:" = "check anytime";
+"SettingTableViewController_IsDisplaySpeechModChange" = "Change the color of the text that will be replaced on the novel text screen";
+"SettingTableViewController_IsNotClearToAboutBlankOnDownloadBrowserUrl" = "Don't move to about:blank after download finished";
+"SettingTableViewController_IsDynamicNovelDownloadThrottleEnabled" = "Reduce download parallelism when the device gets hot, etc.";
+"SettingTableViewController_BaseMaxConcurrentNovelDownloadCount" = "Maximum simultaneous downloads (site limits apply, default is 5)";
+"SettingTableViewController_IsDeleteBlockOnBookshelfTreeView" = "Prevent novels from being deleted by swiping or clicking \"Edit\" on the bookshelf screen (Even if this is ON, if you want to delete a novel, you can do so from the multiple novel selection screen)";
+"SettingTableViewController_overrideTabBarTraitsRow" = "Display tabs at the bottom of the screen (not recommended. Also, this will be applied after restarting the app";
+"SettingTableViewController_IsCarPlayModeToVoicePrompt" = "Change the audio mode when connected to CarPlay (Changing the audio mode may improve audio clarity. However, some functions will be limited when changing the audio mode.)";
+"SettingsViewController_BarButtonSpacing" = "Spacing between the buttons on the novel text screen and the bookshelf screen";
+"SettingTableViewController_NovelImportSetting_Title" = "Specify the portion of each website to be included.";
+"SettingTableViewController_IsSkipForewordAfterwordOnNewImport" = "Don't read newly-imported forewords/afterwords aloud (only applies to sites/novels without an explicit import setting)";
+"NovelDetailViewController_RedownloadExistingChaptersButtonTitle" = "Redownload saved text with the current import setting";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmTitle" = "Redownload saved text?";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmMessage" = "This will re-fetch this novel's already-saved text from the web using the current import setting (including the foreword/afterword reading setting) and overwrite it.\n\n- This may take a while to finish\n- If the original page no longer exists or has changed, that chapter may fail or end up with unintended content\n- Overwritten content cannot be undone";
+"NovelDetailViewController_RedownloadExistingChaptersConfirmButton" = "Redownload";
+"NovelDetailViewController_RedownloadExistingChaptersProgressFormat" = "Redownloading… (%d/%d)";
+"NovelDetailViewController_RedownloadExistingChaptersDoneFormat" = "Redownload finished. Success: %d, Failed: %d";
+
+
+"RealmModels_MenuItemsNotRemoved_Name_cut" = "Cut";
+"RealmModels_MenuItemsNotRemoved_Name_copy" = "Copy";
+"RealmModels_MenuItemsNotRemoved_Name_paste" = "Paste";
+"RealmModels_MenuItemsNotRemoved_Name_deleteText" = "Delete";
+"RealmModels_MenuItemsNotRemoved_Name_select" = "Select";
+"RealmModels_MenuItemsNotRemoved_Name_systemSelectAll" = "Select All (system)";
+"RealmModels_MenuItemsNotRemoved_Name_promptForReplace" = "Replace...";
+"RealmModels_MenuItemsNotRemoved_Name_transliterateChinese" = "简⇄繁";
+"RealmModels_MenuItemsNotRemoved_Name_insertDrawing" = "Insert Drawing";
+"RealmModels_MenuItemsNotRemoved_Name_writingTools" = "Writing Tools";
+"RealmModels_MenuItemsNotRemoved_Name_captureTextFromCamera" = "Scan Text";
+"RealmModels_MenuItemsNotRemoved_Name_bold" = "Bold";
+"RealmModels_MenuItemsNotRemoved_Name_italic" = "Italic";
+"RealmModels_MenuItemsNotRemoved_Name_underline" = "Underline";
+"RealmModels_MenuItemsNotRemoved_Name_writingDirection" = "Writing Direction";
+"RealmModels_MenuItemsNotRemoved_Name_textFormattingOptions" = "More formatting...";
+"RealmModels_MenuItemsNotRemoved_Name_findSelected" = "Find Selection";
+"RealmModels_MenuItemsNotRemoved_Name_define" = "Define";
+"RealmModels_MenuItemsNotRemoved_Name_translate" = "Translate";
+"RealmModels_MenuItemsNotRemoved_Name_addShortcut" = "Add shortcut";
+"RealmModels_MenuItemsNotRemoved_Name_speak" = "Speak";
+"RealmModels_MenuItemsNotRemoved_Name_speakLanguageSelection" = "Speak (select language)";
+"RealmModels_MenuItemsNotRemoved_Name_pauseSpeaking" = "Pause speaking";
+"RealmModels_MenuItemsNotRemoved_Name_share" = "Share";
+"RealmModels_MenuItemsNotRemoved_Name_selectAll" = "Select All";
+"RealmModels_MenuItemsNotRemoved_Section_standardEdit" = "Edit";
+"RealmModels_MenuItemsNotRemoved_Section_replace" = "Replace";
+"RealmModels_MenuItemsNotRemoved_Section_format" = "Format";
+"RealmModels_MenuItemsNotRemoved_Section_lookup" = "Look Up";
+"RealmModels_MenuItemsNotRemoved_Section_learn" = "Learn";
+"RealmModels_MenuItemsNotRemoved_Section_speech" = "Speech";
+"RealmModels_MenuItemsNotRemoved_Section_share" = "Share";
+"RealmModels_MenuItemsNotRemoved_Section_novelSpeaker" = "NovelSpeaker";
+
+"RemoteDataURLSettingViewController_Title" = "Setting URL for internal data reference";
+"RemoteDataURLSettingViewController_Information" = "Note: If you rewrite the settings here poorly, NovelSpeaker may not work properly. Make sure you understand the contents before rewriting.\nThe standard settings are all \"empty (nothing is written)\", so if a problem occurs, you can return to the standard settings by deleting the contents of all items.";
+"RemoteDataURLSettingViewController_NovelSpeakerSiteInfoSection_Title" = "SiteInfo for NovelSpeaker";
+"RemoteDataURLSettingViewController_NovelSpeakerSiteInfoSampleButton" = "Open the URL of the standard setting data";
+"RemoteDataURLSettingViewController_SpeechModSection_Title" = "Standard replacement settings";
+"RemoteDataURLSettingViewController_SpeechModSampleButton" = "Open the URL of the standard setting data";
+"RemoteDataURLSettingViewController_RegexpSpeechModSection_Title" = "Standard replacement settings (regular expression)";
+"RemoteDataURLSettingViewController_RegexpSpeechModSampleButton" = "Open the URL of the standard setting data";
+"RemoteDataURLSettingViewController_SearchInfoSection_Title" = "Search hint information for web search tab";
+"RemoteDataURLSettingViewController_SearchInfoSampleButton" = "Open the URL of the standard setting data";
+"RemoteDataURLSettingViewController_URLTextFieldPlaceholder" = "Please enter the URL";
+"RemoteDataURLSettingViewController_preferredSiteInfoSection_Title" = "Preferred SiteInfo List";
+"RemoteDataURLSettingViewController_preferredSiteInfoList_AddButtonTitle" = "Add URL";
+"RemoteDataURLSettingViewController_preferredSiteInfoList_AddURLPlaceholder" = "Enter URL";
+
+
+"NovelSpeakerBackup_InitializeBackup" = "Initializing";
+"NovelSpeakerBackup_ExportingNovelText" = "Step 1/2\r\nExtracting texts from novels";
+"NovelSpeakerBackup_CompressingBackupData" = "Step 2/2\r\nPreparing for compression";
+"NovelSpeakerBackup_CompressingBackupDataProgress" = "Step 2/2\r\nCompressing";
+"NovelSpeakerBackup_Restoreing" = "Restore backups";
+"NovelSpeakerBackup_ProgressExtractingZip" = "Step 1/3\r\nExpanding";
+"NovelSpeakerBackup_RestoreingBackupData" = "Step 2/3\r\nApplying";
+"NovelSpeakerBackup_RemovingStoryFiles" = "Step 3/3\r\nIn post-processing";
+"NovelSpeakerBackup_ProgressExtractingZip_WarningInvalidPercentage" = "\nDue to the large number of files in the backup file being expanded, the progress (% display) may point to an incorrect value.";
+    
+"EditUserBookViewController_ConfirmDeleteThisChapter" = "Delete this chapter. Will that be all right?";
+
+"EditBookViewController_TitleText" = "Name";
+"EditBookViewController_EntryButtonTitle" = "Register";
+"EditBookViewController_AddNewChapterButtonTitle" = "Add chapter";
+"EditBookViewController_DeleteChapterButtonTitle" = "Delete chapter";
+"EditBookViewController_StoryPlaceholderText" = "Enter the text here.";
+"EditBookViewController_ConifirmDeleteStory_Title" = "Delete this chapter";
+"EditBookViewController_ConifirmDeleteStory_Message" = "This operation is irreversible. Do you want to delete it?";
+"EditBookViewController_ConifirmDeleteStory_OKButton" = "Delete this chapter";
+"EditBookViewController_NowDeleting_Title" = "deleting...";
+"EditBookViewController_ConifirmDeleteStory_IsNeedConifirmSwitch_Message" = "Don't ask for confirmation for a while";
+"EditBookViewController_SpeakTestButton_AccesibilityLabel" = "start speak test";
+"EditBookViewController_SpeakTestButton_AccesibilityLabel_Stop" = "stop speak test";
+"EditBookViewController_WaitingSpeakerSetting" = "Waiting for the text to be reset.";
+"EditBookViewController_KeyboardBarButtonItem_Left" = "Move cursor to the left";
+"EditBookViewController_KeyboardBarButtonItem_Down" = "Move cursor down";
+"EditBookViewController_KeyboardBarButtonItem_Up" = "Move cursor up";
+"EditBookViewController_KeyboardBarButtonItem_Right" = "Move cursor to the right";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter" = "Choose whether to add the new page to the first page or the second page";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter_page1" = "Add to page 1";
+"EditBookViewController_InsertChapter_HowToInsertToFirstChapter_page2" = "Add to page 2";
+"EditBookViewController_InsertPageError" = "Failed to add page";
+
+"SpeechModSettingsTableViewControllerSwift_ThisNovelOnly" = "Speech mod settings (for this novel only)";
+"SpeechSectionConfigsViewController_ConifirmDeleteSettingBecauseNoTargetNovelID" = "There are no applicable novels.\nAre you sure you want to delete this speaker change setting?";
+"SpeechSectionConfigsViewController_TitleOnlyThisNovel" = "Speaker change setting (for this novel only)";
+
+"DefaultSpeakSettingEditTableViewCell_AlertCanNotUseSpeakerSelection_title" = "Cannot selete target speaker";
+"DefaultSpeakSetingEditTableViewCell_AlertCanNotSelectSpeakerSelection_message" = "Please update your OS to the latest version.";
+"DefaultSpeakSettingEditTableViewCell_AlertCanNotSelectSpeaker_title" = "Cannot selete target speaker";
+"DefaultSpeakSetingEditTableViewCell_AlertCanNotSelectSpeaker_message" = "You'll need to download speakers at:\nSettings > General > Accessibility > Speech > Voices > Japanese";
+"SpeakSettingsTableViewController_ReadTheSentenceForTest" = "Test read";
+"SpeechModSettingsTableViewController_DisplayPattern" = "\"%@\" to \"%@\"";
+"SpeechModSettingsTableViewController_SpeakTestPattern" = "%@ to %@";
+"SpeechModSettingsTableView_SearchTitle" = "Search";
+"SpeechModSettingsTableView_SearchPlaceholder" = "Search for a phrase";
+
+"SpeechViewController_Speak" = "Speak";
+"SpeechViewController_Detail" = "Detail";
+"SpeechViewController_Edit" = "Edit";
+"SpeechViewController_BackupButton" = "Backup";
+"SpeechViewController_ContentReadFailed" = "Failed to read contents. This problem may be resolved by choosing \"Detail\" → \"Download\", and selecting Re-Download.";
+"SpeechViewController_Stop" = "Stop";
+
+"SpeechViewController_SpeechStopedByEnd" = "The Book ends here.";
+"SpeechViewController_TweetMessage" = "%@ %@ #narou #NovelSpeaker %@ %@";
+"SpeechViewController_NoTwitterAccount_Title" = "No Twitter Accounts linked";
+"SpeechViewController_NoTwitterAccount_Message" = "There are no Twitter accounts linked. You can add or create a Twitter account in Settings.";
+"SpeechViewController_AddSpeechModSettings" = "Add corrections for pronounciation";
+"SpeechViewController_SpeakAlertVoiceOver" = "VoiceOver is active. Proceed to read?";
+"SpeechViewController_SpeakAlertVoiceOverMessage" = "There would be two lawers of voice played if proceeded.";
+
+"SpeechViewController_loading" = "loading...";
+"SpeechViewController_AnnounceSeekForward" = "Fast forward";
+"SpeechViewController_AnnounceSeekBackward" = "Rewind";
+"SpeechViewController_UnknownErrorForShare" = "Could not share due to an unknown error.";
+"SpeechViewController_CheckSpeechTextDialogTitle" = "The string used for reading is as follows.";
+"SpeechViewController_AddCheckSpeechText" = "Check the translated text used for speech";
+"SpeechViewController_SelectAllText" = "Select All";
+"SpeechViewController_AddSpeechModSettingsForThisNovel" = "Add to speech mod settings for this novel";
+"SpeechViewController_Subtitles" = "Index";
+"SpeechViewController_CanNotGetStorys" = "I could not refer to the novel information.";
+"SpeechViewController_SearchDialogTitle" = "Search";
+"SpeechViewController_SearchDialogMessage" = "Search a phrase in the text";
+"SpeechViewController_SearchDialogPlaceholderText" = "Searching with an empty string will list all chapters";
+"SpeechViewController_SearchDialog_NotFoundTitle" = "The specified phrase does not exist.";
+"SpeechViewController_NowSearchingTitle" = "Searching";
+"SpeechViewController_NowLoadingText" = "loading...";
+"SpeechViewController_CurrentReadingStoryChangedFloatingButton_Format" = "Go to the updated %d chapter on the other device";
+"SpeechViewController_WaitingSpeakerReady" = "Waiting for the speaker to be ready.";
+"SpeechViewController_CurrentWebPageButton_VoiceOverTitle" = "Open current page with Web import tab";
+"SpeechViewController_WebPageButton_VoiceOverTitle" = "Open in web import tab";
+"SpeechViewController_PreviousChapterButton_VoiceOverTitle" = "Previous page";
+"SpeechViewController_NextChapterButton_VoiceOverTitle" = "Next page";
+"SpeechViewController_SkipBackwardButtonTitle" = "Rewind";
+"SpeechViewController_SkipForwardButtonTitle" = "A little ahead";
+"SpeechViewController_ShowTableOfContentsButtonTitle" = "table of contents";
+"SpeechViewController_SelectFolder_Title" = "Select a folder to play continuously";
+"SpeechViewController_NotUseNextSpeechNovel" = "Continue without using playback";
+"SpeechViewController_SearchByText_NotFound" = "The search string could not be found in the page.";
+"SpeechViewController_SearchByText_Found_Announce_to_VoiceOverUser_Formated" = "%@";
+"SpeechViewController_SearchByTextButton_AccessibilityLabel" = "Search within the page";
+"SpeechViewController_KeyboardShortcut_StartStopSpeech_Title" = "Speech start/stop";
+"SpeechViewController_LoadingFailed_GlobalStateIsNull" = "Failed to load text. Failed to load global settings.";
+"SpeechViewController_LoadingFailed_GlobalStateIsNull" = "Failed to load text. Could not load novel page.";
+"SpeechViewController_SearchButton_AccessibilityLabel" = "Search";
+"SpeechViewController_RefreshButton_AccessibilityLabel" = "Check for updates to this novel";
+"SpeechViewController_moreButton_AccessibilityLabel" = "Show hidden menu items";
+
+
+"SpeechWaitConfigSettingView_SettingUpdated" = "Setting updated.";
+"SpeechWaitConfigSettingView_SettingUpdateFailed" = "Failed update settings.";
+"SpeechWaitConfigSettingView_PleaseSetSpeechText" = "Please input a test read phrase";
+"SpeechWaitConfigSettingView_SpeechTestTextBoxLeftSide" = "Test read";
+"SpeechWaitConfigSettingView_SpeechTestTextBoxRightSide" = "the following text";
+"SpeechWaitConfigSettingView_NowTestSpeaking" = "Now test reading...";
+"SpeechWaitConfigTableView_TargetText_EnterEnter" = "<Enter><Enter>";
+"SpeechWaitConfigTableView_TargetText_Enter" = "<Enter>";
+"SpeechWaitConfigTableView_DelayTimeInSec_Enabled" = "Enabled";
+"SpeechWaitConfigTableView_DelayTimeInSec_Disabled" = "Disabled";
+"SpeechWaitConfigSettingView_PleaseInputText" = "Please input text";
+"SpeechWaitConfigTableView_TargetText_SpeechWaitSettingType" = "Speech types while waiting";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingType_Experimental" = "experimental";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingType_Default" = "default";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingUpdated" = "Speech types while waiting changed to \"%@\".";
+"SpeechWaitConfigTableView_DelayTimeInSec_SpeechWaitSettingUpdateFailed" = "Failed changing Speech types while waiting.";
+
+"NarouSerchViewController_OrderNew" = "New";
+"NarouSerchViewController_OrderOver-allJudgment" = "Over-all Rating in Descend order";
+"NarouSerchViewController_OrderOver-allJudgmentAsc" = "Over-all Rating in Ascend order";
+"NarouSerchViewController_OrderNumberOfCoverBookmark" = "In bookmark counts order";
+"NarouSerchViewController_NumberOfReview" = "In review counts order ";
+"NarouSerchViewController_NumberOfImpression" = "In impression review counts order";
+"NarouSerchViewController_NumberOfEvaluator" = "Rating counts in Descend order";
+"NarouSerchViewController_NumberOfEvaluatorAsc" = "Rating counts in Ascend order";
+"NarouSerchViewController_OrderNumberOfWeeklyUniqueUser" = "Weekly subscription counts";
+"NarouSerchViewController_OrderStoryLength" = "Book length in descending order";
+"NarouSerchViewController_OrderStoryLengthAsc" = "Book length in ascending order";
+"NarouSerchViewController_OrderOlder" = "In old to new order";
+
+"NarouSearchResultDetailViewController_GoToMypage" = "The writer's page";
+"NarouSearchResultDetailViewController_GoToMyPageMessage" = "Proceed to the writer's page?";
+
+"EditUserBookViewContoller_InputTextHeare" = "Input text here";
+"EditUserBookViewController_AddNewStoryFailed" = "Chapter add failed.";
+"NarouSearchViewController_DoneKeyboardBarItem" = "Done";
+
+"NovelDetailViewController_PageTitle" ="Novel detail";
+"NovelDetailViewController_NovelLoadFailed" = "Failed to get novel information.";
+"NovelDetailViewController_Title" = "Novel name";
+"NovelDetailViewController_Writer" = "Writer";
+"NovelDetailViewController_URL" = "URL";
+"NovelDetailViewController_SpeakerAlertRowTitle" = "Standard speaker";
+"NovelDetailViewController_DetailSectionTitle" = "Detail";
+"NovelDetailViewController_SettingSectionTitle" = "Setting dedicated to this novel";
+"NovelDetailViewController_AddRubyToSpeechModButtonTitle" = "Overwrite the ruby notation that appears in the novel to the correction of the reading for this novel";
+"NovelDetailViewController_CanNotGetNovelData" = "Failed to extract novel text data.";
+"NovelDetailViewController_RubyNotFound" = "Could not find a valid ruby notation.";
+"NovelDetailViewController_SpeechModAdded" = "I have registered the following replacement for this novel";
+"NovelDetailViewController_AddToFolderButtonTitle" = "Classify to folder";
+"NovelDetailViewController_Tags" = "Tags";
+"NovelDetailViewController_CurrentPage" = "URL of the page currently open";
+"NovelDetailViewController_ActionSectionTitle" = "Manipulation on this novel";
+"NovelDetailViewController_ActionSection_CheckUpdate" = "Check for updates to this novel";
+"NovelDetailViewController_ActionSection_CheckUpdateDone_Message" = "Update check started";
+"NovelDetailViewController_ActionSection_CopyNovelTitleButton" = "Copy the novel name";
+"NovelDetailViewController_ActionSection_CopyNovelTitleDone_Message" = "I copied the novel name";
+"NovelDetailViewController_ActionSection_CopyNovelWriterNameButton" = "Copy the author name";
+"NovelDetailViewController_ActionSection_CopyNovelWriterNameDone_Message" = "I copied the author name";
+"NovelDetailViewController_ActionSection_CreateBackupForThisNovelButton" = "Create backup file for this novel";
+"NovelDetailViewController_ActionSection_SearchButton_Title" = "Search within this novel (searching without anything will display a list of chapters)";
+"NovelDetailViewController_ActionSection_EditNovelButton" = "Edit this novel";
+"NovelDetailViewController_LikeLevelSwitchRowTitle" = "Favorite";
+"NovelDetailViewController_NovelUpdateCheck_SwitchRowTitle" = "Do not check for updates to this novel";
+"NovelDetailViewController_ActionSection_ShareButton" = "Share the URL of this novel";
+"NovelDetailViewController_ActionSection_Title_PopupTitle" = "I copied the novel name";
+"NovelDetailViewController_ActionSection_Title_PopupMessage" = "You can also change the novel name.";
+"NovelDetailViewController_ActionSection_Title_Popup_Cancel" = "Do not change";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit" = "Rename to this";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit_Accepted" = "Changed the novel name";
+"NovelDetailViewController_ActionSection_Title_Popup_Edit_Rejected" = "Failed to change the novel name";
+"NovelDetailViewController_ActionSection_Writer_PopupTitle" = "I copied the author name";
+"NovelDetailViewController_ActionSection_Writer_PopupMessage" = "You can also change the author name.";
+"NovelDetailViewController_ActionSection_Writer_Popup_Cancel" = "Do not change";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit" = "Rename to this";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit_Accepted" = "Changed the author name";
+"NovelDetailViewController_ActionSection_Writer_Popup_Edit_Rejected" = "Failed to change author name";
+"NovelDetailViewController_ActionSection_CreateWholeTextButton" = "Output the text of this novel as a single text file";
+"NovelDetailViewController_ActionSection_Title_Copy" = "Copy the novel name";
+"NovelDetailViewController_ActionSection_Title_Copy_Done" = "Copied the novel name";
+"NovelDetailViewController_ActionSection_Writer_Copy" = "Copy the author name";
+"NovelDetailViewController_ActionSection_Writer_Copy_Done" = "Copied the author name";
+
+"NovelKeywordTagSelectorViewController_Title" = "Select Tag";
+"NovelKeywordTagSelectorViewController_AddTagTitle" = "Add Tag";
+"NovelKeywordTagSelectorViewController_AddTagTitlePlaceHolder" = "Empty string can not be specified.";
+"NovelKeywordTagSelectorViewController_SearchButtonTitle" = "Search";
+
+"NarouDownloadQueue_URLDownloadTitleFixed" = "Downloading \"%@\" ";
+"NarouDownloadQueue_URLDownloadTitleNotFound" = "Could not get the title of the downloaded thing, will leave it as URL.\n%@";
+"NarouDownloadQueue_URLDownloadFailedWithException" = "Failed to download URL \"%@\".";
+
+"ImportFromWebPageViewController_loading" = "Now loading....\nSome websites may take a considerable amount of time.";
+"ImportFromWebPageViewController_CreateBookmark" = "Input bookmark name";
+"ImportFromWebPageViewController_InvalidServerCertificate_CanContinue" = "Proceed with invalid server certificate?";
+"ImportFromWebPageViewController_InvalidServerCertificate" = "Invalid server certificate.";
+"ImportFromWebPageViewController_NoMoreDisplay" = "Do not display again";
+"ImportFromWebPageViewController_AuthenticationRequired" = "Authentication required";
+"ImportFromWebPageViewController_UnknownHost" = "Unknown host";
+"ImportFromWebPageViewController_MessageFrom..." = "Message from %@";
+"ImportFromWebPageViewController_ImputRequiredFrom..." = "Input required from %@";
+"ImportFromWebPageViewController_ConifirmDeleteBookmark" = "Proceed deleting bookmarks from this page?";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileTitle" = "Download the NovelSpeaker backup file";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileMessage" = "The downloaded file seems to be a backup file of the NovelSpeaker. Do you want to apply as it is?";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileCancel" = "Not applicable (opens share menu)";
+"ImportFromWebPageViewController_DidDownloadNovelSpeakerBackupFileOK" = "Apply";
+"ImportFromWebPageViewController_ApplyNovelSpeakerBackupFile_Success" = "Backup file applied";
+"ImportFromWebPageViewController_ApplyNovelSpeakerBackupFile_Failed" = "Failed to apply backup file";
+"ImportFromWebPageViewController_RemoveBookmark" = "Delete bookmark";
+"ImportFromWebPageViewController_RemoveBookmark_Confirm" = "Do you want to delete\n%@ ?";
+"ImportFromWebPageViewController_RemoveBookmark_Delete" = "Delete";
+
+"UriLoader_NSURLConnectionRequestFailed" = "Failed conneting with servers. (Check your internet status)";
+"UriLoader_HTTPResponseIsInvalid" = "The server has not returned a valid response. (Server returned error code: \"%ld\") If you encounter this error on a site that requires login, please open the target website in the \"Web Import\" tab, log in (or complete any age verification), and then try again. If the issue persists after doing so, it is likely that the site cannot be supported.";
+"UriLoader_HTMLParseFailed_Parse" = "Failed to parse document. (It doesn't seem to be a valid HTML or XHTML document, etc. NovelSpeaker currently only supports his HTML, XHTML, PDF, RTF, RTFd files)";
+"UriLoader_HTMLParseFailed_Xpath" = "Failed to parse HTML. (Illegal xpath was specified, probably the \"information registered in wedata\" for use in the analysis of this site is out of date or wrong.) Opinions on the support site side of NovelSpeaker Request form etc. Please report it with the URL where this error occurred or solve it by editing wedata yourself using OpenID)";
+"UriLoader_HTMLParseFailed_ContentIsNil" = "Failed to parse HTML. (I could not get the contents of the document, it may be solved by reporting from the opinion request form etc. on the support site side of NovelSpeaker together with the URL where this error occurred and the procedure until the error occurred. not)";
+
+"NiftyUtility_URLSessionRequestFailedAboutError" = "Failed to get the data from the server. \nError content: %@";
+"NiftyUtility_FollowingPageAreNotAvailable" = "Following page is not available";
+"NiftyUtility_FollowingPageAreAvailable" = "Following page are available";
+"NiftyUtility_TitleUnknown" = "Title unknown";
+"NiftyUtility_CancelImport" = "Cancel";
+"NiftyUtility_Import" = "Import";
+"NiftyUtility_CanNotAddToBookshelfTitle" = "Unknown ERROR";
+"NiftyUtility_CanNotAddToBookshelfBody" = "Add to bookshelf failed.";
+"NiftyUtility_ImportError" = "Import error";
+"NiftyUtility_ImportedButNoTextFound" = "The import of the document was completed, but the content was empty. It may happen, for example, in the case of an HTML document in which all contents are generated in JavaScript. Although NovelSpeaker developers may not be able to do, from the opinion request form etc. of NovelSpeaker's support site side, please report with the URL where this error occurred along with the procedure until an error occurs You may be able to solve it.";
+"NiftyUtility_ImportError_readySiteInfoCount_too_small" =  "It seems that the information (SiteInfo) used to distinguish the main text of each website has not been loaded. It is likely that the loading of SiteInfo has failed. Please move to a place with a good connection and try \"Settings tab\" -> \"Get SiteInfo again\". Also, the details of the error may be output to \"Settings tab\" -> \"Notification of in-app error\", so please check that.";
+"NiftyUtility_FailedAboutAddNewNovelFromWithStoryTitle" = "Failed to add a novel to the bookshelf.";
+"NiftyUtility_FailedAboutAddNewNovelFromWithStoryMessage" = "Possible causes such as the already registered novel.";
+"NiftyUtility_FailedAboutAddNewNovel_DuplicateNovelID_OpenNovelButton" = "Open existed novel";
+"NiftyUtility_AddNewNovelToBookshelfTitle" = "Add new novel to bookshelf";
+"NiftyUtility_AddNewNovelToBookshelfMessage" = "Continue downloading if there is a chapter that follows.";
+"NiftyUtility_ImportSeparatedContent" = "Split the text and import";
+"NiftyUtility_ImportError_SendProblemReportMessage" = "\n\nYou can also email the developer about the problematic novel. Please note that the information sent will contain information about the website you are trying to import this time, so if you are having trouble sending such information please do not report a problem.\n Also, we do not basically reply to this report. If you want a reply, please contact us from \"Settings\" -> \"Contact developer\".";
+"NiftyUtility_ImportError_SendProblemReportButton" = "Create report email";
+"NiftyUtility_ImportError_SendProblemReport_Mail_Title" = "NovelSpeaker Import failure report";
+"NiftyUtility_ImportError_SendProblemReport_Mail_Body" = "Please send this without editing.\nPlease note that we do not basically reply to this email.\n\nError message:\n";
+"NiftyUtility_ImportStoryStateConifirmToUser_NoContent" = "There was no text.";
+"NiftyUtility_FailedConvertiCloudToLocal_CreateRealmFailed" = "Failed to rewrite the data on the iCloud side to local data. (Could not open either data)\nJust in case, please restart the app and try again.";
+"NiftyUtility_FailedConvertiCloudToLocal_DoCopyFailed" = "Failed to rewrite the data on the iCloud side to local data. (An error occurred while copying the data)\nJust in case, please restart the app and try again.";
+"NiftyUtility_iCloudDataVersionIsLow_Title" = "Having trouble syncing with iCloud";
+"NiftyUtility_iCloudDataVersionIsLow_Message" = "The data stored on the iCloud side seems to be a newer version than the data handled by this app. To continue iCloud synchronization as it is, you need to upgrade the app.\nIf you cannot upgrade the app, such as when you are using an old iOS, you need to cancel iCloud synchronization. Please choose either one.";
+"NiftyUtility_iCloudDataVersionIsLow_AppVersionUpButton" = "Version upgrade";
+"NiftyUtility_iCloudDataVersionIsLow_DisableiCloudButton" = "cancel iCloud synchronization";
+"NiftyUtility_ImportRetryToWebImportTabButton" = "Try it on the Web Import tab (When it fails)";
+"NiftyUtility_checkUrlAndConifirmToUser_ErrorHandle_NewVersionAppAlivedMessage" = "AppStoreに登録されている ことせかい のバージョンと、現在実行されている ことせかい のバージョンが違うようです。念の為、AppStore アプリから ことせかい をアップデートした後に同様の問題があるかを確認してからお試しください。";
+"NiftyUtility_checkUrlAndConifirmToUser_ErrorHandle_NewVersionAppAlivedMessage_ForceSendMail" = "Still, create a report email";
+
+"BugReportViewController_SectionHeader" = "Problem report";
+"BugReportViewController_BugReportTitle" = "In case of inconvenience, you can input from this form and report it.";
+"BugReportViewController_TimeOfOccurrence" = "When problem occurred";
+"BugReportViewController_DescriptionOfTheProblem" = "Description of the problem";
+"BugReportViewController_DescriptionOfTheProblemPlaceHolder" = "Describe the problem that is happening";
+"BugReportViewController_ProblemOccurrenceProcedure" = "Problem occurrence procedure";
+"BugReportViewController_ProblemOccurrenceProcedurePlaceHolder" = "Describe the operation procedure until the problem occurs";
+"BugReportViewController_IsNeedResponse" = "I want an answer";
+"BugReportViewController_IsNeedResponse_Never" = "Unnecessary";
+"BugReportViewController_IsNeedResponse_Maybe" = "No need";
+"BugReportViewController_IsNeedResponse_Must" = "Essential";
+"BugReportViewController_SendBugReportButtonTitle" = "Create inconvenience report mail";
+"BugReportViewController_InvalidTimeOfOccurence" = "* Please specify the date and time as accurate as possible. The date and time of the future can not be specified.";
+"BugReportViewController_NoDescriptonOfTheProblem" = "* The explanation column of the problem is blank.";
+"BugReportViewController_AddBehaviourLogAnnounce" = "Do you want to attach operation logs saved in NovelSpeaker to inconvenience report mail?\n\nThe operation log contains the details (URL etc.) of the novel downloaded. Please select \"No\" if you have included troublesome information in NovelSpeaker if it is published to the developer in the operation log.\nAlso, if the operation log is not attached, it is difficult for the developer to reproduce the situation, so it may be difficult to deal with it. (There are also cases where we can not respond even if you attach)";
+"BugReportViewController_NO" = "No";
+"BugReportViewController_YES" = "Yes";
+"BugReportViewController_SendBugReportMailSubject" = "NovelSpeaker problem report";
+"BugReportViewController_SendBugReportMailInformation" = "\r\n\r\n===============\r\nPlease do not edit the line below this.\r\nIf you attach a screenshot etc. of the scene where the problem occurs, it seems that it will be easier to correspond.";
+"BugReportViewController_SendBugReport_IsNeedResponse" = "Response";
+"BugReportViewController_SendBugReport_Description" = "Description";
+"BugReportViewController_SendBugReport_Procedure" = "Procedure";
+"BugReportViewController_ErrorDialog" = "Error";
+"BugReportViewController_InformationForIsNeedResponse" = "In case reply is permitted, the developer may reply to the sender's mail address from the developer. Reply may be delayed. Also, please note that if you do not receive mail from @gmail.com, you will not receive a reply.";
+"BugReportViewController_HiddenImportantInformationSectionHeader" = "Information";
+"BugReportViewController_SendNewFeatureMailInformation" = "\r\n\r\n===============\r\nPlease do not edit the line below this.\r\n";
+"BugReportViewController_SendNewFeatureMailSubject" = "NovelSpeaker Proposal of new function";
+"BugReportViewController_NoDescriptionOfTheNewFeature" = "The content of your proposal is empty";
+"BugReportViewController_SendNewFeatureButtonTitle" = "Create a proposal mail";
+"BugReportViewController_NewFeatureTextArePlaceHolder" = "Please write inquiries other than inconvenience such as suggestions for improvement of existing functions or suggestions for new functions.";
+"BugReportViewController_NewFeatureSectionHeader" = "Proposal of new functions, other inquiries";
+"BugReportViewController_TypeSelect_NewFeature" = "Proposal of new functions, other inquiries";
+"BugReportViewController_TypeSelect_BugReport" = "Problem report";
+"BugReportViewController_TypeSelectTitle" = "Type of inquiry";
+"BugReportViewController_InformationOfTheProblemWriting" = "Although it is sorry to trouble you, but as for the reproducing procedure of inconvenience, please make sure that the same operation is done from the place where you launched the application again, and inconvenience will occur, please report it. We are receiving much inconvenience reports that do not reproduce with inconvenient reproduced procedures reported. Also, when you are reading the neighborhood of the ~ chapter of the novel called web site ~ that you acquired with the web capture function rather than just the contents like \" Please write the information that detailed the state of the problem actually occurred, such as \"happened\". We are sorry to report that we can not reproduce at the hands of developers, but we can not respond. If you do not feel confident about the inconvenience reproducing procedure, please turn on \"I want a reply to this report\" and send it, it is recommended because later you can give us detailed hearing reply from the developer side. However, the developers have taken quite a bit of time to acknowledge the reply. Since it is very helpful to just reduce the need for reply, it will be helpful if you can add in the entry box of \"Description of problem\" below, \"I would like to reply by e-mail only if inconvenience does not reproduce\" .";
+"BugReportViewController_InformationOfTheTime" = "Please enter the date and time of inconvenience as accurately as possible. A lot of reports have been received with just the value just shifted one day ago. In particular, if you can attach operation logs, confirmation work will be completed by referring to the logs of the relevant date and time in the operation log, so please enter the date and time as close as possible.";
+"BugReportViewController_InformationForNewFeatureSending" = "Since NovelSpeaker will be an application of personal development, development power is very low. Those that can be easily implemented with the proposed function are often implemented, but there are many that are judged not to be implemented. We have a link at the bottom of the support site about them, we will explain it on the Q&A page, so it would be greatly appreciated if you could pass through the first time before suggesting new features.";
+"BugReportViewController_PrivacyPolicyAgreementNeeded" = "You need to consent to NovelSpeaker's privacy policy";
+"BugReportViewController_ConfirmEnableLogSend_title" = "Confirm";
+"BugReportViewController_ConfirmEnableLogSend" = "Would you like to attach operation logs saved in NovelSpeaker to the report mail?\n\nThe infos of the downloaded novel (URL etc.) is included in the operation log. You may turn it off for your own privacy.\nHowever, if the operation log is not attached, diagnostics maybe difficult, therefore the problem may remain unresolved. (There are cases where regardless of attachment, it may be unresolved)\nThe operation log may be transmitted through pressing \"Setting\" -> \"Read ruby only\" about 10 times,  \"Debug log display\" will appear at the bottom of \"Setting\" Since it will be the same thing as the attachment, please refer to it if you want to check the contents in advance.";
+"BugReportViewController_IsEnableLogSend" = "Attach operation logs saved inside";
+"BugReportViewController_IsEnableBackupFileSend" = "Attach a lightweight backup file";
+"BugReportViewController_ConfirmEnableBackupFileSend_title" = "Confirm";
+"BugReportViewController_ConfirmEnableBackupFileSend" = "Would you like to attach lightweight backup file saved in NovelSpeaker to the report mail?\n\nThe infos of the downloaded novel (URL etc.) is included in the lightweight backup file. You may turn it off for your own privacy.\nHowever, if the lightweight backup file is not attached, diagnostics maybe difficult, therefore the problem may remain unresolved. (There are cases where regardless of attachment, it may be unresolved)\nThe lightweight backup file may be transmitted through pressing \"Setting\" -> \"Read ruby only\" about 10 times,  \"Debug log display\" will appear at the bottom of \"Setting\" Since it will be the same thing as the attachment, please refer to it if you want to check the contents in advance.";
+"BugReportViewController_TargetNovelName" = "Select the novels in which the error occurs (if any)";
+"BugReportViewController_TargetNovelName_SelectorTitle" = "Select the novels in which the error occurs";
+"BugReportViewController_SendBugReport_TargetNovelNameList" = "Novel information that caused the problem:";
+"BugReportViewController_NoEMailApp_Title" = "I can't send email";
+"BugReportViewController_NoEMailApp_Message" = "I can't seem to send you an email.\nThe email address may not have been set in the email application or the email application may have been deleted.\nPlease use e-mail to contact NovelSpeaker, so please set it appropriately.";
+"BugReportViewController_BugReportIsDisabledNowLabel" = "Notice that NovelSpeaker user support is stopped.\n\nNovelSpeaker is currently out of user support.\nThis is because it is difficult to find the time required for responding to user support, but when the developer recognizes an inquiry (some problem that is occurring on the user side), The problem is that you cannot take the action of \"ignoring the inquiry\" because you cannot rest your mind unless you solve the problem described in the inquiry, and it is a heavy burden on your mind just to receive the inquiry. is.\nTherefore, accepting inquiries is a problem, and we decided to eliminate it.\nTo put it bluntly, even if a problem occurs on the user side, the above problem will not occur unless it is recognized by the developer, so it will occur on the user side. The response is to stop the means of communicating the problem to the developer.\nThis response may cause inconvenience, such as a drastic reduction in the frequency of correction of inconveniences occurring in NovelSpeaker, but we appreciate your understanding.\nIn addition, I will write it while thinking that it will not be read even if I write it here, but even if I write an inquiry in the review section of the App Store, the developer will check the review section of the App Store (while user support is stopped) Please understand that we will not respond, so we will not respond. (In addition, in NovelSpeaker, writing inquiries in the review section of the App Store is originally deprecated.)";
+"BugReportViewController_IsNeedAppLog" = "Attach the contents of \"Notification of in-app error\"";
+"BugReportViewController_IsAppendTargetNovelStoryText_Title" = "Attach the text of the novel where the problem occurs (If the text of the novel is involved, such as when the reading is strange, we recommend contacting us via ON)";
+"BugReportViewController_UpdateVersionAlivedMessage" = "It seems that the version registered in the AppStore is different from the version of NovelSpeaker you are currently running. Before contacting us, please update NovelSpeaker from the AppStore app and check if the problem still occurs before contacting us.\n\nIf this message continues to appear even after updating, it may be due to an older version of iOS (or iPadOS). We are very sorry, but please understand that we cannot provide support to those who are already using an OS that cannot be updated any further.";
+
+"NarouSearchResultDetailViewControllerSwift_DownloadButton" = "Download";
+"NarouSearchResultDetailViewControllerSwift_Writer" = "Writer";
+"NarouSearchResultDetailViewControllerSwift_Title" = "Title";
+"NarouSearchResultDetailViewControllerSwift_UpdateDate" = "UpdateDate";
+"NarouSearchResultDetailViewControllerSwift_Point" = "Point";
+"NarouSearchResultDetailViewControllerSwift_Storys" = "Chapters";
+"NarouSearchResultDetailViewControllerSwift_Bookmark_num" = "Bookmark num";
+"NarouSearchResultDetailViewControllerSwift_Point_mean" = "Point mean";
+"NarouSearchResultDetailViewControllerSwift_Point_count" = "Point count";
+"NarouSearchResultDetailViewControllerSwift_Keyword" = "Keyword";
+"NarouSearchResultDetailViewControllerSwift_Story" = "Introduction";
+"NarouSearchResultDetailViewControllerSwift_IsEnd" = "Still releasing";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=0" = "Completed or short story";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=1" = "Serializing";
+"NarouSearchResultDetailViewControllerSwift_IsEnd=0&genelral_all_no>1" = "Completed";
+
+"TextSizeSettingViewController_FontSettingTitle" = "Font";
+"TextSizeSettinvViewController_ColorSettingTitle" = "Color";
+"TextSizeSettingViewController_FontSizeLabel_Text" = "Font size";
+"TextSizeSettingViewController_LineSpacingLabel_Text" = "Line spacing";
+
+"FontSelectViewController_DefaultFontTitle" = "DefaultFont";
+
+"StorySpeaker_SpeechStopedAndSpeechNextStory_Format" = "Now that the reading has reached the end, it's time to play %@";
+"StorySpeaker_SpeechStopedAndRewindFirstStory" = "Since the reading has reached the end, go back to the first chapter and repeat the playback.";
+"StorySpeaker_StartSpeechCountExceeded_in_iOS16.3_Announce" = "The amount of memory being used has increased, and we have determined that it will be forcibly terminated if this continues, so we will stop speaking. You can resume playback as it is, but it is recommended to quit the app once and then start playback again.";
+
+"CoreDataToRealmTool_DefaultSpeaker" = "Default";
+"CoreDataToRealmTool_ProgressNovel" = "Converting novel data";
+"CoreDataToRealmTool_ProgressGLobalState" = "Converting setting items";
+"CoreDataToRealmTool_ProgressSpeechMod" = "Converting correction of the reading settings";
+
+"MigrationViewController_DoingCoreDataMigration" = "Updating the old database.";
+"MigrationViewController_FetchAllCloudData_Progress" = "We check whether available data is left for data on iCloud.";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Title" = "iCloud is not available";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Message" = "It seems that iCloud is not available, but it is started using iCloud. It seems that the data on the iCloud side stored inside does not exist or has disappeared, so set it not to use iCloud before starting it.";
+"MigrationViewController_InvalidiCloudStatus_UnknowniCloudError" = "Unknown iCloud status error";
+"MigrationViewController_InvalidiCloudStatus_NoiCloudRealmData_Title" = "iCloud is not available";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Title" = "iCloud is not available";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Message" = "It seems that iCloud is not available, but it is started using iCloud. If you continue to use it as it is, the operation may become unstable when iCloud becomes available later (We can not handle the malfunction in such a case. Please be aware in advance). Would you like to start with the settings to use iCloud as it is?";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_ConvertToLocalButton" = "Start after changing the settings so that iCloud is not used";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_StayButton" = "Start with the settings to use iCloud";
+"MigrationViewController_InvalidiCloudStatus_HasiCloudRealmData_Message_AppendErrorDescription" = "Detected error: ";
+
+"SpeakerSetting_NewSpeakerSetting" = "New speaker";
+
+"SpeakSettingsViewController_SpeakSettingNameTitle" = "Name";
+"SpeakSettingsViewController_PitchTitle" = "Pitch";
+"SpeakSettingsViewController_RateTitle" = "Rate";
+"SpeakSettingsViewController_VolumeTitle" = "Volume";
+"SpeakSettingsViewController_LangageTitle" = "Language";
+"SpeakSettingsViewController_LanguageDialogTitle" = "Select languate";
+"SpeakSettingsViewController_VoiceIdentifierTitle" = "Speaker";
+"SpeakSettingsViewController_VoiceIdentifierDialogTitle" = "Select Speaker\n\nSpeakers can also be increased by downloading from Settings app → General → Accessibility → Speech → Voice → [AnyLanguage]";
+"SpeakSettingsViewController_TestSpeechButtonTitle" = "Test Speech";
+"SpeakerSettingsViewController_RemoveButtonRow" = "Remove this speaker setting";
+"SpeakSettingsViewController_ConifirmRemoveTitle" = "Are you sure you want to delete this speaker's settings?";
+"SpeakSettingsViewController_AddNewSettingButtonTitle" = "Add new speaker settings";
+"SpeakSettingsViewController_SpeakerSettingAdded" = "Added speaker settings at the end.\n(Possibly need to scroll)";
+"SpeakSettingsViewController_SyncRateSetting" = "Synchronize rate settings";
+"SpeakSettingsViewController_SyncVolumeSetting" = "Synchronize volume settings";
+"SpeakerSettingsViewController_TitleText" = "Speaker settings";
+"SpeakerSettingViewController_NameValidateErrorNil" = "Name can not be empty string";
+"SpeakerSettingViewController_NameValidateErrorAlready" = "Already defined name";
+"SpeakerSettingsViewController_AddNewSpeakerTitle" = "Enter the name of the speaker to be added";
+
+"SpeechWaitSettingViewController_SpeechWaitType" = "Speech delay type";
+"SpeechWaitSettingViewController_SpeechWaitTypeSelectorTitle" = "Please select the mechanism during reading.\n\nExperimental types allow you to control in finer units of time, but they are deprecated because they may not be available due to iOS updates.";
+"SpeechWaitSettingViewController_TargetStringTitle" = "Wait target string";
+"SpeechWaitSettingViewController_TestText1" = "ここに書いた文を";
+"SpeechWaitSettingViewController_TestText2" = "テストで読み上げます";
+"SpeechWaitSettingViewController_DelayTimeTitle" = "Wait delay time";
+"SpeechWaitSettingViewController_RemoveButtonRow" = "Delete this delay setting";
+"SpeechWaitSettingViewController_AddNewSettingButtonTitle" = "Add new delay setting";
+"SpeechWaitSettingViewController_SpeakerSettingAdded" = "Added delay settings at the end.\n(Possibly need to scroll)";
+"SpeechWaitSettingViewController_Usage" = "Set the time between reading punctuation marks and blank lines.\nIf \"Speech delay type\" is set to Experimental, you can also set for a shorter period, but it may stop working in the future. As for line feed, if there is a string \"<改行>\", it will be recognized as line feed.";
+"SpeechWaitSettingViewController_CreateNewSettingTitle" = "Please specify the target string for Speech delay";
+"SpeechWaitSettingViewController_CreateNewSettingPlaceholder" = "If you want to include a line feed, please enter \"<改行>\".";
+"SpeechWaitSettingViewController_IsAlreadyDefined" = "It is a string that has already been defined.";
+
+"SpeechSectionConfigsViewController_Title" = "Speaker change setting";
+"SpeechSectionConfigsViewController_SpeakerUnknown" = "Unknown";
+"SpeechSectionConfigsViewController_BeforeTextTitle" = "Start character";
+"SpeechSectionConfigsViewController_AfterTextTitle" = "End character";
+"SpeechSectionConfigsViewController_SpeakerAlertRowTitle" = "Speaker";
+"SpeechSectionConfigsViewController_SpeakerSelectorTitle" = "Select speaker\nIn order to increase the number of speakers, it is necessary to go back and increase the number of speakers by \"Speaker settings\".";
+"SpeechSectionConfigsViewController_RemoveButtonRow" = "Delete this setting";
+"SpeechSectionConfigsViewController_AddNewSettingButtonTitle" = "Add new setting";
+"SpeechSectionConfigsViewController_Usage" = "It is a setting to change the speaker setting at the time of reading by the conversation sentence etc.\nTap each setting to set details. Select the speaker who reads the part between the start character and the end character. You can delete settings that you do not need.";
+"SpeechSectionConfigsViewController_SpeakerSettingAdded" = "Added new settings at the end.\n(Possibly need to scroll)";
+"SpeechSectionConfigsViewController_AddNewSettingDialogTitle" = "Please specify the name of the Speaker change setting";
+"SpeechSectionConfigsViewController_AddNewSettingDialogPlaceHolder" = "Empty string can not be specified";
+"SpeechSectionConfigsViewController_AddNewSettingDialogAlreadyDefined" = "You can not specify a name that already exists";
+"SpeechSectionConfigsViewController_BeforeTextPlaceholder" = "Empty string cannot be used";
+"SpeechSectionConfigsViewController_AfterTextPlaceholder" = "Empty string cannot be used";
+
+"CreateSpeechModSettingViewControllerSwift_Title" = "Correction of the reading";
+"CreateSpeechModSettingViewControllerSwift_BeforeTitle" = "Before";
+"CreateSpeechModSettingViewControllerSwift_BeforeValidateErrorNil" = "Empty string can not be set";
+"CreateSpeechModSettingViewControllerSwift_BeforeValidateErrorRegexp" = "Invalid regular expression";
+"CreateSpeechModSettingViewControllerSwift_AfterTitle" = "After";
+"CreateSpeechModSettingViewControllerSwift_RegularExpressionTitle" = "is use Regular Expression";
+"CreateSpeechModSettingViewControllerSwift_BeforeSampleTitle" = "Test Before";
+"CreateSpeechModSettingViewControllerSwift_AfterSampleTitle" = "Test After";
+"CreateSpeechModSettingViewControllerSwift_TestButtonTitle" = "Test speech";
+"CreateSpeechModSettingViewControllerSwift_ApplyButtonTitle" = "Save";
+"CreateSpeechModSettingViewControllerSwift_ValidateBeforeFailedTitle" = "There is a problem with the string before replacement";
+"CreateSpeechModSettingViewControllerSwift_ValidateBeforeFieldMessage" = "It seems to be an empty string or a defect in the regular expression.";
+"CreateSpeechModSettingViewControllerSwift_ValidateAfterFailedTitle" = "There is a problem with the string after replacement";
+"CreateSpeechModSettingViewControllerSwift_ValidateAfterFieldMessage" = "You can not set an empty string.\nIf you do not want them to speak after reading, you need to change to blank.";
+"CreateSpeechModSettingViewControllerSwift_AnyTargetName" = "\"Any novel\"";
+"CreateSpeechModSettingViewControllerSwift_TargetNovelIDLabelTitle" = "Applicable novel";
+"CreateSpeechModSettingViewControllerSwift_ConifirmDeleteSettingBecauseNoTargetNovelID" = "There are no novel in Applicable novel.\nAre you sure you want to delete this setting?";
+
+"MultipleNovelIDSelectorViewController_Title" = "Select novel";
+"MultipleNovelIDSelectorViewController_SortButton" = "Sort";
+
+"NovelDownloadQueue_DownloadFailedByErrorSiteInfo" = "It seems that the loading of SiteInfo is failing, so I give up the download";
+
+"NovelDownloader_htmlStoryIsNil" = "Novel download failed.";
+"NovelDownloader_FailedByNoContent" = "Novel download failed. This nove has no content.";
+"NovelDownloader_FailedByNoRealmNovel" = "Novel download aborted. This novel was not registered on the bookshelf.";
+"NovelDownloader_InvalidNovelID" = "Novel  download failed. Could not start the download without getting the data (URL etc.) to download. It seems that there are problems with novel data not stored or deleted.";
+"NovelDownloader_SiteInfoNotReady" = "The text of the novel cannot be downloaded because the data (SiteInfo) required to retrieve the text of the novel cannot be read.\nPlease try downloading the novel again after re-acquiring SiteInfo by selecting \"Settings tab\" -> \"Get SiteInfo again\" after moving to a location with good network conditions.";
+
+"AssignNovelFolderViewController_Title" = "Classify to folder";
+"AssignNovelFolderViewController_CreateNewTagTitle" = "Create new folder";
+"AssignNovelFolderViewController_CreateNewTagPlaceHolder" = "Can not create folder with same name";
+"AssignNovelFolderViewController_DeleteSwipeActionTitle" = "Delete";
+
+"BookShelfRATreeViewController_Title" = "Bookshelf";
+"BookShelfRATreeViewController_UpTo1DayAgo" = "Up to one day ago";
+"BookShelfRATreeViewController_UpTo7DayAgo" = "Up to 7 days ago";
+"BookShelfRATreeViewController_UpTo30DayAgo" = "Up to 30 days ago";
+"BookShelfRATreeViewController_UpTo6MonthsAgo" = "Up to 6 months ago";
+"BookShelfRATreeViewController_UpTo1YearAgo" = "Up to a year ago";
+"BookShelfRATreeViewController_BeforeThat" = "More than a year ago";
+"BookShelfRATreeViewController_UnknownWriter" = "(unknown name)";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseNoStory" = "It seems that no text of the novel has been downloaded. Do you try to redownload this novel?";
+"BookShelfRATreeViewController_BookshelfNoListed" = "(Uncategorized)";
+"BookShelfRATreeViewController_SortTypeFolder" = "Original folder order";
+"BookShelfRATreeViewController_SortTypeKeywardTag" = "Keyword Tag order";
+"BookShelfRATreeViewController_SortTypeUpdateDateWithFilder" = "Last download date (with folder)";
+"BookShelfRATreeViewController_SorteTypeCreatedDate" = "Bookshelf registration order";
+"BookShelfRATreeViewController_StoryTypeLastReadDate" = "Last read date";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber" = "Indicates a chapter where the reading position has not been downloaded. Do you try to download additional chapters of this novel?";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber_OK" = "Download";
+"BookShelfRATreeViewController_ConifirmDownloadNovelStartBecauseFewStoryNumber_OpenFirstStory" = "Open first story";
+"BookShelfRATreeViewController_NovelDeletingTitle" = "Deleting novel...";
+"BookShelfRATreeViewController_ShowNovelInformationButtonTitle" = "Show novel information";
+"BookShelfRATreeViewController_SortTypeLikeLevel" = "Favorite order";
+"BookShelfRATreeViewController_WaitingiCloudSync_Message" = "Waiting for data sync on iCloud...\nWhen synchronization is complete, playback will start automatically. (Note that the completion judgment may fail)";
+"BookShelfRATreeViewController_WaitingiCloudSync_DismissButton" = "Start playback without waiting for synchronization";
+"BookShelfRATreeViewController_WaitingiCloudSync_CancelButton" = "Cancel playback";
+"BookShelfRATreeViewController_SorteTypeWebSite" = "Web site order";
+"BookShelfRATreeViewController_HostNameTable_novelspeaker.example.com" = "Self-made novel";
+"BookShelfRATreeViewController_ExpandFolderButton" = "SwitchFolder";
+"BookShelfRATreeViewController_NowSwitchingFolderMessage" = "Switching folder...";
+"BookShelfRATreeViewController_SwitchFolderButton_VoiceOverTitle" = "Switch folder";
+"BookShelfTreeViewController_ToggleCheckboxButton_AccessibilityLabel" = "Multiple Selection";
+"BookShelfRATreeViewController_iCloudPullButton_VoiceOverText" = "Start loading data on iCloud";
+"BookShelfRATreeViewController_iCloudPullButtonTitle" = "Get from iCloud";
+"BookShelfRATreeViewController_iCloudPushButton_VoiceOverText" = "Start uploading data to iCloud";
+"BookShelfRATreeViewController_iCloudPushButtonTitle" = "Send to iCloud";
+"BookShelfRATreeViewController_iCloudPullButton_Clicked" = "We have started re-downloading data on iCloud.";
+"BookShelfRATreeViewController_iCloudPushButton_Clicked" = "We have started uploading data to iCloud.";
+"BookShelfRATreeViewController_stopDownloadButton_VoiceOverText" = "Stop download";
+"BookShelfRATreeViewController_stopDownloadButtonTitle" = "Stop";
+"BookShelfRATreeViewController_InitialDummyCellTitle" = "Reading a novel on the bookshelf...";
+"BookShelfTreeViewController_checkboxselected_targetTitles_section" = "Target novels";
+"BookShelfTreeViewController_checkboxselected_CreateBackupFile" = "Create backup file";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck" = "Set to never check for updates";
+"BookShelfTreeViewController_checkboxselected_DeleteNovel" = "Delete novel";
+"BookShelfTreeViewController_checkboxselected_confirm_delete" = "Are you sure you want to delete %d novels?";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck" = "Set it to check for updates on those novels";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck" = "Add to Favorites";
+"BookShelfTreeViewController_checkboxselected_DisableLikeCheck" = "Remove from Favorites";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck_done_mesage" = "Set to not check for updates on %d novels";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck_done_mesage" = "Set to check for updates with %d novels";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck_done_mesage" = "%d novels have been added to your favorites.";
+"BookShelfTreeViewController_checkboxselected_DisableLikeCheck_done_mesage" = "%d novels were removed from your favorites.";
+"BookShelfTreeViewController_checkboxselected_confirm_delete_done_mesage" = "%d novels deleted";
+"BookShelfTreeViewController_checkboxselected_EnableLikeCheck_working" = "%d items in your favorites";
+"BookShelfTreeViewController_checkboxselected_StopUpdateCheck_working" = "%d novels are being stopped to check for updates";
+"BookShelfTreeViewController_checkboxselected_EnableUpdateCheck_working" = "%d novel update checks enabled";
+"BookShelfTreeViewController_refreshButtonClicked_startingDownload_dialog" = "Start checking for updates\nIf the number of novels is large, it will take time to register the start.\n(This dialog will disappear automatically when the start registration is completed, but you can also turn it off manually. However, please note that even if you manually delete the dialog, the start registration will continue.)";
+"BookShelfTreeViewController_refreshButtonClicked_startingDownload_dialog_neverAskMeSwitch" = "Prevent this dialog from appearing thereafter";
+"BookShelfTreeViewController_checkboxselected_QueueNovelUpdateCheck" = "Check for updates";
+"BookShelfTreeViewController_checkboxselected_confirm_delete_working" = "%d novels are being deleted.";
+"BookShelfTreeViewController_downloadStatusBarButtonTapped_no_download_found" = "There is no download currently running";
+"BookShelfTreeViewController_checkboxselected_AssignFolder" = "Adding and Removing from a Folder";
+"BookShelfTreeViewController_checkboxselected_AssignFolder_MenuTitle" = "Folder to be added/deleted";
+"BookShelfTreeViewController_toggleCheckBoxesButtonTapped_firstMenu_title" = "Operations on selected novels";
+"BookShelfTreeViewController_toggleCheckboxesButtonTapped_InformationMessage" = "You have entered novel multiple selection mode. \nTo exit this mode, you need to press the same button again or press \"Back\" on the menu.";
+"BookShelfTreeViewController_toggleCheckboxesButtonTapped_Information_IsNotDisplayInformationSwitch" = "Don't show this message again";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_StateLabel" = "Selected: %@";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_ClearButtonLabel" = "Clear";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_SelectFunctionButtonLabel" = "Actions ▼";
+"BookShelfTreeViewController_MultiSelectFloatingViewController_BackNormalModeButtonLabel" = "< Back";
+"BookShelfRATreeViewController_SortTypePageCount" = "Page count order";
+
+"RealmToRealmCopyTool_Progress_SpeechModSetting" = "Migrating transliteration dictionary";
+"RealmToRealmCopyTool_Progress_SpeechWaitConfig" = "Migrating settings during reading";
+"RealmToRealmCopyTool_Progress_SpeakerSetting" = "Migrating speaker settings";
+"RealmToRealmCopyTool_Progress_SpeechSectionConfig" = "Migrating speaker change settings";
+"RealmToRealmCopyTool_Progress_SpeechQueue" = "Migrating a Reading List";
+"RealmToRealmCopyTool_Progress_GlobalState" = "Migrating overall settings";
+"RealmToRealmCopyTool_Progress_DisplaySetting" = "Migrating settings such as display characters";
+"RealmToRealmCopyTool_Progress_NovelTag" = "Migrating tags";
+"RealmToRealmCopyTool_Progress_Novel" = "Migrating novel information";
+"RealmToRealmCopyTool_Progress_Story" = "Migrating the novel text";
+"RealmToRealmCopyTool_Progress_Bookmark" = "Migrating bookmarks";
+"RealmToRealmCopyTool_Progress_NovelImportSetting" = "Migrating import settings";
+
+"NovelSearchViewController_SearchResultZero" = "No results were found";
+"NovelSearchViewController_SearchButtonText" = "Search";
+"NovelSearchViewController_SearchingMessage" = "Searching...";
+"NovelSearchViewController_SearchFailed_Title" = "Search failed";
+"NovelSearchViewController_SearchField_Message" = "The search has failed.\nMaybe the specification change (change of HTML content) on the side of the website used for the search seems to have affected. Please import on the \"Web import\" side or wait for the data for the \"Web search\" tab to be updated.";
+"NovelSearchViewController_SearchFailedTitle" = "Search failed";
+"https://limura.github.io/NovelSpeaker/data/WebSearchInfo-ja_JP.json" = "https://limura.github.io/NovelSpeaker/data/WebSearchInfo-v2-en_US.json";
+"NovelSearchViewController_SearchInfoLoadError_Title" = "Failed to load search settings";
+"NovelSearchViewController_SearchInfoLoadError_Message" = "Failed to read the search settings. This can happen if the network connection is poor. Please check the communication status.";
+"NovelSearchViewController_SearchWebSiteTitle" = "Web site to search";
+"NovelSearchViewController_Title" = "Search";
+"NovelSearchViewController_SearchResultView_Title" = "Search results";
+"NovelSearchViewController_LoadNextPage" = "Searching for more...";
+"NovelSearchViewController_RadioSelectTarget_None" = "Deselect";
+"NovelSearchViewController_DescriptionDisplayedAndTryDownloadButtonTitle" = "Temporary reading";
+"NovelSearchViewController_LoadingSearchInfoTitle" = "Loading information for search...\n(Internet connection required)";
+"NovelSearchViewController_NoticeLabelText" = "Note: The \"Web search\" function on this page uses a mechanism that stops working as soon as the listed website specifications change, so it may not be able to be used successfully.\n Even if you are not able to use it successfully, there are cases where you can avoid it by importing it on the \"Web import\" function side, so we hope you can avoid it in the form that you use it.";
+"NovelSearchViewController_ForceReloadSearchInfoButton_Title" = "Try to load search settings";
+"NovelSearchViewController_LoadingNextLink_Title" = "Searching for additional parts...";
+"NovelSearchViewController_OpenWebSiteButtonText" = "Open in WebImport tab";
+"NovelSearchViewController_OpenWebImportButtonTitle" = "Open in WebImport tab and check";
+"NovelSearchViewController_GenerateQueryURLFailedMessage" = "Failed to generate search URL. Items that require input may not have been entered.";
+"NovelSearchViewController_GenerateQueryURLFailedTitle" = "Error";
+
+
+"BookShelfTreeViewCell_UnknownTitle" = "(unknown novel name)";
+"BookShelfTreeViewCell_LikeStar_AccessibilityLabel" = "Favorite state. now enabled.";
+"BookShelfTreeViewCell_NotLikeStar_AccessibilityLabel" = "Favorite state. now disabled.";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_Finished_Format" = "%@. finished reading";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_NotRead_Format" = "%@. haven't read it yet";
+"BookshelfTreeViewCell_TitleLabel_For_AccessibilityLabel_Format" = "%@ reading up to %d%%";
+"BookShelfTreeViewCell_AccessibilityLabel_Folder_Format" = "\"%@\" folder";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialogMessage" = "Do you want to remove favorites?";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialog_Cancel" = "do not remove";
+"BookShelfTreeViewCell_LikeButtonClicked_RemoveDialog_OK" = "remove";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialogMessage" = "Add to Favorites?";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialog_Cancel" = "do not add";
+"BookShelfTreeViewCell_LikeButtonClicked_AddDialog_OK" = "add";
+
+"NovelDisplayColorSettingViewController_SampleText" = "If I speak in the tongues of men or of angels, but do not have love, I am only a resounding gong or a clanging cymbal. If I have the gift of prophecy and can fathom all mysteries and all knowledge, and if I have a faith that can move mountains, but do not have love, I am nothing. If I give all I possess to the poor and give over my body to hardship that I may boast,[b] but do not have love, I gain nothing.";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Default" = "Standard (follows dark mode, etc.)";
+"NovelDisplayColorSettingViewController_ColorSettingButton_White" = "Black with a white background";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Cream" = "Black with a cream-colored background";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Gray" = "Gray with a white background";
+"NovelDisplayColorSettingViewController_ColorSettingButton_Black" = "White with a Black background";
+"NovelDisplayColorSettingViewController_ColorSettingButton_UserDefined_Foreground" = "Specify text colors";
+"NovelDisplayColorSettingViewController_ColorSettingButton_UserDefined_Background" = "Specify background colors";
+"NovelDisplayColorSettingViewController_ColorPickerDoneTitle" = "Done";
+
+"StoryFetcher_CanNotFindPageElementAndNextLink" = "The text or the URL indicating the next page could not be obtained from the specified URL.";
+"StoryFetcher_FetchFirstContent_NoNextUrlAlive" = "The text could not be retrieved. (I could not find the link to the part where the text is posted)";
+"StoryFetcher_FetchFirstContent_ExceededCountToLive" = "The text could not be retrieved. (I reached the maximum number of reads without being able to find the link to the text)";
+"StoryFetcher_FetchError_RobotsText" = "Since the website is a site with mechanical access restricted, we cannot obtain it due to the facts. (rejected by robots.txt)";
+"StoryFetcher_FetchSiteInfoError_SiteInfo" = "Failed to read the next SiteInfo data. Due to this failure, when downloading a novel, it is more likely that the body part of the novel cannot be extracted and characters other than the body will also be imported.\nAfter checking the network status, execute \"Settings tab\" -> \"Get SiteInfo again\" and try to get it again.\nIf the same problem is still reported, I attached this error by turning on \"Attach the contents of \'Notification of in-app error\'\" in \"Settings tab\" -> \"Contact developer\". Please contact us in the state.";
+"StoryFetcher_FetchSiteInfoError_CustomSiteInfo" = "Failed to read SiteInfo data for novelspeakers. Due to this failure, when downloading a novel, it is more likely that the body part of the novel cannot be extracted and characters other than the body will also be imported.\nAfter checking the network status, execute \"Settings tab\" -> \"Get SiteInfo again\" and try to get it again.\nIf the same problem is still reported, I attached this error by turning on \"Attach the contents of \'Notification of in-app error\'\" in \"Settings tab\" -> \"Contact developer\". Please contact us in the state.";
+"StoryFetcher_FetchSiteInfoError_FetchError" = "Failed to load SiteInfo data. This failure increases the possibility that when downloading a novel, the text portion of the novel cannot be extracted, and strings other than the text will also be imported.\nPlease check your network status and try to retrieve the data again by executing \"Settings Tab\" -> \"Retrieve SiteInfo\". \nIf you have rewritten the setting values in the \"Settings Tab\" -> \"Internal Data Reference URL Settings\", please check again if those values are correct.\nIf the same problem is still reported, please contact us with this error attached by turning on the \"Attach the contents of the 'Notification of error in the application'\" in the \"Settings tab\" -> \"Contact the developer\".";
+"StoryFetcher_FetchSiteInfoError_DecodeSiteInfoData_Recoverd" =  "Failed to import SiteInfo data.\nThe data for the target URL was read, but it does not appear to be in the expected JSON or TSV format.\nThis problem may be reported when SiteInfo loading occurs while connected to a network that requires authentication. In that case, move to a location with good network conditions, select \"Settings tab\" -> \"Get SiteInfo again\", and then check the message added to \"Settings tab\" -> \"Notification of in-app error\" to make sure there are no errors.\nIn addition, we were able to restore the content from data that had previously been retrieved successfully, so we will use that to continue processing.";
+"StoryFetcher_FetchSiteInfoError_FetchError_Recoverd" =  "Failed to load SiteInfo data. This failure increases the possibility that when downloading a novel, the text portion of the novel cannot be extracted, and strings other than the text will also be imported.\nPlease check your network status and try to retrieve the data again by executing \"Settings Tab\" -> \"Retrieve SiteInfo\". \nIf you have rewritten the setting values in the \"Settings Tab\" -> \"Internal Data Reference URL Settings\", please check again if those values are correct.\nIf the same problem is still reported, please contact us with this error attached by turning on the \"Attach the contents of the 'Notification of error in the application'\" in the \"Settings tab\" -> \"Contact the developer\".\nIn addition, we were able to restore the content from data that had previously been retrieved successfully, so we will use that to continue processing.";
+"StoryFetcher_FetchNext_ErrorSameContent" = "It seems that the same content is loaded. It is considered that the detection of the next page has failed and it fails.\nIf this error appears, it is possible that the information for detecting the \"next page\" for the target website is out of date and malfunctioning. You probably aren't aware that you're having this problem, so please contact us by going to the Settings tab -> Contact Developer with this error message and the URL of the novel you're trying to capture.";
+"StoryFetcher_InvalidURLString_for_AutopagerizeSiteInfoURL" = "Since the URL format set as the runner-up SiteInfo was invalid (a character string that cannot be read as a URL), ignore it and use the standard one.";
+"StoryFetcher_InvalidURLString_for_NovelSPeakerSiteInfoURL" = "Since the URL format set as SiteInfo for NovelSpeakers was invalid (a character string that cannot be read as a URL), ignore it and use the standard one.";
+"StoryFetcher_InvalidURLString_preferredSiteInfoURLList" = "There seems to be a string in the \"Preferred SiteInfo List\" that is not a web URL.";
+
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_InvalidURL" = "It does not appear to be a valid URL string.";
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_GetURLFailed" = "It appears that reading from the specified URL was successful, but reading SiteInfo from JSON failed instead of the expected content. Please verify that it is the correct data.";
+"StoryHtmlDecoder_testSiteInfoURLValid_Error_GetRequestError" = "Failed to read from the specified URL. Please check that you have filled in the correct URL, network connection status, etc.";
+"StoryFetcher_FetchSiteInfoError_DecodeSiteInfoData" = "Failed to import SiteInfo data.\nThe data for the target URL was read, but it does not appear to be in the expected JSON or TSV format.\nThis problem may be reported when SiteInfo loading occurs while connected to a network that requires authentication. In that case, move to a location with good network conditions, select \"Settings tab\" -> \"Get SiteInfo again\", and then check the message added to \"Settings tab\" -> \"Notification of in-app error\" to make sure there are no errors.";
+
+"AutoSplitStringSettingViewController_Title" = "Text segmentation string settings";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_Error_NoText" = "Empty string cannot be specified";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_AlreadyAssigned" = "It is a setting that already exists";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_Title" = "Addition of characters to be split";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_PlaceHolder" = "Type <Enter> to represent a line break";
+"AutoSplitStringSettingViewController_AddSplitTargetDialog_EnterButton" = "Add";
+
+"SpeechViewButtonType_SpeechStop" = "Start/Stop Speech";
+"SpeechViewButtonType_OpenCurrentWebPage" = "Open current page with Web import tab";
+"SpeechViewButtonType_OpenWebPage" = "Open in Web import tab";
+"SpeechViewButtonType_Reload" = "Check for updates to the novel";
+"SpeechViewButtonType_Share" = "Share the URL of this novel";
+"SpeechViewButtonType_Search" = "Search in this novel (search without entering anything will display a list of chapters)";
+"SpeechViewButtonType_Edit" = "Edit this novel";
+"SpeechViewButtonType_CopyTitle" = "Copy this novel title";
+"SpeechViewButtonType_Backup" = "Back up this novel";
+"SpeechViewButtonSettingsViewController_Title" = "Settings for the buttons displayed in the upper right corner of the novel text screen";
+"SpeechViewButtonType_Detail" = "Show novel detail";
+"SpeechViewButtonType_SkipBackward" = "Rewind a little (during playback)";
+"SpeechViewButtonType_SkipForward" = "Advance a little (during playback)";
+"SpeechViewButtonType_ShowTableOfContents" = "Table of Contents";
+"SpeechViewButtonType_AddPageToOtherNovel" = "Add this page to another novel";
+"AddPageToOtherNovel_ConfirmMessage" = "Add this page to \"%@\"?";
+"AddPageToOtherNovel_Success" = "The page was added.";
+"AddPageToOtherNovel_Failure" = "Failed to add the page.";
+"AddPageToOtherNovel_NoPage" = "There is no page to add.";
+"NovelDetailViewController_ActionSection_AppendThisNovelToOther" = "Append this novel to the end of another novel";
+"AppendNovelToOther_ConfirmMessage" = "Add all pages of \"%2$@\" to the end of \"%1$@\"?";
+"AppendNovelToOther_Processing" = "Adding…";
+"AppendNovelToOther_Success" = "All pages were added.";
+"AppendNovelToOther_Failure" = "Failed to add.";
+"SpeechViewButtonType_SearchByText" = "Search within the displayed page";
+
+"SearchFloatingView_SearchTextFieldPlaceHolder" = "Enter the character you want to search for";
+"SearchFloatingView_AccessibilityHint_SearchTextField" = "Enter the search character";
+"SearchFloatingView_AccessibilityHint_LeftButton" = "Search one before";
+"SearchFloatingView_AccessibilityHint_RightButton" = "Search one behind";
+"SearchFloatingView_AccessibilityHint_CloseButton" = "Exit the search window";
+
+
+"MultiVoiceSpeaker_getVoice_useGetNearVoice_Warning" = "The specified speaker was not available on this machine. I will use an alternative speaker. (Use stringally close speakers)";
+"MultiVoiceSpeaker_getVoice_useVoiceIdentityChangeTable_Warning" = "The specified speaker was not available on this machine. I will use an alternative speaker. (I checked Identity strings for other OS and other OS versions, so I choose a close speaker)";
+
+"NovelFolderManageTableViewController_AddButtonTitle" = "Select a novel to put in this folder";
+"NovelFolderManageTableViewController_DeleteButtonTitle" = "Delete this folder";
+"NovelFolderManageTableViewController_ConifirmRemoveFolder_Title" = "Delete folder";
+"NovelFolderManageTableViewController_ConfifirmRemoveFolder_Message_Format" = "Do you want to delete the folder %@?";
+"NovelFolderManageTableViewController_ConifirmRemoveFolder_OKButton" = "Delete folder";
+"NovelFolderManageTableViewController_ManageRow_AddNewSection_Title" = "Add a new folder";
+"NovelFolderManageTableViewController_CreateNewFolderMessage" = "Please enter the name of the newly created folder";
+"NovelFolderManageTableViewController_CreateNewFolder_PlaceHolderMessage" = "You cannot specify a name or empty string that already exists";
+"NovelFolderManageTableViewController_CreateNewFolder_Error_NoName" = "Empty string cannot be specified";
+"NovelFolderManageTableViewController_CreateNewFolder_Error_SameNameAlive" = "A folder with the same name has already been defined";
+"NovelFolderManageTableViewController_Title" = "Edit folders";
+"NovelFolderManageTableViewController_MultipleNovelIDSelectorViewControllerTitle_Formated" = "Novels registered in the \"%@\" folder";
+"NovelFolderManageTableViewController_FolderNameChangeButton_Message" = "Please enter a new folder name";
+"NovelFolderManageTableViewController_FolderNameChangeButtonTitle" = "Rename this folder";
+"NovelFolderManageTableViewController_SearchByTextButton_AccessibilityLabel" = "Search registered folders and novels";
+
+"BookshelfViewButtonSettingsViewController_Title" = "Settings for the buttons displayed in the upper right corner of the bookshelf screen";
+"BookshelfViewButtonType_DownloadStatus" = "Check download status";
+"BookshelfViewButtonType_Reload" = "Confirmation of novel update";
+"BookshelfViewButtonType_SwitchFolder" = "Switch folder";
+"BookshelfViewButtonType_Search" = "Novel search";
+"BookshelfViewButtonType_Edit" = "Editing the novel list";
+"BookshelfViewButtonType_Order" = "Sorting of novels (order)";
+"BookshelfViewButtonType_iCloudPull" = "Initiate forced capture of data on iCloud (usually not needed)";
+"BookshelfViewButtonType_iCloudPush" = "Start sending \"all\" of the data on the terminal side to iCloud again (usually it is not necessary, and since all the data is really sent to iCloud side, the communication volume will increase and it will take time to finish sending all It should take)";
+"BookshelfViewButtonType_stopDownload" = "Stop all running downloads";
+"BookshelfViewButtonType_multiSelect" = "Select and operate multiple novels";
+
+"HeadlessHttpClient_ErikError_noContent" = "ErikError.noContent: I couldn't read anything. Note that this error may occur even if there is a problem with the network connection.";
+
+"SafeModeViewController_SectionTitle" = "Safe Mode";
+"SafeModeViewController_TitleLabelTitle" = "It started in safe mode because it detected that the app was restarted multiple times in a short period of time.\nYou may be able to retrieve the data stored in the novelspeaker by creating a backup file from the menu below. However, even if he restores his novels based on the retrieved data, that data can cause similar kills. In such a case, use \"Send inquiries to developers via E-mail\" to create an inconvenience report email, attach the backup data that will cause the forced termination, and send it, and the same problem will occur at the developer's hand. If you reproduce it, you may be able to solve the problem. However, the backup data includes data stored in his novelspeaker, so don't attach it if it contains data you don't want to give to the developer.";
+"SafeModeViewController_CreateShortBackupButton_Title" = "Generate a lightweight backup (The text of the novel is not saved and must be downloaded again)";
+"SafeModeViewController_CreateFullBackupButton_Title" = "Generate a full backup (The text of the novel is also saved, but it takes time and storage space)";
+"SafeModeViewController_SendProbremReport_Title" = "Send inquiries to developers via E-mail";
+"SafeModeViewController_ExitSafeModeButton_Title" = "Exit safe mode and boot normally";
+
+"WebSpechViewController_ToggleInterfaceButton_Hide_Title" = "Full screen";
+"WebSpechViewController_ToggleInterfaceButton_Display_Title" = "Show buttons";
+
+"ScrollPullAndFireHandler_ForwardHintLabelText_Initial" = "Pull strongly...";
+"ScrollPullAndFireHandler_BackwardHintLabelText_Initial" = "Pull strongly...";
+"ScrollPullAndFireHandler_ForwardHintLabelText_Active" = "Release to the next page";
+"ScrollPullAndFireHandler_BackwardHintLabelText_Active" = "Release to the previous page";
+
+"MenuButtonHandler_StartStopShortcutKey_Title" = "Play/Pause";
+"MenuBarButtonHandler_NextShortcutKey_Title" = "Next page";
+"MenuBarButtonHandler_PreviousShortcutKey_Title" = "Previous page";
+"MenuBarButtonHandler_SkipForwardShortcutKey_Title" = "Forward";
+"MenuBarButtonHandler_SkipBackwardShortcutKey_Title" = "Backward";
+"MenuBarButtonHandler_ControlMenu_Title" = "Playback control";
+
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_InvalidNovelID" = "Invalid NovelID specified";
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_InvalidContent" = "There was no text content";
+"RealmNovel_AddNewNovelWithFirstStoryState_ERROR_NovelAlreadyAlive" = "The same novel is registered on the bookshelf (if the URL is the same, it will be judged as the same novel even if the title changes)";
+
+"NovelImportSettingTargetSelectionView_info_text" = "If nothing is selected, everything will be treated as selected.";
+"NovelImportSettingTargetSelectionView_new_element_info_text" = "If SiteInfo adds new items, they will be included until you review the setting.";
+"NovelImportSettingSwiftUIView_selected_label" = "%d selected";
+"NovelImportSettingSwiftUIView_title" = "Import settings for each website";
+"NovelImportSettingSwiftUIView_novel_title" = "Import settings for this novel";
+"NovelDetailViewController_NovelImportSettingButtonTitle" = "Specify the portions to import for this novel";
+"StoryFetcher_NovelImportSettingNewElements_Message" = "New import items were added to SiteInfo, so they will be included until you review the setting.";
+"StoryFetcher_NovelImportSettingEmptySelection_Message" = "The configured import items were no longer found after a SiteInfo update, so all import items were used for this page.";
+"StoryFetcher_NovelImportSettingLog_OpenSettingAction" = "Review import setting";
+"StoryFetcher_NovelImportSettingLog_TargetSite" = "Website";
+"StoryFetcher_NovelImportSettingLog_TargetNovel" = "Novel";
+"StoryFetcher_NovelImportSettingLog_AddedElements" = "Added items";
+"StoryFetcher_NovelImportSettingLog_CurrentElements" = "Currently available items";
+"AppInformationLogger_OccurrenceCount_Format" = "Occurred %d times.";
+
+"BookShelfTableViewController_SortTypeNcode" = "ID";
+"BookShelfTableViewController_SortTypeWriter" = "Writer name";
+"BookShelfTableViewController_SortTypeNovelName" = "Novel name";
+"BookShelfTableViewController_SortTypeUpdateDate" = "Last download date";
+"BookShelfTableViewController_SortTypeSelectButton" = "Sort";
+"BookShelfTableViewController_AnnounceNewViersion" = "NovelSpeaker is now updated.";
+"BookShelfTableViewController_SearchTitle" = "Search";
+"BookShelfTableViewController_SearchMessage" = "Search the name and the novel and the author";
+"BookShelfTableViewController_SearchClear" = "Clear";
+"BookShelfTableViewController_WarningForDeleteBookTitle" = "Delete a book";
+"BookShelfTableViewController_WarningDeleteBookMessage" = "Do you want to delete the book?\n";
+"BookShelfTableViewController_WarningDeleteBookOKButtonTitle" = "Delete";
+"BookShelfTableViewController_Resume:" = "▶︎ Resume: %@";
+"BookShelfTableViewController_AccessibilitySearchFormat" = "Searching for %1$@";
+"BookShelfTreeViewController_refreshButton_AccessibilityLabel" = "Check for updates to the novel";
+"BookShelfTreeViewController_EditToggleButton_Done" = "Done";
+"BookShelfTreeViewController_EditToggleButton_Edit" = "Edit";
+
+/* SiteInfo editor (priority SiteInfo) */
+"SiteInfoEditor_Title" = "Edit / Add Priority SiteInfo";
+"SiteInfoEditor_TopWarning" = "Caution: Editing these settings carelessly may cause NovelSpeaker to stop working correctly. Only change them if you understand what they do.\nIf something goes wrong, you can restore the standard behavior by deleting all rows added under \"Priority SiteInfo\" using the \"Edit\" button.";
+"SiteInfoEditor_New" = "New";
+"SiteInfoEditor_SearchPlaceholder" = "Filter by site name or url";
+"SiteInfoEditor_ActionSection" = "Actions";
+"SiteInfoEditor_LocalHeaderDescEmpty" = "SiteInfo edited on this device and applied with top priority. None yet. Tap + at the top right to create one, or pick from the standard data below to edit.";
+"SiteInfoEditor_LocalHeaderDesc" = "Edited on this device and applied with top priority. Use the \"Edit\" button at the top right to delete.";
+"SiteInfoEditor_LocalSectionTitle" = "Priority SiteInfo";
+"SiteInfoEditor_StandardSectionTitleWithDate" = "Standard data (fetched %@)";
+"SiteInfoEditor_StandardSectionTitle" = "Standard data";
+"SiteInfoEditor_StandardHeaderDesc" = "The standard SiteInfo loaded in the app. Select one to edit a copy and save it as a priority SiteInfo.";
+"SiteInfoEditor_Export" = "Export as CSV (share)";
+"SiteInfoEditor_NoName" = "(no name)";
+"SiteInfoEditor_NoURL" = "(no url)";
+"SiteInfoEditor_ExportEmpty" = "There is no priority SiteInfo to export. Please edit and save one first.";
+"SiteInfoEditor_ExportFileName" = "NovelSpeaker_priority_SiteInfo.csv";
+"SiteInfoEditor_ExportCreateFailed" = "Failed to create the CSV file.";
+"SiteInfoEditor_Test" = "Test";
+"SiteInfoEditor_Save" = "Save";
+"SiteInfoEditor_ClearField" = "Clear this field";
+"SiteInfoEditor_TestNow" = "Test with these values now";
+"SiteInfoEditor_TestURL" = "Test URL";
+"SiteInfoEditor_TestURL_Placeholder" = "Fetch just this one page to inspect extracted values (empty = all checkTargets)";
+"SiteInfoEditor_ValueTest_BadURL" = "⚠️ The test URL is invalid: %@";
+"SiteInfoEditor_ValueTest_URL" = "URL: %@";
+"SiteInfoEditor_ValueTest_Failed" = "Failed to fetch: %@";
+"SiteInfoEditor_ValueTest_Field_content" = "content (body)";
+"SiteInfoEditor_ValueTest_GotHeader" = "Extracted:";
+"SiteInfoEditor_ValueTest_GotNone" = "Extracted: none";
+"SiteInfoEditor_ValueTest_EmptyHeader" = "Not extracted:";
+"SiteInfoEditor_ValueTest_ElementPresent" = "(element found)";
+"SiteInfoEditor_ValueTest_Elided" = "…(omitted; %1$d chars / %2$d lines total)…";
+"SiteInfoEditor_ValueTest_ElidedChars" = "…(omitted; %d chars total)…";
+"SiteInfoEditor_ValueTest_JudgeOK" = "checkTargets check: all expectations met";
+"SiteInfoEditor_ValueTest_JudgeNG" = "checkTargets check (unmet): %@";
+"SiteInfoEditor_CopyForSpreadsheet" = "Copy for spreadsheet";
+"SiteInfoEditor_DebugEnableSpreadsheetCopy" = "Show \"Copy for spreadsheet\" in the SiteInfo editor";
+"SiteInfoEditor_FieldsSection" = "SiteInfo fields";
+"SiteInfoEditor_Col_name" = "name (site name)";
+"SiteInfoEditor_Col_url" = "url (match regex)";
+"SiteInfoEditor_Col_waitSecondInHeadless" = "waitSecondInHeadless (sec)";
+"SiteInfoEditor_Col_pageElementV2" = "pageElementV2 (xpath of the body text; or, to specify multiple import targets, multiple lines in the form 'ID:title/title=xpath')";
+"SiteInfoEditor_Col_forceErrorMessageAndElement" = "forceErrorMessageAndElement (gate message:xpath)";
+"SiteInfoEditor_Col_checkTargets" = "checkTargets (inspection targets; one entry per line / [auth] URL => content,nextLink)";
+"SiteInfoEditor_DiffMarker" = "⚠️ %@ (differs from standard data)";
+"SiteInfoEditor_CannotSave" = "Cannot save";
+"SiteInfoEditor_SaveURLEmpty" = "The url (match regex) is empty. Please enter a url to save.";
+"SiteInfoEditor_SaveURLRegexError" = "The url regular expression does not compile:\n%@";
+"SiteInfoEditor_Saved" = "Saved";
+"SiteInfoEditor_SaveFailed" = "Failed to save";
+"SiteInfoEditor_SavedMessage" = "Saved this SiteInfo as a priority SiteInfo. It will take precedence in later downloads and tests.\nTo undo (stop using it as priority), go back to the list and delete this row with the \"Edit\" button.";
+"SiteInfoEditor_SaveWriteFailed" = "Failed to write the file.";
+"SiteInfoEditor_Copied" = "Copied";
+"SiteInfoEditor_CopiedMessage" = "Paste starting from the id column cell in your spreadsheet. The pageElement (formula) column is left untouched and recalculated.";
+"SiteInfoEditor_Test_URLRegexError" = "⚠️ The url regular expression does not compile (the test will not run): %@";
+"SiteInfoEditor_Test_URLEmpty" = "⚠️ The url is empty. isMatchUrl will always be false, so this SiteInfo will not be selected in production.";
+"SiteInfoEditor_TestResultTitle" = "Test result";
+"SiteInfoEditor_Test_NoPageElementV2" = "Could not create a StorySiteInfo because pageElementV2 is missing.";
+"SiteInfoEditor_Test_NoCheckTargets_1" = "checkTargets is not set. There is no target URL, so the test cannot run.";
+"SiteInfoEditor_Test_NoCheckTargets_2" = "Example) Enter something like the following in the checkTargets field:";
+"SiteInfoEditor_Test_NoCheckTargets_3" = "  Prefix with [auth] to treat it as SKIP when not logged in.";
+"SiteInfoEditor_Testing" = "Testing…\n(Please wait a moment)";
+"SiteInfoEditor_SettingsButton" = "Edit / add priority SiteInfo";
+"SiteInfoEditor_Import_NotSiteInfoCSV" = "This CSV file does not appear to be priority SiteInfo data (no pageElementV2 column was found). Import was canceled.";
+"SiteInfoEditor_Import_Done" = "Imported priority SiteInfo.\nAdded: %d / Updated: %d";
+"SiteInfoEditor_Validate_CheckTargets_EmptyURL" = "checkTargets: there is an entry with an empty URL";
+"SiteInfoEditor_Validate_CheckTargets_InvalidURL" = "checkTargets: cannot be parsed as a URL (this entry is ignored): %@";
+"SiteInfoEditor_Validate_CheckTargets_UnknownToken" = "checkTargets: unknown token (typo?): %@";
+"SiteInfoEditor_Validate_NPE_NoColon" = "pageElementV2 line %d: missing ':' (multi-line requires the 'ID:title/title=xpath' format)";
+"SiteInfoEditor_Validate_NPE_EmptyID" = "pageElementV2 line %d: the ID at the start of the line (before ':') is empty";
+"SiteInfoEditor_Validate_NPE_NoEqual" = "pageElementV2 line %d: missing '=' (the 'ID:title/title=xpath' format is required)";
+"SiteInfoEditor_Validate_NPE_EmptyXpath" = "pageElementV2 line %d: the xpath after '=' is empty";
+"SiteInfoEditor_Validate_ForceError_NoColon" = "forceErrorMessageAndElement: missing ':' (the 'message:xpath' format is required; the first ':' separates message and xpath)";
+"SiteInfoEditor_Validate_ForceError_EmptyMessage" = "forceErrorMessageAndElement: the message before ':' is empty";
+"SiteInfoEditor_Validate_ForceError_EmptyXpath" = "forceErrorMessageAndElement: the xpath after ':' is empty";
+
+// ScrapeInspector report / judge reasons / settings UI
+"ScrapeInspector_ReportHeader" = "===== Inspection Results (%d) =====";
+"ScrapeInspector_Reason_HostRedirect" = "Redirected to a different host (possibly not logged in / age verification)";
+"ScrapeInspector_Reason_AuthNoEvidence" = "Needs checking: could not fetch even though there is no proof of being logged out (no gate / host change). Check the login state or whether the import settings are broken.";
+"ScrapeInspector_Reason_UnknownTokens" = "Invalid token(s) in settings (typo?): %@";
+"ScrapeInspector_Reason_Timeout" = "Timeout (no response within %d seconds)";
+"ScrapeInspector_Reason_NotExtracted" = "%@ (could not be extracted)";
+"ScrapeInspector_Reason_MustBeEmptyButPresent" = "!%@ (should be empty but was extracted)";
+"SettingsTableViewController_ScrapeInspectButtonTitle" = "Inspect all sites now";
+"SettingsTableViewController_ScrapeInspectProgressMessage" = "Inspecting…\n(Please wait a moment)";
+
+"SettingsViewController_ScrollFollowSuspendSecond" = "Seconds to pause auto-scrolling to the speech position when you scroll the text yourself";
+"SettingsViewController_ScrollFollowSuspendSecond_Disabled" = "Off";
+"SettingsViewController_ScrollFollowSuspendSecond_ValueFormat" = "%d sec";
+"SpeechViewController_SpeakFromHere" = "Speak from here";
+
+"SpeechViewBottomButtonSettingsViewController_Title" = "Buttons shown at the bottom of the novel text screen";
+"SpeechViewBottomButtonSettingsViewController_PositionSectionTitle" = "Position";
+"SpeechViewBottomButtonSettingsViewController_OverlapsChapterBar" = "Overlap the page navigation bar\n(When off, the buttons are shown above the page navigation bar)";
+"SpeechViewBottomButtonSettingsViewController_ButtonsSectionTitle" = "Buttons to show (nothing is shown when all are off)";
+
+"SettingsTableViewController_AppInformation_ClearConfirmTitle" = "Delete all of the current notices?";
+"SettingsTableViewController_AppInformation_ClearConfirmButtonTitle" = "Delete all";
+
+"RealmModels_MenuItemsNotRemoved_Name_copyLinkToHighlight" = "Copy Link with Highlight (WebView only)";
+
+"BookShelfTableViewController_AnnounceNewVersionMessage" = "Version 2.13.0
+
+- In the \"Settings tab\" → \"Send inquiries to developers via E-mail\", the \"Select the novels in which the error occurs\" list can now be narrowed down by searching.
+- Added \"Select All\" to the menu that appears when you select text on the novel text screen.
+- Added an \"Add this page to another novel\" button to the buttons displayed in the upper right corner of the novel text screen.
+- Added \"Add this page to another novel\" and \"Append this novel to the end of another novel\" buttons to the \"Manipulation on this novel\" section of \"Novel detail\".
+- Added a button that clears the entered text (shown as an \"x\") to the text fields on the SiteInfo editing and testing screen in the \"Settings tab\" → \"Edit / add priority SiteInfo\".
+- While reading aloud, scrolling the text yourself now pauses the automatic scrolling to the speech position for a while.
+- Long pressing the text while reading aloud now shows \"Speak from here\".
+- Added \"Buttons shown at the bottom of the novel text screen\" to the \"Settings tab\".
+- Renamed \"Spacing between the buttons at the top right of the screen\" in the \"Settings tab\" to \"Spacing between the buttons on the novel text screen and the bookshelf screen\".
+- Added a confirmation to \"Clear notification\" in the \"Settings tab\" → \"Notification of in-app error\".
+- Fixed several problems with the buttons displayed in the upper right corner of the bookshelf screen and the novel text screen.
+- Fixed an issue where an unintended closing parenthesis could remain when importing text that uses ruby tags.
+- Added items that could not be configured before to \"Long press menu items left behind\", which appears when \"Long press only pops: corrections for pronounciation\" in the \"Settings tab\" is turned on.
+
+Please refer to \"the update history\" of the \"setting\" tab for the detailed information about the update to date.";
+
+"UpdateLogViewController_UpdateLog" = "
+Version 2.13.0
+
+Changes in interface/internal operation
+
+- In the \"Settings tab\" → \"Send inquiries to developers via E-mail\", the \"Select the novels in which the error occurs\" list can now be narrowed down by searching.
+- Added \"Select All\" to the menu that appears when you select text on the novel text screen.
+- Added an \"Add this page to another novel\" button to the buttons displayed in the upper right corner of the novel text screen.
+- Added \"Add this page to another novel\" and \"Append this novel to the end of another novel\" buttons to the \"Manipulation on this novel\" section of \"Novel detail\".
+- Added a button that clears the entered text (shown as an \"x\") to the text fields on the SiteInfo editing and testing screen in the \"Settings tab\" → \"Edit / add priority SiteInfo\".
+- While reading aloud, scrolling the text yourself now pauses the automatic scrolling to the speech position for a while.
+- Long pressing the text while reading aloud now shows \"Speak from here\".
+- Added \"Buttons shown at the bottom of the novel text screen\" to the \"Settings tab\".
+- Renamed \"Spacing between the buttons at the top right of the screen\" in the \"Settings tab\" to \"Spacing between the buttons on the novel text screen and the bookshelf screen\".
+- Added a confirmation to \"Clear notification\" in the \"Settings tab\" → \"Notification of in-app error\".
+
+Fixing the problem
+
+- Fixed several problems with the buttons displayed in the upper right corner of the bookshelf screen and the novel text screen.
+- Fixed an issue where an unintended closing parenthesis could remain when importing text that uses ruby tags.
+- Added items that could not be configured before to \"Long press menu items left behind\", which appears when \"Long press only pops: corrections for pronounciation\" in the \"Settings tab\" is turned on.
+
+
+
+Version 2.12.1
+
+Fixing the problem
+
+- Fixed an issue where chapters already stored locally were being unnecessarily re-downloaded when checking for updates or filling in missing parts of a novel.
+- Implemented various fixes for an issue where speech playback would fail to start until the app was restarted.
+- Fixed an issue where the behavior did not match the intended design when the \"Change the audio mode when connected to CarPlay\" setting (under the Settings tab) was enabled.
+
+
+
+Version 2.12.0
+
+Changes in interface/internal operation
+
+- Added \"Specify the portion of each website to be included.\" (a function that allows you to select the portion to be considered as the main text during import) to the \"Settings tab\".
+- Slightly modified the mechanism of \"Notification of in-app error\" in the \"Settings tab\".
+- Added \"Edit / add priority SiteInfo\" to the \"Settings tab\".
+- Partially changed the behavior when retrieving the main text of novels.
+
+Fixing the problem
+
+- Fixed an issue where some novels could not be searched using the \"Search\" button in the upper left corner of the \"Bookshelf screen\".
+- Fixed an issue where the app could stop reading aloud until it was restarted, which could occur when the playback position was changed repeatedly (for example, from Control Center) during playback.
+- Fixed an issue where importing from some websites took a long time and sometimes failed.
+
+
+
+Version 2.11.2
+
+Changes in interface/internal operation
+
+- Fixed an issue where HTML tags other than rb, rp, and rt were not recognized as ruby ​​text when importing novel text.
+
+Fixing the problem
+
+- Fixed an issue that unnecessarily increased CPU load when checking for novel updates.
+
+
+Version 2.11.1
+
+Changes in interface/internal operation
+
+- Added \"Page Number Sort\" to the sorting options (upward and downward arrow icons) in the upper right corner of the bookshelf screen.
+
+Fixing the problem
+
+- Fixed an issue where importing failed when you couldn't proceed to the next page without pressing a button.
+
+
+Version 2.11.0
+
+Changes in interface/internal operation
+
+- Added an ON/OFF setting (default is ON) for \"Reduce the number of parallel downloads when the device is hot\" to the \"Settings tab,\" and a setting for \"Maximum number of simultaneous downloads (limited per site, default value is 5)\" when this is ON.
+- The waiting time before loading the next page during downloads will now vary depending on the device's temperature and battery level.
+- Partially changed the behavior when checking for updates.
+- Block access to PrivacyTracking-related domains from WKWebView.
+- Reduced the size of the dialog box when composing an email from \"Settings tab\" -> \"Contact Developer\" on iPad.
+
+Fixing the problem
+
+- Fixed an issue where the application might crash when importing novels.
+- Fixed an issue where the application might crash when the \"Bookshelf screen\" was set to an order where folders could be opened and closed.
+- Fixed an issue where some buttons could not be selected in a dialog box that expanded beyond the screen width on Mac Catalyst.
+- Fixed an issue where line breaks were not displayed in complaint reports and other emails on Mac Catalyst.
+
+
+Version 2.10.7
+
+Fixing the problem
+
+- Fixed an issue where the \"Web Import\" tab might crash if there was a problem verifying the SSL certificate.
+
+
+Version 2.10.6
+
+Fixing the problem
+
+- Fixed an issue where some sliders would become inoperable when the text displayed using Dynamic Type or other features was enlarged.
+- Fixed an issue where some icons would appear in unexpected positions when changing the layout during speech or multiple selection.
+- Fixed an issue where, in Dark Mode, the time and battery level indicators at the top of the screen would become invisible (drawn black on black) when the \"Settings\" tab → \"Novel Text Display Settings\" → \"Color Settings\" was set to \"Fixed Black on White\" or vice versa.
+- Fixed an issue where the buttons in the upper right corner of the screen would malfunction and consume excessive CPU power when detecting layout changes and rearranging them.
+
+
+Version 2.10.5
+
+Changes in interface/internal operation
+
+- Added \"Start/Stop Speech\" to \"Settings for the buttons displayed in the upper right corner of the novel text screen\" in the \"Settings Tab.\"
+- Assigned icons to buttons in the top right of the novel main screen that previously contained text.
+- Narrowed the width of the buttons in the top right of the bookshelf screen and converted them to icons (the edit button was not iconized).
+- You can now change the gap between the novel text screen and the buttons on the top right of the bookshelf screen in the settings.
+- Changed the color picker used for \"Specify Text Color Directly\" and \"Specify Background Color Directly\" in \"Settings Tab\" → \"Novel Main Screen Settings\" → \"Color Settings\" to the Apple standard color picker.
+
+Fixing the problem
+
+- Fixed an issue where the background color specified in \"Color Settings\" in \"Settings Tab\" → \"Novel Main Screen Settings\" was not working properly.
+- Fixed an issue where swiping left and right on the novel main screen would not transition to the previous or next page even when \"Enable page turning by swiping left and right on the novel main screen\" was enabled in the \"Settings Tab.\"
+
+
+Version 2.10.4
+
+Changes in interface/internal operation
+
+- Added \"Show tabs at the bottom of the screen\" option to the \"Settings Tab\"
+- Added \"This Chapter Title\" to the \"Edit Novel\" screen, allowing you to change the displayed chapter title.
+- Added a \"Trash Can Emoji\" to the bookmarks displayed on the home page of the \"Web Import\" tab, allowing you to delete the bookmark by clicking it.
+- When checking for updates to novels registered in your bookshelf, if there are missing chapters (pages), an attempt will be made to re-fetch those chapters (pages).
+- Added an ON/OFF setting to the \"Change audio mode when connected to CarPlay\" to the Settings tab.
+
+Fixing the problem
+
+- Disabled the use of AutoPagerize's SiteInfo on wedata.
+
+
+Version 2.10.3
+
+Fixing the problem
+
+- Fixed an issue where calling NovelSpeaker from the share function on Safari etc. did not work properly.
+
+
+
+Version 2.10.2
+
+Changes in interface/internal operation
+
+- When making an inquiry from within the app, a warning will be displayed if the latest version is not working.
+- Changed the behavior when retrieving SiteInfo.
+- A special menu will now be displayed when you enter \"multiple selection mode\" on the \"bookshelf screen\"
+
+Fixing the problem
+
+- Fixed an issue where eloquence voices could not be selected in the expected language.
+- Fixed an issue where a gap was created at the bottom of the novel text screen due to the tab bar being moved to the top of the screen in iPad OS 18.
+- Fixed an issue where the vertical width of the \"◀ (back to previous page button)\" at the bottom of the novel text screen was incorrect, causing a small portion of the bottom left of the novel text to be missing.
+
+
+
+Version 2.10.1
+
+Changes in interface/internal operation
+
+- Changed the way the scroll position is calculated during reading.
+- Addressed an issue where scrolling did not work properly when opening a page with a large number of characters.
+- Changed the URL for obtaining SiteInfo for KotoSekai to a Google Spreadsheet TSV.
+
+Version 2.10.0
+
+Changes in interface/internal operation
+
+- Fixed an issue where the confirmation screen would not appear when trying to delete a novel on the bookshelf screen even if \"Confirm when deleting a novel\" was turned on in the \"Settings tab\"
+- Added an ON/OFF setting for \"Prevent novels from being deleted by swiping or clicking \"Edit\" on the bookshelf screen\" when \"Confirm when deleting a novel\" is turned on in the \"Settings tab\".
+
+Fixing the problem
+
+- Fixes an issue where the app would crash if you tried to read the next page or a sentence ahead from the lock screen during playback.
+- Fixed a problem where the order of folders would be messed up when adding novels to a folder using the multiple selection function on the bookshelf screen.
+
+
+Version 2.9.4
+
+Changes in interface/internal operation
+
+- You can now search by folder name or novel name in the \"Settings tab\" -> \"Edit folder\"
+- Added a button to change the folder name to the \"Settings tab\" -> \"Edit folder\"
+- Renovated bookshelf screen
+- Added \"Multiple Selection\" to the button displayed in the upper right corner of the bookshelf screen
+- When the bookshelf screen is in folder division mode, the number of novels stored in the folder is displayed
+- When there are many novels to check for updates at once, the time it took to register the update check has been slightly sped up (it took about 10 seconds in some cases).
+
+
+Version 2.9.3
+
+Fixing the problem
+
+- Fixed an issue where a-f in hexadecimal notation matched only lowercase letters when identifying URIs.
+- Fixed an issue where the scroll bar was not displayed on the bookshelf screen
+
+
+Version 2.9.2
+
+- When applying a backup file of version 2.0.0 or later, delete all utterance change settings before applying it.
+- Add isNeedWhitespaceSplitForTag to SiteInfo
+- We will change the behavior when saving novels to the internal database when downloading them.
+- Set the page load timeout to 5 minutes when loading in the built-in browser
+- Added a button to change the folder name on the \"Settings tab\" -> \"Edit self-created folder\" screen
+- Fixed an issue where newly downloaded novel chapters (pages) were missing when applying a backup file created with Version 2.* or later.
+- Fixed an issue where when multiple SiteInfos were set, only the one with the highest priority was selected.
+
+
+Version 2.9.1
+
+Changes in interface/internal operation
+
+- Changed the format of the output backup file
+- Added a \"Open existed novel\" button to the dialog when trying to import a novel using the \"Web import\" function and the same novel is registered on the bookshelf and fails.
+
+Fixing the problem
+
+- Reduces the possibility of transitioning to the next page while reading aloud even if you are in the middle of the page
+- Reduces the possibility that the message \"Go to the updated XX chapter on the other device\" will be displayed even if iCloud sync is turned off.
+
+
+Version 2.8.2
+
+Changes in interface/internal operation
+
+- Added scrollTo concept to SiteInfo
+- Added \"Preferred SiteInfo\" to \"Settings tab\" -> \"Internal data reference URL settings\"
+- Added ON/OFF setting for \"Attach the text of the novel where the problem occurs\" to the \"Settings tab\" -> \"Contact developer\" screen.
+
+Fixing the problem
+
+- Corresponds to problems when internal data cannot be read and malfunctions occur.
+
+
+Version 2.8.1
+
+Fix the problem
+
+- Fixed the part where the dialog message when applying the backup file was strange
+- Fixed the problem that it took a long time to start and was forced to quit from the system side.
+- Fixed a slow processing problem in \"Sort\" of \"Bookshelf Screen\" in \"Original folder order\".
+
+Version 2.8.0
+
+Behavior changes
+
+- Added \"Bookshelf registration order\" to \"order\" of \"bookshelf screen\"
+- Added \"Settings tab\" -> \"Behavior when pressing the favorite button on the bookshelf\"
+- Added keyboard shortcuts to the novel text screen
+- Update standard dictionary
+
+Fix the problem
+
+- Eliminate NUL characters (0x00 characters) when saving novel text
+- Fixed a problem that an empty string could not be set once some characters were entered in \"Standard replacement settings\" in \"Setting tab\" -> \"Setting URL for internal data reference\"
+
+
+Version 2.7.4
+
+Fix the problem
+
+- If you move to a tab other than the \"bookshelf tab\" while speaking, or if you display the \"bookshelf tab\" again after turning the app to the background, the reading position display will move to a place that is ahead of the reading position. Fixed an issue where
+- Temporarily dealt with the problem that it was difficult to match around ruby tags.
+
+
+Version 2.7.3
+
+- If too much memory is allocated when speaking, try to free the memory, and resume speaking if it seems to be freed.
+
+
+Version 2.7.2
+
+Behavior change
+
+- When downloading in the background, set the degree of parallelism to 1 (do not download in parallel)
+- Introduced a small trick to monitor the amount of memory used and stop speaking when it is confirmed that it is being used over a certain amount, in response to the problem that it will be forcibly terminated when it is spoken on iOS 16.3.
+
+Fix the problem
+
+- Fixed the problem that ALPHA was [a-z] and [A-Z] was ignored for regular expressions judged as URI in \"Settings tab\" -> \"Ignore URI\".
+
+
+Version 2.7.1
+
+Fix the problem
+
+- Fixed the problem that some operations became impossible after the announcement \"Now that the reading has reached the end ~\" after finishing reading one novel.
+
+
+Version 2.7.0
+
+Interface change, function addition, etc.
+
+- Avoid problems caused by differences in speaker identity strings between different OSes and OS versions by using a table that absorbs the differences.
+- Added \"Long press menu items left behind\" displayed when \"Settings tab\" -> \"Long press only pops: corrections for pronounciation\" is ON
+- \"Settings tab\" -> Changed the notation of \"Long press only pops: corrections for pronounciation\" to \"Reduce long-press menu items in the text\"
+- Expanded various definitions around searching for each website used in the \"Web Search\" tab
+
+Fix the problem
+
+- Fixed an issue that may have caused download failures on websites that use cookies, such as websites that require login
+
+Note
+
+From Version 2.7.0, iCloud synchronization cannot be performed because the schema of the internal database has changed from Version 2.6.* and earlier.
+
+
+# Version 2.6.3
+
+Interface change, function addition, etc.
+
+- Added \"Settings tab\" -> \"File import\"
+- Changed the error message to make it easier to understand when adding a novel to the bookshelf fails
+- When importing a file from the share menu, etc., if it is a text file on this iPhone (or iPad, etc.), check the update of that file.
+- Added HTML to supported file types for file import (import from share menu)
+- Enable to receive WebURL in Share Extension
+- Deprecated Action Extension
+- Add \"Settings tab\" -> \"Follow the rotation of the screen\" on iOS
+
+Fixing the problem
+
+- Fixed an issue that caused some websites to skip pages and load
+
+
+# Version 2.6.2
+
+Interface changes
+
+- \"Settings tab\" -> \"Text display settings\" now displays the character size and the respective numerical values between lines.
+- Added \"Search within the displayed page\" button to \"Settings tab\" -> \"Settings for the buttons displayed in the upper right corner of the novel text screen\".
+- Added \"Copy xxx name\" button to the dialog that appears when you tap \"Novel name\" and \"Author name\" on the novel details screen.
+- The \"Add chapter\" button on the novel edit screen can now be pressed on pages other than the last page.
+
+Fixing the problem
+
+- When \"Settings tab\" -> \"Display bookmarks on the Bookshelf\" is ON, the color of the bookmark position display bar does not turn purple even though there is an announcement that \"The Book ends here.\". Fix the problem
+
+
+# Version 2.6.1
+
+The supported OS version is iOS 15, iPad OS 15 or later.
+
+Interface changes
+
+- Added \"Delete all stored cookies\" button to \"Settings tab\"
+
+
+# Version 2.6.0
+
+Interface changes
+
+- Added ON / OFF setting of \"Settings tab\" -> \"Do not enter sleep mode while reading\"
+- Added \"Settings tab\" -> \"Open Q & A (Frequently Asked Questions and Answers) in Support Site\"
+- In the list of novels displayed when you select \"Select a novel to put in this folder\" from \"Settings tab\" -> \"Edit your own folder\", if the novel is registered in another folder, that folder Add a list of names
+- Added \"Open current page in Web import tab\" to \"Settings tab\" -> \"Edit buttons displayed in the upper right corner of the novel text screen\"
+- For self-made novels Added \"Output the text of this novel as a single text file\" to the \"Detailed screen of the novel\"
+
+
+# Version 2.5.1
+
+Interface changes
+
+- When reading aloud on the edit screen of the text of the novel, if it is read aloud to the end of the chapter, it will stop as it is
+- Changed the behavior when acquisition of SiteInfo (data used when extracting the text part of the novel, etc.) fails (to be exact, acquisition for regular update)
+
+Fixing the problem
+
+- Set accessibility labels for VoiceOver environment on the cursor movement buttons up / down / left / right on the novel editing screen
+
+
+# Version 2.5.0
+
+Interface changes
+
+- Added \"Play unread novels in the specified folder\", \"Play another novel by the same author\", and \"Play another novel on the same website\" to \"Settings tab\" -> \"What happens when playback reaches the end\".
+- On the \"Bookshelf screen\", set the order in the \"Last download date and time (folder classification version)\" folder to the last download date and time.
+- On the \"Bookshelf screen\", change the order in the \"Author order\" folder to the novel name order.
+- Added \"Selection method for the next novel when playback reaches the end\" that appears when \"Settings tab\" -> \"Action when playback reaches the end\" is a specific setting.
+
+
+# Version 2.4.0
+
+Interface changes
+
+- Added ON / OFF setting of \"Attach the contents of \"Notification of in-app error\" in \"Contact the developer\"\"
+- When you select a link with the download attribute on the web import screen, it will be shared as a file (iOS 14.5 or higher only)
+- Added \"Chapter List (Table of Contents)\" to \"Settings tab\" -> \"Edit buttons displayed in the upper right corner of the novel text screen\"
+- Fixed the problem that the display area of the text part of the novel is not restored when the keyboard is closed on the novel edit screen.
+- Added \"Speak\" button to the novel editing screen
+- Added a cursor movement button to the novel editing screen
+
+Change of internal specifications
+
+- Added frame to the tag to ignore when importing HTML
+
+Fixing the problem
+
+- Fixed the problem that the reading position display may jump to the front once at the beginning of reading.
+
+
+# Version 2.3.2
+
+Interface changes
+
+- Delete the backup file generated by \"Settings tab\" -> \"Generate backup data\" at startup
+- When about: blank is displayed on the \"Web Import\" screen (the URL that is displayed first and is also displayed when you press the house icon), you should not be able to press the \"Import\" button, etc. To
+- You can now delete any chapter on the novel edit screen.
+
+
+# Version 2.3.1
+
+Interface changes
+
+- Added volume setting to \"Settings tab\" -> \"Utterance settings\"
+- When \"Play unread ones among favorites\" is selected in \"Settings tab\" -> \"Action when playback reaches the end\", the order of the novels to be read aloud next is displayed on the screen. Changed to give priority to the upper side
+
+Fixing the problem
+
+- Slightly changed the behavior when an error occurs when loading from some websites
+- In \"Settings tab\" -> \"Action when playback reaches the end\", either \"Play unread ones in favorites\" or \"Play unread novels in the same folder\" is selected. Fixed an issue where you might not switch to another novel after reading one novel while you are
+- Fixed some issues that could cause double utterances when hitting the \"Speak\" button repeatedly in certain situations
+
+
+
+# Version 2.3.0
+
+― In many cases, you can get some tags on websites where you can't get them.
+- PickerView (UI that selects one in a drum-like display) that appears in \"Order\" on the upper right of the \"Bookshelf screen\" is changed to another format
+- When \"Settings tab\" -> \"Ruby will read when available\" is ON, you can now select ON / OFF for \"Only the ruby notation derived from the NovelSpeaker is targeted\" is ON / OFF.
+- Fixed the problem that \"Maximum reading time limit\" may become a yearly value when \"Settings tab\" -> \"Maximum reading time limit\" is changed in an environment different from UTC such as under Japanese environment.
+
+
+# Version 2.2.5
+
+Fixing the problem
+
+- Fixed the problem that when the page of the novel was opened, it was forcibly terminated when there was a setting for an empty string in \"Speech change setting\", \"Correction of reading\", and \"Setting during reading\".
+
+
+# Version 2.2.4
+
+Interface changes
+
+- Now to go into safe mode if you restart many times in a short time
+
+Fixing the problem
+
+- Fixed an issue where the VoiceOver name for the \"A little ahead\" button that can be placed in the upper right corner of the novel text screen was not set.
+- Fixed the problem that the operation may become strange when the utterance is interrupted due to the influence of another application etc. during the utterance.
+- When the instruction to start reading aloud multiple times in a short time, you can avoid a part of the part that could read the same part multiple times.
+- Forcibly add a replacement setting that converts to blank when 5 or more \"-\" are consecutive at startup.
+
+# Version 2.2.3
+
+Fixing the problem
+
+- Fixed the problem that \"All novels\" was always set to \"Applicable target\" when moving from \"Settings tab\" -> \"Correction of reading\" to \"Details of correction of reading\".
+- In \"Settings tab\" -> \"Correction of reading\" -> \"Details of correction of reading\", try to select \"Save\" etc. with either \"Before reading\" or \"After reading\" blank. Fixed an issue that caused strange behavior after an error occurred.
+- When I pressed \"Settings tab\" -> \"Get SiteInfo again\", \"Manual SiteInfo loading was completed\" was added to \"Notification of in-app error\" without waiting for SiteInfo loading to finish. Fixed a problem that had been closed
+
+
+# Version 2.2.2
+
+Interface changes
+
+- Easy to delete all when trying to edit the title part that is being temporarily read by Web import etc.
+- Easy to delete all when trying to add a novel by selecting \"Settings tab\" -> \"Add new self-made novel\"
+- ON / OFF of \"Synchronize speed setting\" in \"Settings tab\" -> \"Speech settings\" will save the state until the application is closed.
+
+Fixing the problem
+
+- Fixed the problem that the displayed item name was sometimes omitted in the search setting that can be set ON / OFF in the scene where the search condition of \"Web search tab\" is entered.
+- Fixed the problem that the first character of Japanese input immediately after emptying \"Start character\" and \"End character\" in \"Settings tab\" -> \"Utterance change setting\" does not work well.
+- Fixed the problem that the order set in \"Settings tab\" -> \"Edit self-made folder\" was not reflected in \"Bookshelf screen\"
+- Fixed the problem that the file may not be read normally (nothing may happen) when the file is passed to \"NovelSpeaker\" from the share menu.
+- If the content of the previous page is exactly the same as the content of the previous page during download, the download will be stopped as an error.
+- Fixed an issue where the bookshelf screen could be forcibly terminated when there was a novel whose reading position was incorrect.
+
+
+# Version 2.2.1
+
+Bug fix
+
+- Slightly strengthened VoiceOver support on bookshelves
+- Changed the initial value of the novel to be corrected for reading created when pressing \"+\" in \"Settings tab\" -> \"Modify reading\" to \"All novels\".
+- Fixed the problem that \"correction of reading\" and \"speech change setting\" could not be restored when restoring from a backup file created with Version 2. *
+
+#Version 2.2.0
+
+Interface changes
+
+- Added ON / OFF setting of \"Settings tab\" -> \"Allow page turning by swiping left and right on the novel text screen\"
+
+Fixing the problem
+
+- When \"!\" Is attached to the tab side Of \"Settings tab\", even if you open \"Notice from developer\" or \"Notification of in-app error\" with \"!\", \"!\" On the tab side. Fixed an issue where \"!\" did not disappear
+- When there is a new notification in \"Settings tab\" -> \"Notice from developer\" at startup, \"!\" Is added on the \"Settings tab\" side, but \"Settings tab\" -> \"Notice from developer\" Fixed an issue where \"!\" Was not added to \"!\"
+- Fixed the problem that novels containing characters that are likely to be URL encoded, such as Japanese, cannot be opened (or the text cannot be read even if they are opened).
+
+
+#Version 2.1.0
+
+Change icon
+
+- The icon of the NovelSpeaker has been changed.
+
+Interface changes
+
+- Added ON / OFF setting of \"Notify when restarting after reading is stopped\" to \"Settings tab\"
+- Added \"Stop all running downloads\" to \"Settings tab\" -> \"Edit buttons displayed in the upper right corner of the bookshelf screen\"
+- Added a section to \"Settings tab\" that says \"What you don't normally need to use\"
+- Move \"Settings for internal data reference\", \"Reread SiteInfo\", and \"Reread search data on Web search tab\" to \"Settings tab\" -> \"Items that you do not normally need to use\".
+- When you tap the novel name or author name on the \"Details of novel\" screen, the edit menu will appear after copying each.
+- If SiteInfo fails to load, a notification will be sent to \"Notification of in-app error\".
+- Added \"Line spacing\" slider to \"Settings tab\" -> \"Novel text display screen settings\".
+
+Fixing the problem
+
+- Fixed an issue where each of \"Forward a little\", \"Back a little\", \"Fast forward\", and \"Rewind\" did not work during utterance
+- Fixed the problem that the initial value is input at restart when all of \"Utterance setting\", \"Utterance change setting\", \"Reading correction\", and \"Setting during reading\" are deleted from \"Settings tab\".
+- In \"Settings tab\" -> \"Correction of reading\" -> \"Details of correction of reading\", enter some Japanese characters in Japanese mode in \"Before reading\" and \"After reading\" below it. Fixed the problem that the first character is excluded from the conversion candidates when trying to input some Japanese characters again after erasing everything by pressing the \"x\" button on the right side of the input field.
+- Fixed an issue where when the novel download indicator is displayed, such as when checking for updates of all novels, only that indicator does not disappear even if the download is stopped.
+
+
+# Version 2.0.1
+
+- Fixed an issue where \"the order of the novel chapters would be messed up\" when updating from Version 1. * to Version 2.0.0
+- Fixed the problem that the URL sometimes did not open in the Web import tab even if you pressed \"Try on the Web import tab\" when importing from Safari.
+- Fixed the problem that some ruby notation may be imported without being recognized as ruby when importing to the Web.
+- Fixed the problem that the value on the \"Standard replacement setting\" side was rewritten when the value was entered in \"Hint information for Web search tab\" in \"Settings tab\" -> \"URL setting for internal data reference\"
+
+# Version 2.0.0
+
+- Change internal database
+- Rewrite almost all source code from Objective-C to Swift
+- Function addition
+  - Added iCloud synchronization function between devices
+  - To be able to change the speaker itself in conversational sentences, etc.
+  - Add elements in order on the bookshelf screen
+  - Now you can register novels as \"favorites\"
+  - Added \"Details\" button to the novel text screen. Settings for each novel will be added
+  - Added Web search screen
+  - Added the concept of self-made folders
+
+
+# Version 1.1.72
+
+Bug fix
+
+- Addressed an issue where some URLs could fail to load
+- Fixed the problem that when you press and hold the image displayed on the Web import tab and select \"Add to \"Photo\"\", it drops.
+
+# Version 1.1.71
+
+Interface change
+
+- For some of the buttons on the bookshelf screen and the novel text screen, set the reading characters when selected with VoiceOver.
+
+Bug fix
+
+- Addressed an issue where a large number of novels (text) were registered, and when trying to create a backup file with the Settings tab -> Generate backup data-> Complete backup
+
+
+# Version 1.1.70
+
+Bug fix
+
+- Fixed an issue where the last open novel might be deselected when checking for novel updates on the bookshelf screen.
+
+
+# Version 1.1.69
+
+Interface change
+
+- The last open novel is now selected on the bookshelf screen
+
+
+# Version 1.1.68
+
+Bug fix.
+
+- Fixed an issue where line breaks could not be detected properly in some documents when \"<Enter>\" was set in \"Settings\" -> \"Setting for punctuation delays\".
+- Fixed an issue where the badge did not disappear when the app was launched.
+
+
+# Version 1.1.67
+
+Bug fix
+
+- Corrected the problem that the text may not be imported normally if the garbage file is mixed in the folder storing the novel text of the complete backup file.
+
+
+# Version 1.1.66
+
+Interface change
+
+- When the web import fails, if the mail can be sent, the \"import failure report mail\" can be sent.
+
+Bug fix
+
+- While downloading a novel, the indicator of the currently read novel may disappear, so change it so that it does not disappear.
+
+
+#Version 1.1.65
+
+Interface change
+
+- Change the behavior when the standard mail application is unavailable
+
+Bug fix
+
+- Addressed an issue where the application may be forced to terminate in the case of a web page with multiple requests for which the SSL certificate is judged to be invalid on the web import tab
+
+# Version 1.1.64
+
+Interface change
+
+- Added \"Attach lightweight backup file\" to the selection items that appear when selecting inconvenience report in Settings -> Contact developer
+
+# Version 1.1.63
+
+Bug fix
+
+- Suppress unnecessary line breaks when importing from some websites
+
+
+# Version 1.1.62
+
+Interface change
+
+- Add \"Select the novels in which the error occurs (if any)\" to \"Settings\" -> \"Send inquiries to developers via E-mail\"
+
+Bug fix
+
+- As for the name of the novel when you take it in, please take it in by removing the blank before and after.
+- Resolved an issue that may cause the indicator to persist while downloading a novel.
+- Corrects an issue that may have caused nothing to happen after selecting \"Create inconvenience report mail\" in \"Settings\" -> \"Send inquiries to developers via E-mail\".
+
+
+# Version 1.1.61
+
+Interface change
+
+- The English notation was corrected and reflected.
+
+This English notation was corrected on GitHub by @Matthewzhou809 in the form of a pull request.
+NovelSpeaker is an open source project published on GitHub, so contributions such as pull requests like this one are very helpful.
+Thank you @Matthewzhou809! ヾ(*´∀｀*)ノ
+
+
+# Version 1.1.60
+
+# Version 1.1.59
+
+Interface change
+
+- Changed so that \"Share as file\" can be selected in Settings -> \"Create backup data\".
+
+
+# Version 1.1.58
+
+Interface change
+
+- add Settings -> \"Confirm when deleting a novel\"
+- add \"Check past notifications\" button on Settings -> Information dialog
+- Enhanced DynamicType support.
+
+Bug fix
+
+- Fixed an issue where the picker dialog that appeared in the \"Order\" etc. at the top right of the bookshelf could not be selected under VoiceOver.
+- Resolved an issue that could cause items that could not be deleted with bookmarks in the Web Import tab.
+
+# Version 1.1.57
+
+Interface change
+- Add color settings at Settings -> Fiction text display settings.
+
+Bug fix
+- Fixed an issue where the app could quit when restoring from a backup file.
+
+
+# Version 1.1.56
+
+Interface Change
+
+- Added support for DarkMode
+- Added a search button to the novel text scene
+- Display slide bar value in Settings -> Quality of voice
+- Added settings -> Do not download on mobile phone network ON/OFF setting
+
+Bug fix
+
+- Do not display the menu that appears above the reading position display during reading
+
+# Version 1.1.55
+
+Interface Change
+
+- Remove blanks and newlines at the beginning and end of imported chapters
+- For chapters imported by Web import, chapters cannot be deleted from editing
+
+Bug fix
+
+- Fixed an issue where when deleting a chapter while editing a self-made novel, the deleted chapter was not deleted if the deleted chapter was a trapped chapter
+
+# Version 1.1.54
+
+Interface change
+
+- When there is a new announcement, a badge is attached to the setting tab to prompt confirmation
+- Added ON / OFF setting of \"Attach operation log saved internally\" to \"Settings\" -> \"Contact developer\"
+
+Bug fix
+
+- Fixed a problem that occurred when a new novel was imported on WebImport and it seemed that the novel was not added to the bookshelf
+
+
+# Version 1.1.51
+
+Interface change
+
+- Increase the maximum number of novel chapters captured at one time on the web capture side from 100 to 1000
+- Ruby changes ruby string handling judged as ruby with ruby only reading function slightly
+
+
+# Version 1.1.50
+
+Interface change
+
+- Start announcing on the Search tab according to the deletion policy of the Search tab
+
+Bug fix
+
+- Fixed a problem that continued loading of the same page in Web capture function
+
+
+# Version 1.1.49
+
+Interface change
+
+- When loading ruby (ruby tag) in HTML, by reading it in the form of \"| character (ruby)\" uniformly, so that \"ruby reads only ruby\" works more as intended
+
+
+# Version 1.1.48
+
+Interface change
+
+- If you do not set speakers to read aloud, select a rich speaker that is available instead of the standard one (kyoko)
+- Changed to support iOS 10 or later (previously iOS 8 or later)
+- Added ON / OFF setting to \"Setting -> Open recent book in start time\"
+- Added updated novel name to update notification when setting -> novel automatic update is ON
+
+
+# Version 1.1.47
+
+Bug fix.
+
+- Corresponds to problems that downloading of novel text via Search fails
+
+
+# Version 1.1.46
+
+Interface change
+
+- Add \"Settings\" -> \"Effort not to stop even if the music sounds in other applications\" option
+
+Bug fix
+
+- Fixed a problem that setting will not be reflected if you start reading aloud the page of the novel that was open before and after switching Settings -> Speech ruby only ON / OFF
+- Settings -> Speech ruby only slightly changed criteria judged as ruby
+- Fixed a part of the problem that started when downloading all the novels in the bookshelf after a while when there were a lot of novels imported by Web Import and falls for a while.
+- Fixed a problem that there is a possibility that music that is being played back in the background by another application is stopped when the novel text is displayed
+- Fixed the problem that automatic updating was not actually stopped when \"Settings\"-> \"Auto download for updated novel\" changed from ON to OFF
+
+
+# Version 1.1.45
+
+Interface change
+
+- Change the maximum value of the slide bar of the screen displaying sentences to the number of chapters (pages) being downloaded
+- When playback stops beyond maximum continuous playback time, NovelSpeaker will announce that way
+- Even after erasing the dialog at the time of version update, it opens the novel that was last read
+- The display position of the bookshelf is moved so that the novel which was being read last is displayed at the top, only once after activation
+- Place a search button on the upper left of the bookshelf
+
+Bug Fix
+
+- Fixed problem that countdown of maximum continuous playing time was reset when page switching occurred during reading
+- Fixed a problem that the playback position got back a long way back when the earphone was pulled out of the earphone jack during reading
+- Change the handling of the sound that sounds when page turning from system sound to application side sound
+- Turn off page turning sound except during reading aloud
+- In the main revision details after pressing \"Register to replacement dictionary\" coming out with long press in the text, so that the character string before replacement is initialized with the selected character
+
+# Version 1.1.44
+
+Interface change
+
+- By tapping individual conversion rules with Settings -> Correction of the reading.
+
+Bug fix
+
+- Fixed an issue where sometimes the download succeeded except for HTTP 200 OK
+- Judge that the download has failed even if the body of only characters that are not displayed such as blanks or blank lines are read
+
+
+# Version 1.1.43
+
+Interface change
+
+- Added setting using several regular expressions in standard replacement dictionary
+- Added ON / OFF setting for provisional countermeasure to problems that may be incorrect at the display position of the character being read at iOS 12
+- Dealing with the problem that the indication being downloaded does not appear on the indicator at the top of the screen on an iPhone with a notch such as iPhone X
+
+Bug fix
+
+- Fixed a problem that the display reflecting those changes did not appear in the setting between reading aloud on the setting tab, even after changing individual settings or after returning to the settings between reading aloud after adding them
+
+
+# Version 1.1.42
+
+Interface change
+
+- In the scene where the keyboard comes out, the keyboard may not be closed In some cases it is changed so that it can be closed by putting a line feed etc.
+
+
+# Version 1.1.41
+
+Interface change
+- In order to be able to read by regular expression in \"Correction of reading\"
+- To use the standard setting of \"Voice quality setting\" when reading the test in \"Correction of reading\"
+- The internal database storage location has been moved
+
+
+# Version 1.1.40
+
+Bug fix
+- Fixed an issue in which the scroll bar of the novel text disappeared when \"Darken the background when reading a novel\" was ON
+
+
+# Version 1.1.39
+
+Interface change
+- Change \"Reply to report\" in \"Send inquiries to developers by e-mail\" on \"Settings\" tab to selection formula of \"unnecessary\" \"no need\" \"essential\"
+
+Bug fix
+- \"Ruby reads ruby only\" function, which fixes a problem which was not responding to ｜(double-byte) in ruby of |...《...》 format
+
+
+Version 1.1.38
+
+Bug fix
+
+- Corrected a problem that the reading-out position might not return to the beginning when repeating playback
+
+
+Version 1.1.37
+
+Interface cange
+
+- Increase setting items saved in \"Create backup data\"
+- In the \"Create backup data\" so that you can back up including the text of the novel
+- Added RTF (Rich Text Format) to corresponding read file type
+- Added \"About\" (confirmation of version number) on setting tab
+- Added \"Repeat Type\" on setting tab
+
+
+Version 1.1.36
+
+Bug fix
+
+- Fixed an issue that was not saved when editing an editable novel when moving from the first opened chapter (currently reading chapter) to another chapter
+
+
+Version 1.1.35
+
+Bug fix
+
+- Fixed a problem where the color of the status bar changed to white and it became impossible to read when \"Dark background when reading novels\" was ON
+
+
+Version 1.1.34
+
+Interface Change
+
+- Specification change so that the thing written as \"<newline>\" (\"<Enter>\" in English environment) is handled as a line feed at the setting between reading-out time
+
+Bug fix
+
+- Fixed the fact that the character color of the status bar was still black and could not be read when the \"Darken the background when reading a novel\" is ON
+
+
+Version 1.1.33
+
+Interface change
+
+- When displaying the WebPage of the novel from the icon of the earth at the top when displaying the text of the novel, as shown on the Web capture tab side
+- Added a button to refer the license to the setting tab
+- Added button to refer privacy policy to setting tab
+
+Bug fix
+
+- Fixed an issue that could not be properly moved when moving to the previous chapter / later chapter in the control center
+
+Version 1.1.32
+
+Bug fix
+
+- Fixed an issue where display position ended when moving to the next / previous chapter
+
+
+Version 1.1.31
+
+Interface change
+
+- While downloading, display the network activity indicator at the top of the screen
+
+
+Version 1.1.30
+
+Interface change
+
+- On the editing screen of Web capture or self-made novel, when all the characters are selected when tapping the title of the novel
+
+
+Version 1.1.29
+
+Bug fix
+
+-  Fixed a problem that the update date and time of the novel appearing in \"Search tab\" search result becomes \"-\" when 24 hour display is set to OFF in the date and time setting
+
+
+Version 1.1.28
+
+Interface change
+
+- In the inquiry form from within the application, change the initial value of \"I want a reply to this inquiry\" to \"Yes\"
+
+Bug fix
+
+- Eliminate the problem that an empty \"new user novel\" will be created when newly importing a novel by web retrieval etc.
+- In the case where a replacement dictionary relating to \"*\" has been registered in the past, concerning the problem of falling off when reading out consecutive parts of \"*\", we did not rewrite, but since there seems to be a person who is still falling, \"*\" is forcibly replaced with \" \" Changed to overwrite on startup
+
+
+Version 1.1.27
+
+Interface change
+
+- Added serial status (completion, serialization etc.) on the details screen.
+
+Bug fix
+
+- Fixed a problem that the first page disappears when adding a page to the novel added in \"Add new self-made novel\"
+
+
+Version 1.1.26
+
+Interface change
+
+- Enable Pull-to-refresh on bookshelf (iOS 10+ only)
+- Add ON / OFF setting to sound when turning pages to the setting tab
+- Add settings to prevent setting up URIs to the setting tab
+
+Bug fix
+
+- Fixed an issue where skipping to the previous and next chapters skipped multiple chapters instead of one chapter when switching the tab several times with the novel text displayed
+
+
+Version 1.1.25
+
+Interface change
+
+- Added setting tab on whether to display playing time in control center to setting tab
+- Add setting to the setting tab whether to make the screen black-based background when displaying the novel text
+
+Bug fix
+
+- Fixed an issue where playback did not stop due to button operation of Bluetooth earphone
+
+
+Version 1.1.24
+
+Interface change
+
+- Added settings to change to previous button in control center, button to next chapter a little bit, change to a little advance button
+- Corresponds to rewind / fast forward command from earphone
+
+
+Version 1.1.23
+
+Interface change
+
+- About the position indicator gauge of the bookmarker on the bookshelf so that the color of the gauge changes when reading is finished
+- Change the scroll position being read so that it scrolls slightly beyond the place to read aloud
+
+
+Version 1.1.22
+
+Interface change
+
+- Add to the setting tab whether to set only the menu to be displayed when long-pressed the novel's body \"Add correction of the reading\"
+- Add a button to select the font that displays the novel's body to the upper part of \"Setting the display character size\" on the setting tab
+
+Version 1.1.21
+
+Interface change
+
+- Add \"Display bookmark position on Bookshelf\" toggle switch on Settings tab.
+
+Bug fix
+
+- Fixed an issue where the number of chapters loaded could not be displayed well when opening a novel that was imported by the web import function
+- Fixed a problem that broken novels will be created when downloading continues when downloading novels from bookshelf during downloading
+
+
+Version 1.1.20
+
+Interface change
+
+- Add a form for suggesting new functions etc. to \"query to developers\" function on setting tab
+- When displaying the text of the novel so that the novel's WebPage can be opened in Safari from the icon of the earth added to the top
+
+Bug fix
+
+- Even if you go back without pressing registration while editing your own novel, so that the contents are saved
+
+
+Version 1.1.19
+
+bug fix
+
+- Fixed an issue where the display position did not change when opening a novel (or moving to another chapter)
+
+
+Version 1.1.18
+
+bug fix.
+
+- Speech stopped when moving to another tab during speech reading. This was the cause of causing various problems.
+- Fixed an issue where announcement at the end after speaking to the end might not be uttered
+- When returning to the bookshelf etc from the state displaying the novel text, we fix the problem that there was a possibility that the information of the novel being read might be broken.
+
+
+# Version 1.1.17
+
+bug fix
+
+- Corrected so that even if you erase the keyboard by tapping off the screen etc., the problem which was not saved unless you press Enter is reflected in the part where character input is necessary
+- Fixed an issue where playback did not stop when Bluetooth device was disconnected
+
+
+# Version 1.1.16
+
+bug fix
+
+- fixed: Even if \"Speech ruby only\" is ON, the first chapter was not working
+- Since it falls when trying to read a part where \"*\" is consecutive, it is added as a replacement dictionary to read as harmless characters
+
+# Version 1.1.15
+
+interface change
+
+- Added a button for re-downloading (rotating arrow) to the screen displaying individual chapters for the novel captured using the \"Web import\" function.
+
+bug fix
+
+- Corrected (some) the problem that the screen froze or NovelSpeaker fell easily when reloading the novel etc in the backup file.
+
+
+# Version 1.1.14
+
+Interface change
+
+- Novel information page layout changed (for small display device).
+
+
+# Version 1.1.13
+
+Interface change
+
+- Now can import .txt file.
+- Now can import .pdf file(iOS 11 or more).
+- Add Problem report feature in Settings tab.
+
+Bug fix
+
+- As for the novel imported by the \"Web import\" function, update the update date and time in the captured time.
+- Fixed some of the problems with HTTP 400 BadRequest with \"Web import\" function
+
+# Version 1.1.12
+
+Interface change
+
+- When editing a user's own novel etc, change so that editing starts from the reading-out position.
+
+bug fix
+
+- Fixed problem that iPhone X hides the first and second lines of the contents of the book.
+
+
+# Version 1.1.11
+
+Interface change
+
+- We closed access to the search site like Google on the Web import tab (a way to avoid Rating 17+ by 'Unlimited Web Access')
+
+
+# Ver 1.1.10
+
+Interface change
+
+- New Web Import tab added.
+- Even for functions to be imported from Safari, you can check the title and contents and then import it.
+- On the screen reading the novel, let's switch chapters with swipe left and right.
+
+bug fix
+
+- Fixed problem which was displayed as it was when &quot; etc was in the title and the outline of the novel.
+
+
+# Ver 1.1.9
+
+bug fix
+
+- Fixed an issue where registration of new user novels always failed.
+
+
+# Ver 1.1.8
+
+Interface change
+
+- Redo some UI of setting tab (function does not change)
+- To enable you to designate characters that you do not recognize as ruby when turning on \"Speech ruby only\" on setting tab
+- In order to search for correction items within correction of reading on setting tab
+
+- bug fix
+
+- Fixed a part of the problem that letters were not seen on small terminal of screen of iPhone SE etc
+- Fixed a problem that \"Speech ruby only\" skipping skipping parts other than ruby
+
+
+# Ver 1.1.7
+
+Interface change
+
+- Add \"Speech ruby only\" setting feature on Settings page.
+- Change \"Create re-download URL\" feature to \"Create NovelSpeaker Backup file\" on Settings page.
+- When loading with Safari using the \"download with NovelSpeaker\" extension, title will be displayed in the dialog when the title is confirmed.
+
+Bug fix
+
+- Fixed a problem that when you move to the setting tab etc. while reading a novel and return it, the reading-out position is returned to the past one.
+- When all the novels are re-downloaded, those that do not update will not be added to the download queue.
+
+
+# Version 1.1.6
+
+Interface change
+
+- When an headphone is pulled up when an headphone sticks in headphone Jack, speech comes to stop.
+
+Bug fix
+
+- Fixed problem that download from Let's becom novelist site failed.
+- Fixed a problem in which the reading start position shifted to the reading position stopped earlier when reading of a book was stopped and when opening another book and starting reading aloud.
+- Fixed a problem that automatic stop at continuous playback time does not work if page switching occurs before the specified time in continuous playback time.
+
+# Version 1.1.5
+
+Interface change
+
+- Can select speaker data. You need download sepaker data from:
+Settings > General > Accessibility > Speech > Voices > Japanese
+- If VoiceOver enabled, alert dialog is open when speak start.
+- Bookshelf sort type selector now available.
+- Auto download for updated novel mode added. Add enable/disable this mode settings at Settings page.
+
+Bug fix
+
+- I read it aloud at the time of the re-reading of the novel, and a position revised an initialized problem.
+- When it had a telephone, It come to stop reproduction.
+- I revise the problem that a black belt holder may begin up and down in 6 iPhone Plus.
+- Application revised a bug to be finished at the time of access to internal DB.
+
+
+# Version 1.1.4
+
+Interface change
+
+- Add \"Add default correction of the reading\" menu on text long tap menu.
+- Add \"Add own created book\" feature at Settings page. You can write yourself book now!
+
+Bug fix.
+
+- Reading aloud revises a problem to stop without permission.
+
+
+# Version 1.1.3
+
+Bug fix
+
+- in Search tab, Search string is now can editable.
+
+
+# Version 1.1.2 release note
+
+Interface change
+
+- in Search tab, \"Search order\" is now show after tap.
+- Add \"Update log\" in Settings tab.
+- Update Notice dialog added. This is displayed first time only.
+
+# Version 1.1.1 release note
+Interface update
+- \"Speak wait config\" page inploved.
+- \"Go to writer page\" button added at novel detail page.
+
+Bug fix
+- Duplicate word speech about \"Experimental\" speak setting is fixed.
+- I revise a problem to come off when I choose the chapter which \"@\" is included in for character string for the reading aloud.
+- Speech start fail bug fixed.
+
+# Version 1.1 release note
+
+Interface change
+- Icon changed.
+- Text size change configuration is now on settings page.
+- iPad mode. NovelSpeaker is universal application now.
+- If reached at the end of a book then announce messsage: \"Because it reached at the end of a book, I stopped reading aloud.\"
+- First open view is now \"Last read page\".
+- \"Max continuation reproduction time\" configuration is now on settings page.
+- \"Speak wait config\" configuration is now on settings page.
+- Can search same writer novel, in novel details page.
+- Share button added for novel read page.
+- Custom URL scheme is now available. It can download with NCODE. Use novelspeaker://downloadncode/ncode-ncode-ncode...
+\"ncode\" is \"Let's become a novelist\"'s novel-code. \"ncode\" can found \"Let's become a novelist\" web page ( http://syosetu.com ). example ncode found at last of url  like http://ncode.syosetu.com/n9669bk/ (this example include ncode \"n9669bk\")
+
+# Version 1.0.2 release note
+
+Change of the interface
+
+- I attached a button for the front and the movement to a later chapter with the screen which read a novel. By the right and left flick cannot move now.
+
+Correction of the problem
+
+- I revise the problem that the latest thing which I reloaded was not able to download.
+- When I moved a chapter during background reproduction, I revise the problem that reproduction might stop.
+- I revise the problem that the indication of the novel is fogged in a status bar and navigation bar, and it may not seem that it is displayed.
+- I revise a reproduction start and the problem that I am replaced, and nothing sometimes reacts to for a long time of the chapter when I increase the setting of the reading substitute. (if the number increases, it becomes late)
+- Movement revises the problem that became slow if in condition to have downloaded a large quantity of novels.
+
+
+# Version 1.0 release note
+
+First release.
+";
+"UpdateLogViewController_Title" = "Update log";
+
