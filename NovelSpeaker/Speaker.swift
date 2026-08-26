@@ -302,7 +302,6 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         // 一切表示されない事が判明したため、アプリ内蔵の「アプリ内エラーのお知らせ」機構
         // (AppInformationLogger、設定画面からJSONで取り出せる)経由でログを残す事にした。
         // rateが実際にいくつとして評価されているか(1.0超の経路に入るかどうか)を必ず記録する。
-        SpeakerDebugLog(message: "Speech() called. m_Rate=\(m_Rate) extraSpeedMultiplier=\(extraSpeed) willUseExtraSpeedPath=\(extraSpeed > 1.0) textLength=\((text as NSString).length)")
         // [根本原因] SetVoiceSettings() 等が声変更直後に発話エンジンを温めるため空白1文字(" ")だけの
         // "ウォームアップ発話"を送ってくる事がある。この空白だけのutteranceをwrite(_:toBufferCallback:)
         // に渡すと、実機で検証した結果コールバックが一切呼ばれずに永久に無音のまま固まる
@@ -310,6 +309,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         // 一度も音が出なくなっていた真の原因だった。空白/空文字はそもそも高速化しても意味が無いので、
         // 1.0超の経路を通さず、常に従来の直接speak()の経路で処理するようにする。
         let isBlankOnlyText = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        SpeakerDebugLog(message: "Speech() called. m_Rate=\(m_Rate) extraSpeedMultiplier=\(extraSpeed) willUseExtraSpeedPath=\(extraSpeed > 1.0 && !isBlankOnlyText) textLength=\((text as NSString).length)")
         if extraSpeed <= 1.0 || isBlankOnlyText {
             // 従来通りの経路。rateを1.0超から1.0以下に戻した直後は、前回使っていた加速再生用の
             // AVAudioEngineがまだ残っている(=extraSpeedEngine != nil)ことがあり、これが残ったままだと
@@ -378,6 +378,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         var writeError: Error? = nil
         var receivedBufferCount = 0
         var totalFrameLength: Int64 = 0
+        var hasHandledCompletion = false // write()の空バッファ完了通知が同一セッションで複数回来た場合に二重再生を防ぐ
 
         SpeakerDebugLog(message: "SpeechWithExtraSpeed start. extraSpeed=\(extraSpeed) textLength=\((text as NSString).length)")
 
@@ -387,6 +388,11 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                 // 空バッファは合成完了の合図。ここで初めてファイルを閉じて再生を開始する。
                 DispatchQueue.main.async {
                     guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
+                    guard !hasHandledCompletion else {
+                        self.SpeakerDebugLog(message: "duplicate empty-buffer completion signal ignored")
+                        return
+                    }
+                    hasHandledCompletion = true
                     self.isExtraSpeedSynthesisFinished = true
                     self.SpeakerDebugLog(message: "synthesis finished. buffers=\(receivedBufferCount) totalFrames=\(totalFrameLength) writeError=\(String(describing: writeError))")
                     audioFile = nil // ファイルをclose(参照を切る事でAVAudioFileが書き込みを確定させる)
