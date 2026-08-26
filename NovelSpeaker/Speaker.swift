@@ -249,6 +249,25 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     // この synth は deactivate をまたいで生き残っており内部エンジンが切れて固着しうるので作り直す。
     private var bornAudioSessionGeneration:Int = Speaker.audioSessionCoordinator?.audioSessionGeneration ?? 0
 
+    // AVSpeechUtterance.rate はAppleのAPI仕様上 AVSpeechUtteranceMaximumSpeechRate(1.0)が絶対的な上限であり、
+    // OSの音声合成エンジン自身にそれ以上の速さで喋らせる事は出来ない。1.0を超える分については、
+    // 音声合成自体は等倍(1.0)のまま行い、出てきた音声波形を AVAudioUnitTimePitch で再生時に追加で
+    // 高速化する事で実現する(TimePitchはピッチを維持したまま速度だけ変えられるので声が高くならない)。
+    static let maximumTotalSpeechRate: Float = 5.0
+    private var extraSpeedEngine: AVAudioEngine? = nil
+    private var extraSpeedPlayerNode: AVAudioPlayerNode? = nil
+    private var isExtraSpeedGraphConnected: Bool = false
+    private var extraSpeedPendingBufferCount: Int = 0
+    private var isExtraSpeedSynthesisFinished: Bool = false
+    private var isExtraSpeedStopRequested: Bool = false
+    private var extraSpeedSpeechString: String = ""
+    // m_Rate(0.0〜maximumTotalSpeechRate)のうち、AVSpeechUtteranceMaximumSpeechRateを超える分の倍率。
+    // 1.0以下ならAVAudioEngineを介さない従来経路を使うので、既存の挙動には一切影響しない。
+    private var extraSpeedMultiplier: Float {
+        if m_Rate <= AVSpeechUtteranceMaximumSpeechRate { return 1.0 }
+        return m_Rate / AVSpeechUtteranceMaximumSpeechRate
+    }
+
     override init() {
         super.init()
         synthesizer.delegate = self
@@ -279,27 +298,128 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                 bornAudioSessionGeneration = coordinator.audioSessionGeneration
             }
         }
+        let extraSpeed = self.extraSpeedMultiplier
+        if extraSpeed <= 1.0 {
+            // 従来通りの経路。rateが1.0以下の間は既存動作から一切変えない。
+            let utt = AVSpeechUtterance(string: text)
+            utt.voice = m_Voice
+            utt.pitchMultiplier = m_Pitch
+            utt.rate = m_Rate
+            utt.postUtteranceDelay = m_Delay
+            utt.volume = max(0.0, min(1.0, m_Volume))
+            synthesizer.speak(utt)
+            return
+        }
+        SpeechWithExtraSpeed(text: text, extraSpeed: extraSpeed)
+    }
+
+    // rateが1.0(AVSpeechUtteranceMaximumSpeechRate)を超えている場合の再生経路。
+    // 合成自体は等倍(1.0)で行い、write(_:toBufferCallback:)で音声波形をバッファとして受け取って、
+    // 自前のAVAudioEngine(AVAudioPlayerNode -> AVAudioUnitTimePitch -> mainMixerNode)へ流し込み、
+    // TimePitchのrateで追加の倍率をかけて再生する(TimePitchはピッチを維持したまま速度だけ変えられる)。
+    // 注意: write() 経由だと willSpeakRange 等の細かい単語単位の通知タイミングは実際の(加速後の)
+    // 再生タイミングとズレる(合成は先に等倍速度でどんどん進んでしまうため)。単語単位のハイライト追従は
+    // 諦め、再生を開始した瞬間に発話文字列全体を1回だけ通知するだけに留める。
+    private func SpeechWithExtraSpeed(text: String, extraSpeed: Float) {
+        StopExtraSpeedEngine() // 直前の発話がまだ残っていれば先に片付ける
+        extraSpeedSpeechString = text
+        isExtraSpeedSynthesisFinished = false
+        isExtraSpeedStopRequested = false
+        isExtraSpeedGraphConnected = false
+        extraSpeedPendingBufferCount = 0
+
+        let engine = AVAudioEngine()
+        let playerNode = AVAudioPlayerNode()
+        let timePitch = AVAudioUnitTimePitch()
+        timePitch.rate = extraSpeed
+        engine.attach(playerNode)
+        engine.attach(timePitch)
+        extraSpeedEngine = engine
+        extraSpeedPlayerNode = playerNode
+
         let utt = AVSpeechUtterance(string: text)
         utt.voice = m_Voice
         utt.pitchMultiplier = m_Pitch
-        utt.rate = m_Rate
+        utt.rate = AVSpeechUtteranceMaximumSpeechRate
         utt.postUtteranceDelay = m_Delay
         utt.volume = max(0.0, min(1.0, m_Volume))
-        synthesizer.speak(utt)
+
+        synthesizer.write(utt) { [weak self] buffer in
+            guard let self = self, let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
+            if pcmBuffer.frameLength == 0 {
+                // 空バッファは合成完了の合図。再生待ちのバッファが残っていなければここで終了扱いにする。
+                DispatchQueue.main.async {
+                    self.isExtraSpeedSynthesisFinished = true
+                    self.FinishExtraSpeedSpeechIfNeeded()
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
+                if !self.isExtraSpeedGraphConnected {
+                    self.isExtraSpeedGraphConnected = true
+                    engine.connect(playerNode, to: timePitch, format: pcmBuffer.format)
+                    engine.connect(timePitch, to: engine.mainMixerNode, format: pcmBuffer.format)
+                    do {
+                        try engine.start()
+                    } catch {
+                        NSLog("Speaker: extra speed AVAudioEngine start failed: \(error)")
+                    }
+                    playerNode.play()
+                    self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
+                }
+                self.extraSpeedPendingBufferCount += 1
+                playerNode.scheduleBuffer(pcmBuffer, completionCallbackType: .dataPlayedBack) { _ in
+                    DispatchQueue.main.async {
+                        self.extraSpeedPendingBufferCount -= 1
+                        self.FinishExtraSpeedSpeechIfNeeded()
+                    }
+                }
+            }
+        }
     }
-    
+
+    private func FinishExtraSpeedSpeechIfNeeded() {
+        guard isExtraSpeedSynthesisFinished, extraSpeedPendingBufferCount <= 0, !isExtraSpeedStopRequested, extraSpeedEngine != nil else { return }
+        let speechString = extraSpeedSpeechString
+        StopExtraSpeedEngine()
+        m_Delegate?.finishSpeak(isCancel: false, speechString: speechString)
+    }
+
+    private func StopExtraSpeedEngine() {
+        extraSpeedPlayerNode?.stop()
+        extraSpeedEngine?.stop()
+        extraSpeedPlayerNode = nil
+        extraSpeedEngine = nil
+        isExtraSpeedGraphConnected = false
+    }
+
     func Stop() {
+        if extraSpeedEngine != nil {
+            isExtraSpeedStopRequested = true
+            synthesizer.stopSpeaking(at: .immediate)
+            StopExtraSpeedEngine()
+            return
+        }
         synthesizer.stopSpeaking(at: .immediate)
     }
-    
+
     func Pause() {
+        if let playerNode = extraSpeedPlayerNode {
+            playerNode.pause()
+            return
+        }
         synthesizer.pauseSpeaking(at: .immediate)
     }
-    
+
     func Resume() {
+        if let playerNode = extraSpeedPlayerNode {
+            playerNode.play()
+            return
+        }
         synthesizer.continueSpeaking()
     }
-    
+
     var voice:AVSpeechSynthesisVoice {
         get { return m_Voice }
         set(value) { m_Voice = value }
@@ -326,8 +446,8 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     var rate:Float {
         get { return m_Rate }
         set(value) {
-            if value > AVSpeechUtteranceMaximumSpeechRate {
-                m_Rate = AVSpeechUtteranceMaximumSpeechRate
+            if value > Speaker.maximumTotalSpeechRate {
+                m_Rate = Speaker.maximumTotalSpeechRate
                 return
             }
             if value < AVSpeechUtteranceMinimumSpeechRate {
@@ -374,30 +494,43 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     }
     
     @objc func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        // 加速再生中(write()経由)は FinishExtraSpeedSpeechIfNeeded() 側から手動で finishSpeak を呼ぶので、
+        // OS側のこのコールバックが発生したとしても二重に呼んでしまわないようここで無視する。
+        guard extraSpeedEngine == nil else { return }
         delegate?.finishSpeak(isCancel: false, speechString: utterance.speechString)
     }
     @objc func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didCancel utterance: AVSpeechUtterance) {
+        guard extraSpeedEngine == nil else { return }
         delegate?.finishSpeak(isCancel: true, speechString: utterance.speechString)
     }
 
     #if !os(watchOS)
     @objc func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, willSpeakRangeOfSpeechString characterRange: NSRange, utterance: AVSpeechUtterance) {
+        // 加速再生中は SpeechWithExtraSpeed() 側で文章全体を1回だけ通知しているので、ここは無視する。
+        guard extraSpeedEngine == nil else { return }
         if let delegate = self.m_Delegate {
             delegate.willSpeakRange(range: characterRange)
         }
     }
     #endif
-    
+
     func isSpeaking() -> Bool {
+        if extraSpeedPlayerNode != nil {
+            return !isExtraSpeedStopRequested && (!isExtraSpeedSynthesisFinished || extraSpeedPendingBufferCount > 0)
+        }
         return self.synthesizer.isSpeaking
     }
-    
+
     func reloadSynthesizer() {
+        StopExtraSpeedEngine()
         synthesizer = AVSpeechSynthesizer()
         synthesizer.delegate = self
     }
     
     func isPaused() -> Bool {
+        if let playerNode = extraSpeedPlayerNode {
+            return !playerNode.isPlaying
+        }
         return self.synthesizer.isPaused
     }
 }

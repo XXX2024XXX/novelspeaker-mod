@@ -1058,8 +1058,9 @@ class StorySpeaker: NSObject, SpeakRangeDelegate, RealmObserverResetDelegate {
     }
     
     func SpeechRateToCharCountInSecond(rate:Float) -> Float {
-        let rateNormalized = (rate - AVSpeechUtteranceMinimumSpeechRate) / (AVSpeechUtteranceMaximumSpeechRate - AVSpeechUtteranceMinimumSpeechRate);
-        
+        let cappedRate = min(rate, AVSpeechUtteranceMaximumSpeechRate)
+        let rateNormalized = (cappedRate - AVSpeechUtteranceMinimumSpeechRate) / (AVSpeechUtteranceMaximumSpeechRate - AVSpeechUtteranceMinimumSpeechRate);
+
         // 下に膨らんでる感じの補正をかける
         let rateCurved = powf(rateNormalized, 2.8);
         //NSLog(@"rateNormalized: %f -> %f", rateNormalized, rateCurved);
@@ -1067,7 +1068,10 @@ class StorySpeaker: NSObject, SpeakRangeDelegate, RealmObserverResetDelegate {
         // 単に rate を AVSpeechUtteranceMinimumSpeechRate(0.0) にした時と
         // AVSpeechUtteranceMaximumSpeechRate(1.0) にした時のそれぞれである程度の文字数を読み上げさせてみて、時間を測って出した値なのでまぁぶっちゃけ駄目。
         let charCount = rateCurved * 20.72 + 2.96;
-        return charCount
+        // rate が 1.0 を超える分は、音声合成自体ではなく再生後の追加高速化(Speaker側のAVAudioUnitTimePitch)
+        // で実現しているため、実効的な読み上げ速度(文字数/秒)もその倍率分だけ単純に増える。
+        let extraSpeedMultiplier = rate > AVSpeechUtteranceMaximumSpeechRate ? rate / AVSpeechUtteranceMaximumSpeechRate : 1.0
+        return charCount * extraSpeedMultiplier
     }
     
     func EnableMPRemoteCommandCenterEvents() {

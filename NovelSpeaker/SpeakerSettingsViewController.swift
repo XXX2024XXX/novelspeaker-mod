@@ -162,13 +162,16 @@ class SpeakerSettingsViewController: FormViewController, RealmObserverResetDeleg
         <<< SliderRow("RateSliderRow-\(targetID)") {
             $0.value = currentSetting.rate
             $0.cell.slider.minimumValue = AVSpeechUtteranceMinimumSpeechRate
-            $0.cell.slider.maximumValue = AVSpeechUtteranceMaximumSpeechRate
+            // AVSpeechUtteranceMaximumSpeechRate(1.0)はOSの音声合成エンジン自体の上限で、
+            // それを超える分はSpeaker側でAVAudioUnitTimePitchによる後段の高速化で実現している
+            // (詳細はSpeaker.swiftのextraSpeedMultiplier/SpeechWithExtraSpeed()を参照)。
+            $0.cell.slider.maximumValue = Speaker.maximumTotalSpeechRate
             $0.shouldHideValue = false
             $0.displayValueFor = { (value:Float?) -> String? in
                 guard let value = value else { return "" }
                 return String(format: "%.2f", value)
             }
-            $0.steps = 1001
+            $0.steps = 5001
             $0.title = NSLocalizedString("SpeakSettingsViewController_RateTitle", comment: "速度")
             $0.hidden = Condition.function(["TitleLabelRow-\(targetID)"], { (form) -> Bool in
                 return self.hideCache[targetID] ?? false
