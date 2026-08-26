@@ -2659,9 +2659,13 @@ class NovelSpeakerUtility: NSObject {
         if cloudExists == true {
             return false
         }
-        // iCloud は使わないのに local が無いのもなにかおかしいです。
+        // local が無い場合、それが「ロックされていて既存データが読めない」のか
+        // 「まだ一度もデータが作られていない(初回起動/新規インストール)」のかを
+        // この時点では区別できない。しかし後者の場合、保護すべき既存データがそもそも
+        // 存在しないため、fatalError で起動を止める意味が無い(単に初回起動できなくなるだけ)。
+        // 安全側に倒して起動を許可する。
         if localExists == false {
-            return false
+            return true
         }
         return true
     }
