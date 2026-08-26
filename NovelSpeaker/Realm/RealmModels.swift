@@ -661,11 +661,13 @@ final class MemoryTraceLogger {
 
     // SecTaskCreateFromSelf() / SecTaskCopyValueForEntitlement() は Security.framework の実体には
     // 存在するが、iOS SDK の公開ヘッダ(モジュールマップ)には含まれていないため `import Security` だけでは
-    // Swift から見えない("cannot find ... in scope" になる)。シンボル名を直接指定してリンクする。
+    // 関数はおろか SecTask 型自体も Swift から見えない("cannot find ... in scope" になる)。
+    // シンボル名を直接指定してリンクし、不透明な CFTypeRef として Unmanaged<AnyObject> 経由で扱う。
+    // どちらも Create/Copy 系(+1 retain された参照を返す)なので takeRetainedValue() で受け取る。
     @_silgen_name("SecTaskCreateFromSelf")
-    private static func _SecTaskCreateFromSelf(_ allocator: CFAllocator?) -> SecTask?
+    private static func _SecTaskCreateFromSelf(_ allocator: CFAllocator?) -> Unmanaged<AnyObject>?
     @_silgen_name("SecTaskCopyValueForEntitlement")
-    private static func _SecTaskCopyValueForEntitlement(_ task: SecTask, _ entitlement: CFString, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> CFTypeRef?
+    private static func _SecTaskCopyValueForEntitlement(_ task: AnyObject, _ entitlement: CFString, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> Unmanaged<AnyObject>?
 
     // iCloud(com.apple.developer.icloud-container-identifiers)のentitlementを
     // 実際にこのバイナリが持っているかどうかを、CloudKitに一切触れずに安全に判定します。
@@ -678,9 +680,12 @@ final class MemoryTraceLogger {
             return cached
         }
         var result = false
-        if let task = _SecTaskCreateFromSelf(nil) {
-            let value = _SecTaskCopyValueForEntitlement(task, "com.apple.developer.icloud-container-identifiers" as CFString, nil)
-            result = value != nil
+        if let taskUnmanaged = _SecTaskCreateFromSelf(nil) {
+            let task = taskUnmanaged.takeRetainedValue()
+            if let valueUnmanaged = _SecTaskCopyValueForEntitlement(task, "com.apple.developer.icloud-container-identifiers" as CFString, nil) {
+                _ = valueUnmanaged.takeRetainedValue()
+                result = true
+            }
         }
         cachedHasICloudEntitlement = result
         return result
