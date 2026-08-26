@@ -342,12 +342,16 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         isExtraSpeedStopRequested = false
         extraSpeedPendingBufferCount = 0
 
+        // [案D] AVAudioUnitTimePitch(ピッチを維持したまま速度だけ変える、内部的には位相ボコーダ等の
+        // 複雑な処理をする)がノイズの原因になっている可能性を検証するため、より単純な
+        // AVAudioUnitVarispeed(テープの早回しのように速度と一緒にピッチも変わる、その分処理が単純)
+        // に差し替えた版。声が高くなるデメリットはあるが、ノイズの原因切り分けに使う。
         let engine = AVAudioEngine()
         let playerNode = AVAudioPlayerNode()
-        let timePitch = AVAudioUnitTimePitch()
-        timePitch.rate = extraSpeed
+        let varispeed = AVAudioUnitVarispeed()
+        varispeed.rate = extraSpeed
         engine.attach(playerNode)
-        engine.attach(timePitch)
+        engine.attach(varispeed)
         extraSpeedEngine = engine
         extraSpeedPlayerNode = playerNode
 
@@ -372,8 +376,8 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                         self.FinishExtraSpeedSpeechIfNeeded()
                         return
                     }
-                    engine.connect(playerNode, to: timePitch, format: format)
-                    engine.connect(timePitch, to: engine.mainMixerNode, format: format)
+                    engine.connect(playerNode, to: varispeed, format: format)
+                    engine.connect(varispeed, to: engine.mainMixerNode, format: format)
                     do {
                         try engine.start()
                     } catch {
