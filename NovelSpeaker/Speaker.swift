@@ -386,6 +386,16 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                         NSLog("Speaker: playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
                         engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
                         engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        // [案E2] 上位レイヤ(coordinator)のセッション準備が、synthesizer.speak()向けの
+                        // ものであり、自前のAVAudioEngineに対しては不十分である可能性を検証するため、
+                        // ここで明示的に自分でAVAudioSessionをアクティブ化してからengineを起動する。
+                        do {
+                            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .spokenAudio, options: [])
+                            try AVAudioSession.sharedInstance().setActive(true, options: [])
+                            NSLog("Speaker: explicit AVAudioSession activation succeeded")
+                        } catch {
+                            NSLog("Speaker: explicit AVAudioSession activation failed: \(error)")
+                        }
                         try engine.start()
                         self.extraSpeedPendingBufferCount = 1
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
