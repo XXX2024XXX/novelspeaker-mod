@@ -384,8 +384,11 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                     do {
                         let playbackFile = try AVAudioFile(forReading: tmpURL)
                         NSLog("Speaker: playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
-                        engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
-                        engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        // [案D2] 明示的にフォーマットを指定するのをやめ、nilを渡してAVAudioEngine自身に
+                        // 各接続のフォーマットを自動決定させる版。明示フォーマット指定そのものが
+                        // 問題の原因になっている可能性を検証する。
+                        engine.connect(playerNode, to: timePitch, format: nil)
+                        engine.connect(timePitch, to: engine.mainMixerNode, format: nil)
                         try engine.start()
                         self.extraSpeedPendingBufferCount = 1
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
