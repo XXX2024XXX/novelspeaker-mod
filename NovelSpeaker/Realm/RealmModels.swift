@@ -659,6 +659,14 @@ final class MemoryTraceLogger {
         }
     }
 
+    // SecTaskCreateFromSelf() / SecTaskCopyValueForEntitlement() は Security.framework の実体には
+    // 存在するが、iOS SDK の公開ヘッダ(モジュールマップ)には含まれていないため `import Security` だけでは
+    // Swift から見えない("cannot find ... in scope" になる)。シンボル名を直接指定してリンクする。
+    @_silgen_name("SecTaskCreateFromSelf")
+    private static func _SecTaskCreateFromSelf(_ allocator: CFAllocator?) -> SecTask?
+    @_silgen_name("SecTaskCopyValueForEntitlement")
+    private static func _SecTaskCopyValueForEntitlement(_ task: SecTask, _ entitlement: CFString, _ error: UnsafeMutablePointer<Unmanaged<CFError>?>?) -> CFTypeRef?
+
     // iCloud(com.apple.developer.icloud-container-identifiers)のentitlementを
     // 実際にこのバイナリが持っているかどうかを、CloudKitに一切触れずに安全に判定します。
     // (署名/権限が無い状態でCKContainer等のCloudKit APIに触れると、OSに強制終了させられることがあるため、
@@ -670,8 +678,8 @@ final class MemoryTraceLogger {
             return cached
         }
         var result = false
-        if let task = SecTaskCreateFromSelf(nil) {
-            let value = SecTaskCopyValueForEntitlement(task, "com.apple.developer.icloud-container-identifiers" as CFString, nil)
+        if let task = _SecTaskCreateFromSelf(nil) {
+            let value = _SecTaskCopyValueForEntitlement(task, "com.apple.developer.icloud-container-identifiers" as CFString, nil)
             result = value != nil
         }
         cachedHasICloudEntitlement = result
