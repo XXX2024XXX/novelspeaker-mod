@@ -2512,7 +2512,8 @@ extension RealmSpeechWaitConfig: CanWriteIsDeleted {
     @objc dynamic var name = NSLocalizedString("SpeakerSetting_NewSpeakerSetting", comment: "新規話者設定")
     @objc dynamic var isDeleted: Bool = false
     @objc dynamic var pitch : Float = 1.0
-    @objc dynamic var rate : Float = 0.5
+    // デバッグ用に既定値を1.1(1.0超の加速再生経路)にしている。
+    @objc dynamic var rate : Float = 1.1
     @objc dynamic var lmd : Float = 1.0
     @objc dynamic var acc : Float = 1.0
     @objc dynamic var base : Int32 = 1
