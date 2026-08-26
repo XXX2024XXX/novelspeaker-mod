@@ -302,8 +302,15 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         // 一切表示されない事が判明したため、アプリ内蔵の「アプリ内エラーのお知らせ」機構
         // (AppInformationLogger、設定画面からJSONで取り出せる)経由でログを残す事にした。
         // rateが実際にいくつとして評価されているか(1.0超の経路に入るかどうか)を必ず記録する。
-        SpeakerDebugLog(message: "Speech() called. m_Rate=\(m_Rate) extraSpeedMultiplier=\(extraSpeed) willUseExtraSpeedPath=\(extraSpeed > 1.0)")
-        if extraSpeed <= 1.0 {
+        SpeakerDebugLog(message: "Speech() called. m_Rate=\(m_Rate) extraSpeedMultiplier=\(extraSpeed) willUseExtraSpeedPath=\(extraSpeed > 1.0) textLength=\((text as NSString).length)")
+        // [根本原因] SetVoiceSettings() 等が声変更直後に発話エンジンを温めるため空白1文字(" ")だけの
+        // "ウォームアップ発話"を送ってくる事がある。この空白だけのutteranceをwrite(_:toBufferCallback:)
+        // に渡すと、実機で検証した結果コールバックが一切呼ばれずに永久に無音のまま固まる
+        // (「synthesis finished」のログすら出ない)事が判明した。これがrateを1.0超にすると
+        // 一度も音が出なくなっていた真の原因だった。空白/空文字はそもそも高速化しても意味が無いので、
+        // 1.0超の経路を通さず、常に従来の直接speak()の経路で処理するようにする。
+        let isBlankOnlyText = text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        if extraSpeed <= 1.0 || isBlankOnlyText {
             // 従来通りの経路。rateを1.0超から1.0以下に戻した直後は、前回使っていた加速再生用の
             // AVAudioEngineがまだ残っている(=extraSpeedEngine != nil)ことがあり、これが残ったままだと
             // (1) 古いエンジンが鳴り続けて通常再生の音と衝突する、(2) didFinish等のデリゲートが
@@ -313,7 +320,9 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
             let utt = AVSpeechUtterance(string: text)
             utt.voice = m_Voice
             utt.pitchMultiplier = m_Pitch
-            utt.rate = m_Rate
+            // m_Rateが1.0超の場合(空白ウォームアップ発話でこの経路に来た場合)、AVSpeechUtterance.rateの
+            // 許容範囲を超えないようクランプする。空白なのでどのみち聞こえないため速度は問題にならない。
+            utt.rate = min(m_Rate, AVSpeechUtteranceMaximumSpeechRate)
             utt.postUtteranceDelay = m_Delay
             utt.volume = max(0.0, min(1.0, m_Volume))
             synthesizer.speak(utt)
