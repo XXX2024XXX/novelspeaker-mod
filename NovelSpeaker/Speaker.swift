@@ -343,12 +343,16 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         isExtraSpeedStopRequested = false
         extraSpeedPendingBufferCount = 0
 
+        // [案C2] AVAudioUnitTimePitch(ピッチを維持したまま速度だけ変える、内部的には位相ボコーダ等の
+        // 複雑な処理をする)がノイズ/無音の原因になっている可能性を検証するため、より単純な
+        // AVAudioUnitVarispeed(テープの早回しのように速度と一緒にピッチも変わる、その分処理が単純)
+        // に差し替えた版。声が高くなるデメリットはあるが、原因切り分けに使う。
         let engine = AVAudioEngine()
         let playerNode = AVAudioPlayerNode()
-        let timePitch = AVAudioUnitTimePitch()
-        timePitch.rate = extraSpeed
+        let varispeed = AVAudioUnitVarispeed()
+        varispeed.rate = extraSpeed
         engine.attach(playerNode)
-        engine.attach(timePitch)
+        engine.attach(varispeed)
         extraSpeedEngine = engine
         extraSpeedPlayerNode = playerNode
 
@@ -384,8 +388,8 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                     do {
                         let playbackFile = try AVAudioFile(forReading: tmpURL)
                         NSLog("Speaker: playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
-                        engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
-                        engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        engine.connect(playerNode, to: varispeed, format: playbackFile.processingFormat)
+                        engine.connect(varispeed, to: engine.mainMixerNode, format: playbackFile.processingFormat)
                         try engine.start()
                         self.extraSpeedPendingBufferCount = 1
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
