@@ -361,6 +361,10 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         let playerNode = AVAudioPlayerNode()
         let timePitch = AVAudioUnitTimePitch()
         timePitch.rate = extraSpeed
+        // overlapを最大(32)にする事で、倍率が大きい(2倍・5倍等)場合の
+        // 「ハウリング」のように聞こえる金属質なうねり・位相の乱れを軽減する。
+        // デフォルト値(8.0)は緩やかな速度変更向けであり、高倍率では音質劣化が目立ちやすい。
+        timePitch.overlap = 32.0
         engine.attach(playerNode)
         engine.attach(timePitch)
         extraSpeedEngine = engine
