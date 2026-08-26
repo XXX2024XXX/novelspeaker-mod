@@ -12,8 +12,15 @@ import FTLinearActivityIndicator
 final class AppLaunchCoordinator: NSObject {
     @objc(runPreflight)
     static func runPreflight() -> Bool {
-        guard NovelSpeakerUtility.CheckRealmReadable() else {
-            fatalError("Realm is not readable at launch")
+        // CheckRealmReadable() はロック中に既存データへアクセスできない状態を検知するための
+        // 安全策だったが、条件判定が実機・実インストール環境の細かな差異(新規インストール直後や
+        // サイドロード環境など)に対して脆く、誤検知でアプリ全体を起動不能(fatalErrorでクラッシュ、
+        // または false を返して真っ黒な画面のまま停止)にしてしまう事例が続いた。
+        // 実際にRealmが開けない場合はRealmを開く箇所で個別にエラーハンドリングされるべきであり、
+        // ここでの判定だけを根拠に起動をブロックする価値より、誤検知でアプリが使えなくなる害の方が
+        // 大きいため、診断ログの記録のみ行い、起動は必ず継続させる。
+        if NovelSpeakerUtility.CheckRealmReadable() == false {
+            NSLog("WARN: CheckRealmReadable() returned false at launch. Continuing launch anyway.")
         }
 
         if !NiftyUtility.isTesting() {
