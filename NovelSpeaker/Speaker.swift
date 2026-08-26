@@ -372,8 +372,13 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                         self.FinishExtraSpeedSpeechIfNeeded()
                         return
                     }
+                    // [案B] timePitch -> mainMixerNode の接続を、合成音声そのままの(多くの場合
+                    // 22050Hz/24000Hzモノラル等の)フォーマットではなく、実機のハードウェア出力に
+                    // 合わせたフォーマット(mainMixerNode.outputFormat)で繋ぐ。サンプルレートの
+                    // 不一致がノイズ/ピッチ異常の原因になっている可能性を検証するための版。
+                    let mixerFormat = engine.mainMixerNode.outputFormat(forBus: 0)
                     engine.connect(playerNode, to: timePitch, format: format)
-                    engine.connect(timePitch, to: engine.mainMixerNode, format: format)
+                    engine.connect(timePitch, to: engine.mainMixerNode, format: mixerFormat)
                     do {
                         try engine.start()
                     } catch {
