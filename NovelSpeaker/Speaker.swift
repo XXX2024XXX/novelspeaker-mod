@@ -379,15 +379,31 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                     } catch {
                         NSLog("Speaker: extra speed AVAudioEngine start failed: \(error)")
                     }
-                    self.extraSpeedPendingBufferCount = collectedBuffers.count
                     self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
                     playerNode.play()
+                    // [案C] write()から届く小さなバッファを1本ずつ別々にscheduleBufferすると、
+                    // バッファの継ぎ目でクリック/ノイズが出ている可能性を検証するため、
+                    // 全バッファを1本の連続したAVAudioPCMBufferに結合してから、一度だけscheduleする。
+                    let totalFrames = collectedBuffers.reduce(AVAudioFrameCount(0)) { $0 + $1.frameLength }
+                    guard let mergedBuffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: totalFrames) else {
+                        self.extraSpeedPendingBufferCount = 0
+                        self.FinishExtraSpeedSpeechIfNeeded()
+                        return
+                    }
                     for buf in collectedBuffers {
-                        playerNode.scheduleBuffer(buf, completionCallbackType: .dataPlayedBack) { _ in
-                            DispatchQueue.main.async {
-                                self.extraSpeedPendingBufferCount -= 1
-                                self.FinishExtraSpeedSpeechIfNeeded()
-                            }
+                        guard let src = buf.floatChannelData, let dst = mergedBuffer.floatChannelData else { continue }
+                        let channelCount = Int(format.channelCount)
+                        let offset = Int(mergedBuffer.frameLength)
+                        for ch in 0..<channelCount {
+                            (dst[ch] + offset).update(from: src[ch], count: Int(buf.frameLength))
+                        }
+                        mergedBuffer.frameLength += buf.frameLength
+                    }
+                    self.extraSpeedPendingBufferCount = 1
+                    playerNode.scheduleBuffer(mergedBuffer, completionCallbackType: .dataPlayedBack) { _ in
+                        DispatchQueue.main.async {
+                            self.extraSpeedPendingBufferCount -= 1
+                            self.FinishExtraSpeedSpeechIfNeeded()
                         }
                     }
                 }
