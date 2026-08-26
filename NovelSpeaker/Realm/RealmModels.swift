@@ -11,6 +11,7 @@ import IceCream
 import CloudKit
 import UIKit
 import AVFoundation
+import Security
 
 final class MemoryTraceLogger {
     static let isEnabled = false
@@ -658,9 +659,31 @@ final class MemoryTraceLogger {
         }
     }
 
+    // iCloud(com.apple.developer.icloud-container-identifiers)のentitlementを
+    // 実際にこのバイナリが持っているかどうかを、CloudKitに一切触れずに安全に判定します。
+    // (署名/権限が無い状態でCKContainer等のCloudKit APIに触れると、OSに強制終了させられることがあるため、
+    // 触れる前にここで判定してブロックします。個人チーム/フリーのApple IDで署名した場合は
+    // iCloud capability を付与できないため、常に false になります。)
+    private static var cachedHasICloudEntitlement: Bool? = nil
+    static func HasICloudEntitlement() -> Bool {
+        if let cached = cachedHasICloudEntitlement {
+            return cached
+        }
+        var result = false
+        if let task = SecTaskCreateFromSelf(nil) {
+            let value = SecTaskCopyValueForEntitlement(task, "com.apple.developer.icloud-container-identifiers" as CFString, nil)
+            result = value != nil
+        }
+        cachedHasICloudEntitlement = result
+        return result
+    }
+
     static let UseCloudRealmKey = "RealmUtil_UseCloudRealm"
     @objc static func IsUseCloudRealm() -> Bool {
         if NiftyUtility.isTesting() { return false }
+        // entitlement が無いのに保存された設定値(過去の端末状態の残存等)が true になっていて
+        // CloudKitへ触れてしまうと即クラッシュに繋がるため、entitlementが無い場合は問答無用でfalse扱いにする。
+        guard HasICloudEntitlement() else { return false }
         let defaults = UserDefaults.standard
         defaults.register(defaults: [UseCloudRealmKey: false])
         return defaults.bool(forKey: UseCloudRealmKey)
