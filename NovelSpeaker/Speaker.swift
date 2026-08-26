@@ -299,7 +299,12 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         }
         let extraSpeed = self.extraSpeedMultiplier
         if extraSpeed <= 1.0 {
-            // 従来通りの経路。rateが1.0以下の間は既存動作から一切変えない。
+            // 従来通りの経路。rateを1.0超から1.0以下に戻した直後は、前回使っていた加速再生用の
+            // AVAudioEngineがまだ残っている(=extraSpeedEngine != nil)ことがあり、これが残ったままだと
+            // (1) 古いエンジンが鳴り続けて通常再生の音と衝突する、(2) didFinish等のデリゲートが
+            // 「加速再生中だから」という理由で無視され続けて通常再生が正しく完了扱いにならない、
+            // という2つの不具合を引き起こす。1.0以下の経路に入る際は必ず先に片付けておく。
+            StopExtraSpeedEngine()
             let utt = AVSpeechUtterance(string: text)
             utt.voice = m_Voice
             utt.pitchMultiplier = m_Pitch
