@@ -335,6 +335,12 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     // 合成自体はほぼ等倍速度で進むとはいえ、1呼び出し分の文章量は数百文字程度に分割済み
     // (StorySpeaker側でだいたい200文字程度に区切られる)なので、再生開始までの待ち時間は
     // 数秒程度に収まる。
+    // [案E] ライブのAVAudioEngine上でTimePitch処理をしながら実機ハードウェアへリアルタイム出力する
+    // 従来の方式ではなく、TimePitchによる高速化処理そのものを先にオフラインレンダリング(ハードウェア/
+    // オーディオセッションと一切関係の無い、メモリ上だけの計算)で完了させてしまい、
+    // 出来上がった「既に加速済みの音声」を、TimePitch等を一切挟まない単純なplayerNode再生だけで
+    // 鳴らす。ライブのオーディオセッション上でTimePitch処理をする事自体が問題の原因になっている
+    // 可能性を検証するための版。
     private func SpeechWithExtraSpeed(text: String, extraSpeed: Float) {
         StopExtraSpeedEngine() // 直前の発話がまだ残っていれば先に片付ける
         extraSpeedSpeechString = text
@@ -342,14 +348,11 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         isExtraSpeedStopRequested = false
         extraSpeedPendingBufferCount = 0
 
-        let engine = AVAudioEngine()
-        let playerNode = AVAudioPlayerNode()
-        let timePitch = AVAudioUnitTimePitch()
-        timePitch.rate = extraSpeed
-        engine.attach(playerNode)
-        engine.attach(timePitch)
-        extraSpeedEngine = engine
-        extraSpeedPlayerNode = playerNode
+        let liveEngine = AVAudioEngine()
+        let livePlayerNode = AVAudioPlayerNode()
+        liveEngine.attach(livePlayerNode)
+        extraSpeedEngine = liveEngine
+        extraSpeedPlayerNode = livePlayerNode
 
         let utt = AVSpeechUtterance(string: text)
         utt.voice = m_Voice
@@ -364,26 +367,91 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         synthesizer.write(utt) { [weak self] buffer in
             guard let self = self, let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
             if pcmBuffer.frameLength == 0 {
-                // 空バッファは合成完了の合図。ここで初めて溜まったバッファ全部を接続・再生する。
-                DispatchQueue.main.async {
-                    guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
-                    self.isExtraSpeedSynthesisFinished = true
+                // 空バッファは合成完了の合図。ここからオフラインで高速化レンダリングを行う
+                // (ハードウェア/オーディオセッションと無関係なので別キューで処理して構わない)。
+                DispatchQueue.global(qos: .userInitiated).async {
                     guard let format = collectedFormat, !collectedBuffers.isEmpty else {
-                        self.FinishExtraSpeedSpeechIfNeeded()
+                        DispatchQueue.main.async {
+                            guard self.extraSpeedEngine === liveEngine, !self.isExtraSpeedStopRequested else { return }
+                            self.isExtraSpeedSynthesisFinished = true
+                            self.FinishExtraSpeedSpeechIfNeeded()
+                        }
                         return
                     }
-                    engine.connect(playerNode, to: timePitch, format: format)
-                    engine.connect(timePitch, to: engine.mainMixerNode, format: format)
-                    do {
-                        try engine.start()
-                    } catch {
-                        NSLog("Speaker: extra speed AVAudioEngine start failed: \(error)")
-                    }
-                    self.extraSpeedPendingBufferCount = collectedBuffers.count
-                    self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
-                    playerNode.play()
+                    // 全バッファを1本の連続したソースへ結合する。
+                    let totalFrames = collectedBuffers.reduce(AVAudioFrameCount(0)) { $0 + $1.frameLength }
+                    guard let sourceBuffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: totalFrames) else { return }
                     for buf in collectedBuffers {
-                        playerNode.scheduleBuffer(buf, completionCallbackType: .dataPlayedBack) { _ in
+                        guard let src = buf.floatChannelData, let dst = sourceBuffer.floatChannelData else { continue }
+                        let channelCount = Int(format.channelCount)
+                        let offset = Int(sourceBuffer.frameLength)
+                        for ch in 0..<channelCount {
+                            (dst[ch] + offset).update(from: src[ch], count: Int(buf.frameLength))
+                        }
+                        sourceBuffer.frameLength += buf.frameLength
+                    }
+
+                    // オフライン(ハードウェア出力なし)のエンジンでTimePitch処理だけを完了させる。
+                    let offlineEngine = AVAudioEngine()
+                    let offlinePlayerNode = AVAudioPlayerNode()
+                    let offlineTimePitch = AVAudioUnitTimePitch()
+                    offlineTimePitch.rate = extraSpeed
+                    offlineEngine.attach(offlinePlayerNode)
+                    offlineEngine.attach(offlineTimePitch)
+                    offlineEngine.connect(offlinePlayerNode, to: offlineTimePitch, format: format)
+                    offlineEngine.connect(offlineTimePitch, to: offlineEngine.mainMixerNode, format: format)
+
+                    let renderedBuffer: AVAudioPCMBuffer?
+                    do {
+                        try offlineEngine.enableManualRenderingMode(.offline, format: format, maximumFrameCount: 4096)
+                        try offlineEngine.start()
+                        offlinePlayerNode.scheduleBuffer(sourceBuffer, completionCallbackType: .dataPlayedBack, completionHandler: nil)
+                        offlinePlayerNode.play()
+
+                        // 加速後の総フレーム数を見積もり、多少余裕を持たせてレンダリングする。
+                        let estimatedOutputFrames = AVAudioFrameCount(Double(totalFrames) / Double(extraSpeed)) + offlineEngine.manualRenderingMaximumFrameCount * 4
+                        let output = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: estimatedOutputFrames)
+                        let chunk = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: offlineEngine.manualRenderingMaximumFrameCount)
+                        if let output = output, let chunk = chunk {
+                            while output.frameLength < estimatedOutputFrames {
+                                let framesToRender = min(offlineEngine.manualRenderingMaximumFrameCount, estimatedOutputFrames - output.frameLength)
+                                let status = try offlineEngine.renderOffline(framesToRender, to: chunk)
+                                if status != .success || chunk.frameLength == 0 { break }
+                                if let src = chunk.floatChannelData, let dst = output.floatChannelData {
+                                    let channelCount = Int(format.channelCount)
+                                    let offset = Int(output.frameLength)
+                                    for ch in 0..<channelCount {
+                                        (dst[ch] + offset).update(from: src[ch], count: Int(chunk.frameLength))
+                                    }
+                                }
+                                output.frameLength += chunk.frameLength
+                            }
+                        }
+                        renderedBuffer = output
+                    } catch {
+                        NSLog("Speaker: offline render failed: \(error)")
+                        renderedBuffer = nil
+                    }
+                    offlinePlayerNode.stop()
+                    offlineEngine.stop()
+
+                    DispatchQueue.main.async {
+                        guard self.extraSpeedEngine === liveEngine, !self.isExtraSpeedStopRequested else { return }
+                        self.isExtraSpeedSynthesisFinished = true
+                        guard let renderedBuffer = renderedBuffer, renderedBuffer.frameLength > 0 else {
+                            self.FinishExtraSpeedSpeechIfNeeded()
+                            return
+                        }
+                        liveEngine.connect(livePlayerNode, to: liveEngine.mainMixerNode, format: format)
+                        do {
+                            try liveEngine.start()
+                        } catch {
+                            NSLog("Speaker: extra speed live engine start failed: \(error)")
+                        }
+                        self.extraSpeedPendingBufferCount = 1
+                        self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
+                        livePlayerNode.play()
+                        livePlayerNode.scheduleBuffer(renderedBuffer, completionCallbackType: .dataPlayedBack) { _ in
                             DispatchQueue.main.async {
                                 self.extraSpeedPendingBufferCount -= 1
                                 self.FinishExtraSpeedSpeechIfNeeded()
@@ -394,7 +462,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                 return
             }
             DispatchQueue.main.async {
-                guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
+                guard self.extraSpeedEngine === liveEngine, !self.isExtraSpeedStopRequested else { return }
                 if collectedFormat == nil { collectedFormat = pcmBuffer.format }
                 collectedBuffers.append(pcmBuffer)
             }
