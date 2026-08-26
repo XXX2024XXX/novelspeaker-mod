@@ -298,6 +298,11 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
             }
         }
         let extraSpeed = self.extraSpeedMultiplier
+        // NSLogは実機のidevicesyslog経由では最新iOSのプライバシー保護によりアプリ自身のログが
+        // 一切表示されない事が判明したため、アプリ内蔵の「アプリ内エラーのお知らせ」機構
+        // (AppInformationLogger、設定画面からJSONで取り出せる)経由でログを残す事にした。
+        // rateが実際にいくつとして評価されているか(1.0超の経路に入るかどうか)を必ず記録する。
+        SpeakerDebugLog(message: "Speech() called. m_Rate=\(m_Rate) extraSpeedMultiplier=\(extraSpeed) willUseExtraSpeedPath=\(extraSpeed > 1.0)")
         if extraSpeed <= 1.0 {
             // 従来通りの経路。rateを1.0超から1.0以下に戻した直後は、前回使っていた加速再生用の
             // AVAudioEngineがまだ残っている(=extraSpeedEngine != nil)ことがあり、これが残ったままだと
@@ -365,7 +370,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         var receivedBufferCount = 0
         var totalFrameLength: Int64 = 0
 
-        NSLog("Speaker: SpeechWithExtraSpeed start. extraSpeed=\(extraSpeed) textLength=\((text as NSString).length)")
+        SpeakerDebugLog(message: "SpeechWithExtraSpeed start. extraSpeed=\(extraSpeed) textLength=\((text as NSString).length)")
 
         synthesizer.write(utt) { [weak self] buffer in
             guard let self = self, let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
@@ -374,7 +379,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                 DispatchQueue.main.async {
                     guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
                     self.isExtraSpeedSynthesisFinished = true
-                    NSLog("Speaker: synthesis finished. buffers=\(receivedBufferCount) totalFrames=\(totalFrameLength) writeError=\(String(describing: writeError))")
+                    self.SpeakerDebugLog(message: "synthesis finished. buffers=\(receivedBufferCount) totalFrames=\(totalFrameLength) writeError=\(String(describing: writeError))")
                     audioFile = nil // ファイルをclose(参照を切る事でAVAudioFileが書き込みを確定させる)
                     guard writeError == nil, totalFrameLength > 0 else {
                         try? FileManager.default.removeItem(at: tmpURL)
@@ -383,22 +388,25 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                     }
                     do {
                         let playbackFile = try AVAudioFile(forReading: tmpURL)
-                        NSLog("Speaker: playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
+                        self.SpeakerDebugLog(message: "playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
                         engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
                         engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
                         try engine.start()
+                        self.SpeakerDebugLog(message: "engine started. engine.isRunning=\(engine.isRunning)")
                         self.extraSpeedPendingBufferCount = 1
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
                         playerNode.scheduleFile(playbackFile, at: nil, completionCallbackType: .dataPlayedBack) { _ in
                             DispatchQueue.main.async {
+                                self.SpeakerDebugLog(message: "scheduleFile completion fired")
                                 self.extraSpeedPendingBufferCount -= 1
                                 self.FinishExtraSpeedSpeechIfNeeded()
                                 try? FileManager.default.removeItem(at: tmpURL)
                             }
                         }
                         playerNode.play()
+                        self.SpeakerDebugLog(message: "playerNode.play() called. isPlaying=\(playerNode.isPlaying)")
                     } catch {
-                        NSLog("Speaker: extra speed file playback setup failed: \(error)")
+                        self.SpeakerDebugLog(message: "extra speed file playback setup failed: \(error)")
                         try? FileManager.default.removeItem(at: tmpURL)
                         self.FinishExtraSpeedSpeechIfNeeded()
                     }
@@ -414,13 +422,22 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                 try audioFile?.write(from: pcmBuffer)
             } catch {
                 writeError = error
-                NSLog("Speaker: extra speed audio file write failed: \(error)")
+                self.SpeakerDebugLog(message: "extra speed audio file write failed: \(error)")
             }
         }
     }
 
+    // NSLogがidevicesyslog等の外部ログ経由では見えない実機環境があったため、代わりに
+    // アプリ内蔵の「アプリ内エラーのお知らせ」(AppInformationLogger)に記録する。
+    // isForDebug: trueなので通常のお知らせ一覧には出ず、設定画面の
+    // 「アプリ内エラーのお知らせをJSONで取り出す」からのみ確認できる。
+    private func SpeakerDebugLog(message: String) {
+        AppInformationLogger.AddLog(message: "Speaker: " + message, isForDebug: true)
+    }
+
     private func FinishExtraSpeedSpeechIfNeeded() {
         guard isExtraSpeedSynthesisFinished, extraSpeedPendingBufferCount <= 0, !isExtraSpeedStopRequested, extraSpeedEngine != nil else { return }
+        SpeakerDebugLog(message: "finishSpeak fired for extra speed speech")
         let speechString = extraSpeedSpeechString
         StopExtraSpeedEngine()
         m_Delegate?.finishSpeak(isCancel: false, speechString: speechString)
