@@ -338,6 +338,9 @@
 "SpeechModSettingsTableView_SearchTitle" = "検索";
 "SpeechModSettingsTableView_SearchPlaceholder" = "検索対象の文字列を入力します";
 "SpeechModSettingsTableViewControllerSwift_ThisNovelOnly" = "読みの修正(小説専用設定)";
+"SpeechModSettingsTableView_ExportFileNameFormat" = "ことせかい_読みの修正_%@.novelspeaker-speechmod+json";
+"SpeechModSettingsTableView_ImportFailed" = "辞書ファイルの読み込みに失敗しました。";
+"SpeechModSettingsTableView_ImportDoneFormat" = "読みの修正を %d 件取り込みました。";
 "SpeechSectionConfigsViewController_ConifirmDeleteSettingBecauseNoTargetNovelID" = "適用対象の小説が何もない状態になっています。\nこの発話変更設定を削除してもよろしいですか？";
 "SpeechSectionConfigsViewController_TitleOnlyThisNovel" = "発話変更設定(小説専用設定)";
 

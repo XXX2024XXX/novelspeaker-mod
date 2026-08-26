@@ -29,10 +29,13 @@ class SpeechModSettingsTableViewControllerSwift: UITableViewController, RealmObs
             self.title = NSLocalizedString("SpeechModSettingsTableViewControllerSwift_ThisNovelOnly", comment: "読みの修正(小説専用設定)")
         }
         
-        // 追加ボタンとEditボタンと検索ボタンをつけます。
+        // 追加ボタンとEditボタンと検索ボタンと書き出しボタンをつけます。
         let addButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(SpeechModSettingsTableViewControllerSwift.addButtonClicked))
         let filterButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.search, target: self, action: #selector(SpeechModSettingsTableViewControllerSwift.filterButtonClicked))
-        navigationItem.rightBarButtonItems = [addButton, .fixedSpace(0), editButtonItem, .fixedSpace(0), filterButton]
+        // 辞書(読みの修正一覧)を他の人と共有できるように書き出す。取り込みは共有されたファイルを
+        // このアプリで開くだけでよい(NovelSpeakerUtility.ProcessURL側で処理される)ので専用ボタンは無い。
+        let exportButton = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: self, action: #selector(SpeechModSettingsTableViewControllerSwift.exportButtonClicked))
+        navigationItem.rightBarButtonItems = [addButton, .fixedSpace(0), editButtonItem, .fixedSpace(0), filterButton, .fixedSpace(0), exportButton]
         RealmObserverHandler.shared.AddDelegate(delegate: self)
     }
     
@@ -207,6 +210,26 @@ class SpeechModSettingsTableViewControllerSwift: UITableViewController, RealmObs
         PushToCreateSpeechModSettingViewControllerSwift(modSetting: nil)
     }
     
+    @objc func exportButtonClicked(){
+        guard let data = NovelSpeakerUtility.CreateSpeechModExportData() else { return }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd-HHmmss"
+        let fileName = String(format: NSLocalizedString("SpeechModSettingsTableView_ExportFileNameFormat", comment: "ことせかい_読みの修正_%@.novelspeaker-speechmod+json"), dateFormatter.string(from: Date()))
+        let fileURL = NiftyUtility.GetTemporaryFilePath(fileName: fileName)
+        do {
+            try data.write(to: fileURL)
+        } catch {
+            return
+        }
+        DispatchQueue.main.async {
+            let activityViewController = UIActivityViewController(activityItems: [fileURL], applicationActivities: nil)
+            if let popoverController = activityViewController.popoverPresentationController {
+                popoverController.barButtonItem = self.navigationItem.rightBarButtonItems?.last
+            }
+            self.present(activityViewController, animated: true, completion: nil)
+        }
+    }
+
     @objc func filterButtonClicked(){
         NiftyUtility.EasyDialogBuilder(self)
             .title(title: NSLocalizedString("SpeechModSettingsTableView_SearchTitle", comment: "検索"))

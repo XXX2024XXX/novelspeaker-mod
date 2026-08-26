@@ -605,6 +605,9 @@ class NovelSpeakerUtility: NSObject {
         if ["novelspeaker-backup-json", "novelspeaker-backup+json", "novelspeaker-backup+zip"].contains(url.pathExtension) {
             return ProcessNovelSpeakerBackupFile(url:url)
         }
+        if url.pathExtension == "novelspeaker-speechmod+json" {
+            return ProcessSpeechModExportFile(url:url)
+        }
         if url.pathExtension == "pdf" {
             return ProcessPDFFile(url:url)
         }
@@ -688,6 +691,44 @@ class NovelSpeakerUtility: NSObject {
             }
         }
     }
+    // 「読みの修正」辞書だけを他の人と受け渡しできるように、単体のJSONファイル(.novelspeaker-speechmod+json)
+    // として書き出します。フォーマットは RestoreSpeechMod_V_1_1_0() がそのまま読める形にしておき、
+    // 取り込み側はその既存の(重複はbeforeで上書き・新規は追加、全小説対象で登録する)ロジックを使い回します。
+    static func CreateSpeechModExportData() -> Data? {
+        return RealmUtil.RealmBlock { (realm) -> Data? in
+            guard let speechModArray = RealmSpeechModSetting.GetAllObjectsWith(realm: realm) else { return nil }
+            var dic: [String: [String: Any]] = [:]
+            for speechMod in speechModArray {
+                dic[speechMod.before] = [
+                    "afterString": speechMod.after,
+                    "type": speechMod.isUseRegularExpression ? SpeechModSettingConvertType.regexp.rawValue : SpeechModSettingConvertType.justMatch.rawValue,
+                ]
+            }
+            return try? JSONSerialization.data(withJSONObject: dic, options: [.prettyPrinted, .sortedKeys])
+        }
+    }
+
+    // 他の人から共有された辞書ファイル(.novelspeaker-speechmod+json)を取り込みます。
+    static func ProcessSpeechModExportFile(url: URL) -> Bool {
+        let scope = url.startAccessingSecurityScopedResource()
+        defer { if scope { url.stopAccessingSecurityScopedResource() } }
+        func showMessage(_ message: String) {
+            DispatchQueue.main.async {
+                if let vc = NiftyUtility.GetRegisterdToplevelViewController() {
+                    NiftyUtility.EasyDialogOneButton(viewController: vc, title: nil, message: message, buttonTitle: nil, buttonAction: nil)
+                }
+            }
+        }
+        guard let data = try? Data(contentsOf: url), let dic = (try? JSONSerialization.jsonObject(with: data)) as? NSDictionary else {
+            showMessage(NSLocalizedString("SpeechModSettingsTableView_ImportFailed", comment: "辞書ファイルの読み込みに失敗しました。"))
+            return true
+        }
+        let importCount = dic.count
+        RestoreSpeechMod_V_1_1_0(dic: dic)
+        showMessage(String(format: NSLocalizedString("SpeechModSettingsTableView_ImportDoneFormat", comment: "読みの修正を %d 件取り込みました。"), importCount))
+        return true
+    }
+
     static func RestoreSpeechMod_V_1_1_0(dic: NSDictionary) {
         RealmUtil.RealmBlock { (realm) -> Void in
             guard let speechModArray = RealmSpeechModSetting.GetAllObjectsWith(realm: realm) else { return }

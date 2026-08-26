@@ -369,6 +369,9 @@
 "SpeechModSettingsTableViewController_SpeakTestPattern" = "%@ to %@";
 "SpeechModSettingsTableView_SearchTitle" = "Search";
 "SpeechModSettingsTableView_SearchPlaceholder" = "Search for a phrase";
+"SpeechModSettingsTableView_ExportFileNameFormat" = "NovelSpeaker_SpeechMod_%@.novelspeaker-speechmod+json";
+"SpeechModSettingsTableView_ImportFailed" = "Failed to read the dictionary file.";
+"SpeechModSettingsTableView_ImportDoneFormat" = "Imported %d speech mod entries.";
 
 "SpeechViewController_Speak" = "Speak";
 "SpeechViewController_Detail" = "Detail";
