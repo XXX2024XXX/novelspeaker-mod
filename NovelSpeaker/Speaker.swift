@@ -398,18 +398,43 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                     do {
                         let playbackFile = try AVAudioFile(forReading: tmpURL)
                         self.SpeakerDebugLog(message: "playback file opened. length=\(playbackFile.length) format=\(playbackFile.processingFormat)")
+                        // 実機ログ上はengine.isRunning/playerNode.isPlaying/scheduleFileの完了通知まで
+                        // 全て正常に完走しているのに、実際には全く音が聞こえないという報告があった。
+                        // これは短い音声clipで、ハードウェア出力(スピーカー)が実際に鳴り始める前に
+                        // completionCallbackType: .dataPlayedBackが(レンダリングスレッド上の消費完了を
+                        // もって)発火し、その直後にengine.stop()で強制停止してしまい、出力バッファに
+                        // 残っていた分の音声(ハードウェア側の出力遅延分)が捨てられてしまうという、
+                        // AVAudioEngineでよく知られる問題だと考えられる。
+                        // また、この自前のAVAudioEngineが暗黙に使うAVAudioSessionが、通常の
+                        // synthesizer.speak()経路が使っているものと本当に同じ状態(category=.playback、
+                        // マナースイッチを無視して鳴らせる状態)になっているかを保証するため、
+                        // ここでも明示的に設定/アクティブ化しておく。
+                        do {
+                            try AVAudioSession.sharedInstance().setCategory(.playback, options: [])
+                            try AVAudioSession.sharedInstance().setActive(true, options: [])
+                        } catch {
+                            self.SpeakerDebugLog(message: "explicit AVAudioSession activation failed: \(error)")
+                        }
                         engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
                         engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        engine.mainMixerNode.outputVolume = 1.0
                         try engine.start()
-                        self.SpeakerDebugLog(message: "engine started. engine.isRunning=\(engine.isRunning)")
+                        self.SpeakerDebugLog(message: "engine started. engine.isRunning=\(engine.isRunning) outputVolume=\(engine.mainMixerNode.outputVolume)")
                         self.extraSpeedPendingBufferCount = 1
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
                         playerNode.scheduleFile(playbackFile, at: nil, completionCallbackType: .dataPlayedBack) { _ in
                             DispatchQueue.main.async {
-                                self.SpeakerDebugLog(message: "scheduleFile completion fired")
-                                self.extraSpeedPendingBufferCount -= 1
-                                self.FinishExtraSpeedSpeechIfNeeded()
-                                try? FileManager.default.removeItem(at: tmpURL)
+                                self.SpeakerDebugLog(message: "scheduleFile completion fired, waiting drain margin before teardown")
+                                // ハードウェア出力遅延分の音が切り捨てられないよう、実際にengineを止める
+                                // (=スピーカーへの経路を切る)のを少し遅らせる。
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                    try? FileManager.default.removeItem(at: tmpURL)
+                                    // この待ち時間の間に次の発話が始まって別のextraSpeedEngineに
+                                    // 差し替わっている事があるので、まだ自分のengineのままかを確認してから進める。
+                                    guard self.extraSpeedEngine === engine else { return }
+                                    self.extraSpeedPendingBufferCount -= 1
+                                    self.FinishExtraSpeedSpeechIfNeeded()
+                                }
                             }
                         }
                         playerNode.play()
