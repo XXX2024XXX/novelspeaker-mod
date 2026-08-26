@@ -253,7 +253,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     // OSの音声合成エンジン自身にそれ以上の速さで喋らせる事は出来ない。1.0を超える分については、
     // 音声合成自体は等倍(1.0)のまま行い、出てきた音声波形を AVAudioUnitTimePitch で再生時に追加で
     // 高速化する事で実現する(TimePitchはピッチを維持したまま速度だけ変えられるので声が高くならない)。
-    static let maximumTotalSpeechRate: Float = 5.0
+    static let maximumTotalSpeechRate: Float = 2.0
     private var extraSpeedEngine: AVAudioEngine? = nil
     private var extraSpeedPlayerNode: AVAudioPlayerNode? = nil
     private var extraSpeedPendingBufferCount: Int = 0

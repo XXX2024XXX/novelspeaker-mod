@@ -171,7 +171,7 @@ class SpeakerSettingsViewController: FormViewController, RealmObserverResetDeleg
                 guard let value = value else { return "" }
                 return String(format: "%.2f", value)
             }
-            $0.steps = 5001
+            $0.steps = 2001
             $0.title = NSLocalizedString("SpeakSettingsViewController_RateTitle", comment: "速度")
             $0.hidden = Condition.function(["TitleLabelRow-\(targetID)"], { (form) -> Bool in
                 return self.hideCache[targetID] ?? false
