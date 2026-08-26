@@ -256,7 +256,6 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     static let maximumTotalSpeechRate: Float = 5.0
     private var extraSpeedEngine: AVAudioEngine? = nil
     private var extraSpeedPlayerNode: AVAudioPlayerNode? = nil
-    private var isExtraSpeedGraphConnected: Bool = false
     private var extraSpeedPendingBufferCount: Int = 0
     private var isExtraSpeedSynthesisFinished: Bool = false
     private var isExtraSpeedStopRequested: Bool = false
@@ -317,15 +316,25 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
     // 合成自体は等倍(1.0)で行い、write(_:toBufferCallback:)で音声波形をバッファとして受け取って、
     // 自前のAVAudioEngine(AVAudioPlayerNode -> AVAudioUnitTimePitch -> mainMixerNode)へ流し込み、
     // TimePitchのrateで追加の倍率をかけて再生する(TimePitchはピッチを維持したまま速度だけ変えられる)。
-    // 注意: write() 経由だと willSpeakRange 等の細かい単語単位の通知タイミングは実際の(加速後の)
+    //
+    // 注意点1: write() 経由だと willSpeakRange 等の細かい単語単位の通知タイミングは実際の(加速後の)
     // 再生タイミングとズレる(合成は先に等倍速度でどんどん進んでしまうため)。単語単位のハイライト追従は
     // 諦め、再生を開始した瞬間に発話文字列全体を1回だけ通知するだけに留める。
+    //
+    // 注意点2(重要): 届いたバッファを片っ端からscheduleして即座に再生を始める実装だと、
+    // 再生側は倍率分(最大5倍)速く音声データを消費するのに対し、write()側の生成はほぼ等倍速度でしか
+    // 進まないため、再生がすぐに生成に追いついてバッファが枯渇し、その度に音切れ/ノイズ
+    // (ユーザ報告の「ハウリング」のような壊れた音)が発生していた。
+    // これを避けるため、1回のSpeech()呼び出し分(だいたい数百文字程度に分割済み)の合成が
+    // 完全に終わるまで一旦全バッファを溜め込み、揃ってから一括で再生を開始する。
+    // 合成自体はほぼ等倍速度で進むとはいえ、1呼び出し分の文章量は数百文字程度に分割済み
+    // (StorySpeaker側でだいたい200文字程度に区切られる)なので、再生開始までの待ち時間は
+    // 数秒程度に収まる。
     private func SpeechWithExtraSpeed(text: String, extraSpeed: Float) {
         StopExtraSpeedEngine() // 直前の発話がまだ残っていれば先に片付ける
         extraSpeedSpeechString = text
         isExtraSpeedSynthesisFinished = false
         isExtraSpeedStopRequested = false
-        isExtraSpeedGraphConnected = false
         extraSpeedPendingBufferCount = 0
 
         let engine = AVAudioEngine()
@@ -344,37 +353,45 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         utt.postUtteranceDelay = m_Delay
         utt.volume = max(0.0, min(1.0, m_Volume))
 
+        var collectedBuffers: [AVAudioPCMBuffer] = []
+        var collectedFormat: AVAudioFormat? = nil
+
         synthesizer.write(utt) { [weak self] buffer in
             guard let self = self, let pcmBuffer = buffer as? AVAudioPCMBuffer else { return }
             if pcmBuffer.frameLength == 0 {
-                // 空バッファは合成完了の合図。再生待ちのバッファが残っていなければここで終了扱いにする。
+                // 空バッファは合成完了の合図。ここで初めて溜まったバッファ全部を接続・再生する。
                 DispatchQueue.main.async {
+                    guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
                     self.isExtraSpeedSynthesisFinished = true
-                    self.FinishExtraSpeedSpeechIfNeeded()
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
-                if !self.isExtraSpeedGraphConnected {
-                    self.isExtraSpeedGraphConnected = true
-                    engine.connect(playerNode, to: timePitch, format: pcmBuffer.format)
-                    engine.connect(timePitch, to: engine.mainMixerNode, format: pcmBuffer.format)
+                    guard let format = collectedFormat, !collectedBuffers.isEmpty else {
+                        self.FinishExtraSpeedSpeechIfNeeded()
+                        return
+                    }
+                    engine.connect(playerNode, to: timePitch, format: format)
+                    engine.connect(timePitch, to: engine.mainMixerNode, format: format)
                     do {
                         try engine.start()
                     } catch {
                         NSLog("Speaker: extra speed AVAudioEngine start failed: \(error)")
                     }
-                    playerNode.play()
+                    self.extraSpeedPendingBufferCount = collectedBuffers.count
                     self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
-                }
-                self.extraSpeedPendingBufferCount += 1
-                playerNode.scheduleBuffer(pcmBuffer, completionCallbackType: .dataPlayedBack) { _ in
-                    DispatchQueue.main.async {
-                        self.extraSpeedPendingBufferCount -= 1
-                        self.FinishExtraSpeedSpeechIfNeeded()
+                    playerNode.play()
+                    for buf in collectedBuffers {
+                        playerNode.scheduleBuffer(buf, completionCallbackType: .dataPlayedBack) { _ in
+                            DispatchQueue.main.async {
+                                self.extraSpeedPendingBufferCount -= 1
+                                self.FinishExtraSpeedSpeechIfNeeded()
+                            }
+                        }
                     }
                 }
+                return
+            }
+            DispatchQueue.main.async {
+                guard self.extraSpeedEngine === engine, !self.isExtraSpeedStopRequested else { return }
+                if collectedFormat == nil { collectedFormat = pcmBuffer.format }
+                collectedBuffers.append(pcmBuffer)
             }
         }
     }
@@ -391,7 +408,6 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
         extraSpeedEngine?.stop()
         extraSpeedPlayerNode = nil
         extraSpeedEngine = nil
-        isExtraSpeedGraphConnected = false
     }
 
     func Stop() {
