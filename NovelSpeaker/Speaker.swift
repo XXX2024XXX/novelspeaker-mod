@@ -359,14 +359,21 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
 
         let engine = AVAudioEngine()
         let playerNode = AVAudioPlayerNode()
-        let timePitch = AVAudioUnitTimePitch()
-        timePitch.rate = extraSpeed
-        // overlapを最大(32)にする事で、倍率が大きい(2倍・5倍等)場合の
-        // 「ハウリング」のように聞こえる金属質なうねり・位相の乱れを軽減する。
-        // デフォルト値(8.0)は緩やかな速度変更向けであり、高倍率では音質劣化が目立ちやすい。
-        timePitch.overlap = 32.0
+        // 1個のAVAudioUnitTimePitchに大きな倍率(2倍・5倍等)を一度に負わせると、
+        // 「何を言っているか分からない」レベルまでアルゴリズムの粒子(グレイン)が
+        // 崩壊し、聞き取れなくなる事が実機テストで判明した。1段あたりの変化量を
+        // 抑えるため、倍率の平方根ずつ2段に分けて直列に処理する
+        // (例: 5倍なら約2.236倍を2回)。各段の負担が減る分、音質が改善する。
+        let timePitchStageRate = sqrt(extraSpeed)
+        let timePitchStage1 = AVAudioUnitTimePitch()
+        let timePitchStage2 = AVAudioUnitTimePitch()
+        timePitchStage1.rate = timePitchStageRate
+        timePitchStage2.rate = timePitchStageRate
+        timePitchStage1.overlap = 32.0
+        timePitchStage2.overlap = 32.0
         engine.attach(playerNode)
-        engine.attach(timePitch)
+        engine.attach(timePitchStage1)
+        engine.attach(timePitchStage2)
         extraSpeedEngine = engine
         extraSpeedPlayerNode = playerNode
 
@@ -425,8 +432,9 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                         } catch {
                             self.SpeakerDebugLog(message: "explicit AVAudioSession activation failed: \(error)")
                         }
-                        engine.connect(playerNode, to: timePitch, format: playbackFile.processingFormat)
-                        engine.connect(timePitch, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        engine.connect(playerNode, to: timePitchStage1, format: playbackFile.processingFormat)
+                        engine.connect(timePitchStage1, to: timePitchStage2, format: playbackFile.processingFormat)
+                        engine.connect(timePitchStage2, to: engine.mainMixerNode, format: playbackFile.processingFormat)
                         engine.mainMixerNode.outputVolume = 1.0
                         try engine.start()
                         self.SpeakerDebugLog(message: "engine started. engine.isRunning=\(engine.isRunning) outputVolume=\(engine.mainMixerNode.outputVolume)")
