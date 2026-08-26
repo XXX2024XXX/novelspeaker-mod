@@ -1152,6 +1152,9 @@ class SettingsViewController: FormViewController, MFMailComposeViewControllerDel
                 $0.title = NSLocalizedString("SettingsViewController_IsUseiCloud_Title", comment: "iCloud 同期を使用する")
                 $0.value = RealmUtil.IsUseCloudRealm()
                 $0.cell.textLabel?.numberOfLines = 0
+                // iCloud entitlement を持たない署名(サイドロード等)では CKContainer に触れた瞬間
+                // OSに強制終了させられるため、そもそも有効化できないようにトグル自体を隠す。
+                $0.hidden = Condition(booleanLiteral: !RealmUtil.HasICloudEntitlement())
             }.onChange({ (row) in
                 guard let value = row.value else { return }
                 if value == true {

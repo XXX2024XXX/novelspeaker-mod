@@ -23,7 +23,11 @@ final class AppLaunchCoordinator: NSObject {
             NSLog("WARN: CheckRealmReadable() returned false at launch. Continuing launch anyway.")
         }
 
-        if !NiftyUtility.isTesting() {
+        // StartAllLongLivedOperationIDWatcher() は内部で RealmUtil.FetchAllLongLivedOperationIDs() ->
+        // CKContainer(identifier:) を呼び出す(=CloudKitに直接触れる)ため、iCloudを使わない設定
+        // (IsUseCloudRealm() == false)の時にまで呼んでしまうと、iCloud entitlement を持たない
+        // サイドロード環境では起動直後に強制終了する。CloudKitを使う設定の時だけ呼び出す。
+        if !NiftyUtility.isTesting() && RealmUtil.IsUseCloudRealm() {
             NovelSpeakerUtility.StartAllLongLivedOperationIDWatcher()
         }
         NovelSpeakerUtility.PreloadPrivacyTrackingBlockRuleListIfNeeded()

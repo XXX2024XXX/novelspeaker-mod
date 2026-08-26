@@ -411,21 +411,37 @@ final class MemoryTraceLogger {
             ], databaseScope: .private, container: container)
     }
 
+    // iCloud entitlement を持たない状態で CKContainer 等の CloudKit API に触れると
+    // OSに強制終了させられるため、CloudKitへ入る全ての経路(EnableSyncEngine/
+    // FetchAllLongLivedOperationIDs/GetCloudAccountStatus)の入口でここを通す。
+    // 呼び出し元(IsUseCloudRealm()のチェック漏れ等)に関わらず、ここが最後の砦になる。
+    enum CloudKitUnavailableError: Error {
+        case noICloudEntitlement
+    }
     static func EnableSyncEngine() throws {
+        guard HasICloudEntitlement() else { throw CloudKitUnavailableError.noICloudEntitlement }
         lock.lock()
         defer { lock.unlock() }
         if syncEngine != nil { return }
         self.syncEngine = try CreateSyncEngine()
     }
-    
+
     static func stopSyncEngine() {
         syncEngine = nil
     }
     static func FetchAllLongLivedOperationIDs(completionHandler: @escaping ([CKOperation.ID]?, Error?) -> Void) {
+        guard HasICloudEntitlement() else {
+            completionHandler(nil, CloudKitUnavailableError.noICloudEntitlement)
+            return
+        }
         let container = GetContainer()
         container.fetchAllLongLivedOperationIDs(completionHandler: completionHandler)
     }
     static func GetCloudAccountStatus(completionHandler: @escaping (CKAccountStatus, Error?) -> Void) {
+        guard HasICloudEntitlement() else {
+            completionHandler(.couldNotDetermine, CloudKitUnavailableError.noICloudEntitlement)
+            return
+        }
         let container = GetContainer()
         container.accountStatus(completionHandler: completionHandler)
     }
@@ -642,9 +658,11 @@ final class MemoryTraceLogger {
         }
     }
     @objc static func CloudPull() {
+        guard HasICloudEntitlement() else { return }
         syncEngine?.pull()
     }
     @objc static func CloudPush() {
+        guard HasICloudEntitlement() else { return }
         syncEngine?.pushAll()
     }
     
