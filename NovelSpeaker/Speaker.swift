@@ -442,17 +442,16 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                         self.m_Delegate?.willSpeakRange(range: NSRange(location: 0, length: (text as NSString).length))
                         playerNode.scheduleFile(playbackFile, at: nil, completionCallbackType: .dataPlayedBack) { _ in
                             DispatchQueue.main.async {
-                                self.SpeakerDebugLog(message: "scheduleFile completion fired, waiting drain margin before teardown")
-                                // ハードウェア出力遅延分の音が切り捨てられないよう、実際にengineを止める
-                                // (=スピーカーへの経路を切る)のを少し遅らせる。
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    try? FileManager.default.removeItem(at: tmpURL)
-                                    // この待ち時間の間に次の発話が始まって別のextraSpeedEngineに
-                                    // 差し替わっている事があるので、まだ自分のengineのままかを確認してから進める。
-                                    guard self.extraSpeedEngine === engine else { return }
-                                    self.extraSpeedPendingBufferCount -= 1
-                                    self.FinishExtraSpeedSpeechIfNeeded()
-                                }
+                                self.SpeakerDebugLog(message: "scheduleFile completion fired")
+                                // 以前はここで0.3秒待ってからengineを止めていたが、これは塊(発話単位)
+                                // ごとに固定の無音区間を生む原因になっていた。.dataPlayedBackは本来
+                                // ハードウェア出力が完了してから発火するはずのcompletionCallbackTypeであり、
+                                // 追加の待ち時間無しでも(二重再生バグ修正後の実機テストで)音切れは
+                                // 発生しなかったため、待ち時間を廃止して即座に次の発話へ進めるようにする。
+                                try? FileManager.default.removeItem(at: tmpURL)
+                                guard self.extraSpeedEngine === engine else { return }
+                                self.extraSpeedPendingBufferCount -= 1
+                                self.FinishExtraSpeedSpeechIfNeeded()
                             }
                         }
                         playerNode.play()
