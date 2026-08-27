@@ -385,6 +385,8 @@
 "SpeechViewController_NoTwitterAccount_Title" = "No Twitter Accounts linked";
 "SpeechViewController_NoTwitterAccount_Message" = "There are no Twitter accounts linked. You can add or create a Twitter account in Settings.";
 "SpeechViewController_AddSpeechModSettings" = "Add corrections for pronounciation";
+"SpeechViewController_QuickMuteSpeechModSetting" = "Reading substitution";
+"SpeechViewController_QuickMuteSpeechModSettingDoneMessageFormat" = "Registered a reading substitution for \"%@\".\n(It will be read as \"、\" (a pause) for now. Edit it under Reading Corrections settings if you want a different reading.)";
 "SpeechViewController_SpeakAlertVoiceOver" = "VoiceOver is active. Proceed to read?";
 "SpeechViewController_SpeakAlertVoiceOverMessage" = "There would be two lawers of voice played if proceeded.";
 

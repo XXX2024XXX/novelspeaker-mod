@@ -446,6 +446,11 @@ class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserv
     
     func setCustomUIMenu() {
         let menuController = UIMenuController.shared
+        // 選択した文字列を、読み替え後の入力画面を挟まずワンタップで「、」(ほぼ無音)に
+        // 読み替え登録するショートカット。読み上げさせたくない文字列をその場で黙らせたい時用。
+        // 独自項目はUIMenuController経由だと基本的にCopy等システム項目より後ろに出るため、
+        // 「Copyの左」を厳密に保証は出来ないが、独自項目の中では先頭に置いて最寄りを狙う。
+        let quickMuteMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_QuickMuteSpeechModSetting", comment: "読み替え"), action: #selector(quickMuteSpeechModSetting(sender:)))
         let speechModMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettings", comment: "読み替え辞書へ登録"), action: #selector(setSpeechModSetting(sender:)))
         let speechModForThisNovelMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettingsForThisNovel", comment: "この小説用の読み替え辞書へ登録"), action: #selector(setSpeechModForThisNovelSetting(sender:)))
         let checkSpeechTextMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddCheckSpeechText", comment: "読み替え後の文字列を確認する"), action: #selector(checkSpeechText(sender:)))
@@ -454,8 +459,24 @@ class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserv
         // 「ここから発話開始」は常に登録しておいて、表示可否は canPerformAction に任せる
         // (発話中 かつ 自動スクロール一時停止中 の時だけ表示される)。
         let speakFromHereMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_SpeakFromHere", comment: "ここから発話開始"), action: #selector(speakFromHere(sender:)))
-        let menuItems:[UIMenuItem] = [speechModMenuItem, speechModForThisNovelMenuItem, checkSpeechTextMenuItem, selectAllMenuItem, speakFromHereMenuItem]
+        let menuItems:[UIMenuItem] = [quickMuteMenuItem, speechModMenuItem, speechModForThisNovelMenuItem, checkSpeechTextMenuItem, selectAllMenuItem, speakFromHereMenuItem]
         menuController.menuItems = menuItems
+    }
+
+    // 長押しメニューの「読み替え」。選択文字列を読み替え後="、"としてワンタップ登録する。
+    // 実際に何と読ませたいかを後で決めたい場合は、登録後に「読みの修正」設定側から
+    // 読み替え後の文字列を書き換えれば良い。
+    @objc func quickMuteSpeechModSetting(sender: UIMenuItem) {
+        guard let range = self.textView.selectedTextRange, let text = self.textView.text(in: range) else { return }
+        if text.count <= 0 { return }
+        if NovelSpeakerUtility.RegisterQuickMuteSpeechModSetting(before: text) {
+            NiftyUtility.EasyDialogOneButton(
+                viewController: self,
+                title: nil,
+                message: String(format: NSLocalizedString("SpeechViewController_QuickMuteSpeechModSettingDoneMessageFormat", comment: "「%@」を読み替え登録しました。"), text),
+                buttonTitle: NSLocalizedString("OK_button", comment: "OK"),
+                buttonAction: nil)
+        }
     }
 
     // 本文は非編集の UITextView なので標準の「すべてを選択」が出ない。独自項目として全選択を提供する。

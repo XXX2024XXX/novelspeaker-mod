@@ -142,6 +142,32 @@ class NovelSpeakerUtility: NSObject {
         completion(speechModSettings ?? [])
     }
     
+    /// 本文長押しメニューの「読み替え」からの、ワンタップ登録用。
+    /// 通常の「読み替え辞書へ登録」と違い、読み替え後の入力画面を挟まず、
+    /// 読み替え後を "、"(読点。TTSはほぼ無音のポーズとして読む)として即座に登録する。
+    /// 読み上げさせたくない文字列をその場で黙らせたい時のショートカット。
+    /// 既に同じ読み替え前の登録がある場合は読み替え後だけ上書きする。
+    @discardableResult
+    static func RegisterQuickMuteSpeechModSetting(before: String) -> Bool {
+        if before.count <= 0 { return false }
+        RealmUtil.Write { (realm) in
+            let setting: RealmSpeechModSetting
+            if let existing = RealmSpeechModSetting.SearchFromWith(realm: realm, beforeString: before) {
+                setting = existing
+            }else{
+                setting = RealmSpeechModSetting()
+                setting.before = before
+            }
+            setting.after = "、"
+            setting.isUseRegularExpression = false
+            if !setting.targetNovelIDArray.contains(RealmSpeechModSetting.anyTarget) {
+                setting.targetNovelIDArray.append(RealmSpeechModSetting.anyTarget)
+            }
+            realm.add(setting, update: .modified)
+        }
+        return true
+    }
+
     static func ForceOverrideHungSpeakStringToSpeechModSettings_NotRegexp(targets:[String:String]) {
         RealmUtil.RealmBlock { (realm) in
             var writeQueue:[String:String] = [:]

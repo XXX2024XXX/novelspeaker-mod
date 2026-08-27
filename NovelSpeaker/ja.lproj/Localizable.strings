@@ -355,6 +355,8 @@
 "SpeechViewController_NoTwitterAccount_Title" = "Twitterアカウントが設定されていません";
 "SpeechViewController_NoTwitterAccount_Message" = "Twitterアカウントが設定されていません。設定ページでTwitterアカウントを設定か作成することができます。";
 "SpeechViewController_AddSpeechModSettings" = "読み替え登録";
+"SpeechViewController_QuickMuteSpeechModSetting" = "読み替え";
+"SpeechViewController_QuickMuteSpeechModSettingDoneMessageFormat" = "「%@」を読み替え登録しました。\n(読み替え後は「、」になっています。読み方を変えたい場合は「読みの修正」設定から書き換えてください)";
 "SpeechViewController_SpeakAlertVoiceOver" = "VoiceOverが有効になっています。このまま再生しますか？";
 "SpeechViewController_SpeakAlertVoiceOverMessage" = "そのまま再生すると二重に読み上げが発生してしまいます。";
 "SpeechViewController_loading" = "loading...";

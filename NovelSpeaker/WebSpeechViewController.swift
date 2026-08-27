@@ -1975,6 +1975,9 @@ extension WebSpeechViewController {
 extension WebSpeechViewController {
     func setCustomUIMenu() {
         let menuController = UIMenuController.shared
+        // 選択した文字列を、読み替え後の入力画面を挟まずワンタップで「、」(ほぼ無音)に
+        // 読み替え登録するショートカット。読み上げさせたくない文字列をその場で黙らせたい時用。
+        let quickMuteMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_QuickMuteSpeechModSetting", comment: "読み替え"), action: #selector(quickMuteSpeechModSetting(sender:)))
         let speechModMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettings", comment: "読み替え辞書へ登録"), action: #selector(setSpeechModSetting(sender:)))
         let speechModForThisNovelMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddSpeechModSettingsForThisNovel", comment: "この小説用の読み替え辞書へ登録"), action: #selector(setSpeechModForThisNovelSetting(sender:)))
         let checkSpeechTextMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_AddCheckSpeechText", comment: "読み替え後の文字列を確認する"), action: #selector(checkSpeechText(sender:)))
@@ -1983,7 +1986,7 @@ extension WebSpeechViewController {
         // 「ここから発話開始」は常に登録しておいて、表示可否は canPerformAction に任せる
         // (発話中 かつ 自動スクロール一時停止中 の時だけ表示される)。
         let speakFromHereMenuItem = UIMenuItem.init(title: NSLocalizedString("SpeechViewController_SpeakFromHere", comment: "ここから発話開始"), action: #selector(speakFromHere(sender:)))
-        let menuItems:[UIMenuItem] = [speechModMenuItem, speechModForThisNovelMenuItem, checkSpeechTextMenuItem, selectAllMenuItem, speakFromHereMenuItem]
+        let menuItems:[UIMenuItem] = [quickMuteMenuItem, speechModMenuItem, speechModForThisNovelMenuItem, checkSpeechTextMenuItem, selectAllMenuItem, speakFromHereMenuItem]
         menuController.menuItems = menuItems
         #if targetEnvironment(macCatalyst)
         #if false
@@ -1997,6 +2000,22 @@ extension WebSpeechViewController {
         menuController.menuItems = []
     }
     
+    // 長押しメニューの「読み替え」。選択文字列を読み替え後="、"としてワンタップ登録する。
+    @objc func quickMuteSpeechModSetting(sender: UIMenuItem) {
+        self.webSpeechTool.getSelectedString { string in
+            guard let text = string, text.count > 0 else { return }
+            if NovelSpeakerUtility.RegisterQuickMuteSpeechModSetting(before: text) {
+                DispatchQueue.main.async {
+                    NiftyUtility.EasyDialogOneButton(
+                        viewController: self,
+                        title: nil,
+                        message: String(format: NSLocalizedString("SpeechViewController_QuickMuteSpeechModSettingDoneMessageFormat", comment: "「%@」を読み替え登録しました。"), text),
+                        buttonTitle: NSLocalizedString("OK_button", comment: "OK"),
+                        buttonAction: nil)
+                }
+            }
+        }
+    }
     @objc func setSpeechModSetting(sender: UIMenuItem){
         self.webSpeechTool.getSelectedString { string in
             guard let text = string, text.count > 0 else { return }

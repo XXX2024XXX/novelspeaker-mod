@@ -33,6 +33,7 @@ enum EditMenuFilter {
     /// これらは削減設定に関わらず常に残す。
     /// (「全てを選択する」だけは MenuItemsNotRemovedType.selectAll で個別に制御する)
     static let novelSpeakerAlwaysKeepSelectorNames: Set<String> = [
+        "quickMuteSpeechModSettingWithSender:",
         "setSpeechModSettingWithSender:",
         "setSpeechModForThisNovelSettingWithSender:",
         "checkSpeechTextWithSender:",
