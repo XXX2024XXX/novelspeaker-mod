@@ -359,21 +359,13 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
 
         let engine = AVAudioEngine()
         let playerNode = AVAudioPlayerNode()
-        // 1個のAVAudioUnitTimePitchに大きな倍率(2倍・5倍等)を一度に負わせると、
-        // 「何を言っているか分からない」レベルまでアルゴリズムの粒子(グレイン)が
-        // 崩壊し、聞き取れなくなる事が実機テストで判明した。1段あたりの変化量を
-        // 抑えるため、倍率の平方根ずつ2段に分けて直列に処理する
-        // (例: 5倍なら約2.236倍を2回)。各段の負担が減る分、音質が改善する。
-        let timePitchStageRate = sqrt(extraSpeed)
+        // overlapを最大(32)にした2段構成を試したが、体感の音質はむしろ悪化した
+        // (子音等の立ち上がりがぼやけたと見られる)。1段構成・overlapはAppleの
+        // デフォルト値(8.0、明示指定しない)に戻して素直な処理に戻す。
         let timePitchStage1 = AVAudioUnitTimePitch()
-        let timePitchStage2 = AVAudioUnitTimePitch()
-        timePitchStage1.rate = timePitchStageRate
-        timePitchStage2.rate = timePitchStageRate
-        timePitchStage1.overlap = 32.0
-        timePitchStage2.overlap = 32.0
+        timePitchStage1.rate = extraSpeed
         engine.attach(playerNode)
         engine.attach(timePitchStage1)
-        engine.attach(timePitchStage2)
         extraSpeedEngine = engine
         extraSpeedPlayerNode = playerNode
 
@@ -433,8 +425,7 @@ class Speaker: NSObject, AVSpeechSynthesizerDelegate {
                             self.SpeakerDebugLog(message: "explicit AVAudioSession activation failed: \(error)")
                         }
                         engine.connect(playerNode, to: timePitchStage1, format: playbackFile.processingFormat)
-                        engine.connect(timePitchStage1, to: timePitchStage2, format: playbackFile.processingFormat)
-                        engine.connect(timePitchStage2, to: engine.mainMixerNode, format: playbackFile.processingFormat)
+                        engine.connect(timePitchStage1, to: engine.mainMixerNode, format: playbackFile.processingFormat)
                         engine.mainMixerNode.outputVolume = 1.0
                         try engine.start()
                         self.SpeakerDebugLog(message: "engine started. engine.isRunning=\(engine.isRunning) outputVolume=\(engine.mainMixerNode.outputVolume)")
