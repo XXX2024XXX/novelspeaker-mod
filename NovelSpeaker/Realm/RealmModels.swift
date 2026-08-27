@@ -2709,6 +2709,7 @@ enum SpeechViewButtonTypes:String, Codable {
     case showTableOfContents = "showTableOfContents"
     case searchByText = "searchByText"
     case addPageToOtherNovel = "addPageToOtherNovel"
+    case toggleFavoriteStory = "toggleFavoriteStory"
 }
 
 struct SpeechViewButtonSetting: Codable {
@@ -2716,6 +2717,7 @@ struct SpeechViewButtonSetting: Codable {
     var isOn:Bool
     
     static let defaultSetting:[SpeechViewButtonSetting] = [
+        SpeechViewButtonSetting(type: .toggleFavoriteStory, isOn: true),
         SpeechViewButtonSetting(type: .addPageToOtherNovel, isOn: false),
         SpeechViewButtonSetting(type: .showTableOfContents, isOn: false),
         SpeechViewButtonSetting(type: .skipBackward, isOn: false),
@@ -3760,6 +3762,9 @@ extension RealmNovelTag: CanWriteIsDeleted {
     enum BookmarkType:String {
         case novelSpeechLocation = "novelSpeechLocation"
         case userBookmark = "userBookmark"
+        // 話(チャプター)単位の「お気に入り」。hintにはstoryID(小説IDと話数のペアを一意に
+        // 表す文字列)を使う事で、1つの小説内で複数の話をそれぞれ独立にお気に入り登録できる。
+        case favoriteStory = "favoriteStory"
     }
     
     static func CreateUniqueID(type:BookmarkType, hint:String) -> String {
@@ -3779,6 +3784,8 @@ extension RealmNovelTag: CanWriteIsDeleted {
                 return BookmarkType.novelSpeechLocation
             case BookmarkType.userBookmark.rawValue:
                 return BookmarkType.userBookmark
+            case BookmarkType.favoriteStory.rawValue:
+                return BookmarkType.favoriteStory
             default:
                 return nil
             }
@@ -3813,6 +3820,31 @@ extension RealmNovelTag: CanWriteIsDeleted {
     
     static func GetSpeechBookmark(realm: Realm, novelID: String) -> RealmBookmark? {
         return SearchObjectFromWith(realm: realm, type: .novelSpeechLocation, hint: novelID)
+    }
+
+    static func IsFavoriteStory(realm: Realm, storyID: String) -> Bool {
+        return SearchObjectFromWith(realm: realm, type: .favoriteStory, hint: storyID) != nil
+    }
+
+    static func SetFavoriteStory(realm: Realm, storyID: String, isFavorite: Bool) {
+        if isFavorite {
+            let novelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
+            let chapterNumber = RealmStoryBulk.StoryIDToChapterNumber(storyID: storyID)
+            SetBookmarkWith(realm: realm, type: .favoriteStory, hint: storyID, novelID: novelID, chapterNumber: chapterNumber, location: 0)
+        }else{
+            guard let obj = SearchObjectFromWith(realm: realm, type: .favoriteStory, hint: storyID) else { return }
+            RealmUtil.WriteWith(realm: realm) { (realm) in
+                obj.delete(realm: realm)
+            }
+        }
+    }
+
+    // お気に入り登録した話の一覧。作成日時が新しい順(＝お気に入り登録した順)に返す。
+    static func GetAllFavoriteStories(realm: Realm) -> Results<RealmBookmark>? {
+        return realm.objects(RealmBookmark.self)
+            .filter("isDeleted = false")
+            .filter("id BEGINSWITH %@", BookmarkType.favoriteStory.rawValue + ":")
+            .sorted(byKeyPath: "createdDate", ascending: false)
     }
 
     static func SearchObjectFromWith(realm: Realm, type:BookmarkType, hint:String) -> RealmBookmark? {

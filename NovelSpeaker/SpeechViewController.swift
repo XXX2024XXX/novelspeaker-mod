@@ -521,6 +521,16 @@ class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserv
         menuController.menuItems = []
     }
 
+    @objc func toggleFavoriteStoryButtonClicked(_ sender: Any) {
+        guard let storyID = self.storyID else { return }
+        RealmUtil.Write { (realm) in
+            let isFavorite = RealmBookmark.IsFavoriteStory(realm: realm, storyID: storyID)
+            RealmBookmark.SetFavoriteStory(realm: realm, storyID: storyID, isFavorite: !isFavorite)
+        }
+        self.isUpperRightButtonsChanged = true
+        self.forceUpdateUpperButtons()
+    }
+
     @objc func addPageToOtherNovelButtonClicked(_ sender: Any) {
         guard let storyID = self.storyID else { return }
         let currentNovelID = RealmStoryBulk.StoryIDToNovelID(storyID: storyID)
@@ -677,6 +687,19 @@ class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserv
                     image: UIImage(systemName: "book.badge.plus"),
                     action: #selector(self.addPageToOtherNovelButtonClicked(_:)),
                     accessibilityLabel: NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する")
+                )
+                barButtonArray.append(button)
+            case .toggleFavoriteStory:
+                let isFavorite = RealmUtil.RealmBlock { (realm) -> Bool in
+                    guard let storyID = self.storyID else { return false }
+                    return RealmBookmark.IsFavoriteStory(realm: realm, storyID: storyID)
+                }
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: isFavorite ? "star.fill" : "star"),
+                    action: #selector(self.toggleFavoriteStoryButtonClicked(_:)),
+                    accessibilityLabel: isFavorite
+                        ? NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory_On", comment: "この話のお気に入り登録を外す")
+                        : NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory_Off", comment: "この話をお気に入りに登録する")
                 )
                 barButtonArray.append(button)
             case .speechStop:
@@ -989,6 +1012,9 @@ class SpeechViewController: UIViewController, StorySpeakerDeletgate, RealmObserv
             }
             self.storyID = storyID
             self.applyChapterListChange()
+            // 話が切り替わったので、お気に入り星アイコンの表示をこの話の状態に合わせて更新する。
+            self.isUpperRightButtonsChanged = true
+            self.forceUpdateUpperButtons()
             DispatchQueue.main.async {
                 if let textViewText = self.textView.text, textViewText != content {
                     if story.content.count <= 0 {

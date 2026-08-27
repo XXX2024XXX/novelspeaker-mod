@@ -69,6 +69,10 @@
 "SettingsTableViewController_Information_PastInformationTitle" = "過去のお知らせ";
 "SettingsTableViewController_SettingOfTheQualityOfVoice" = "声質の設定";
 "SettingTableViewController_CorrectionOfTheReading" = "読みの修正";
+"SettingTableViewController_FavoriteStoryList" = "お気に入りの話一覧";
+"FavoriteStoryListViewController_Title" = "お気に入りの話";
+"FavoriteStoryListViewController_EmptyMessage" = "お気に入りの話がまだありません。\n本文の読み上げ画面にある星ボタンで登録できます。";
+"FavoriteStoryListViewController_RemoveFavorite" = "お気に入りから外す";
 "SettingTableViewController_SettingOfTheTextSize" = "小説本文表示画面の設定";
 "SettingTableViewController_SettingOfTheSpeechDelay" = "読み上げ時の間の設定";
 "SettingTableViewController_MaxSpeechTime" = "最大連続再生時間";
@@ -926,6 +930,9 @@
 "SpeechViewButtonType_SkipForward" = "(再生中に)少し進める";
 "SpeechViewButtonType_ShowTableOfContents" = "章リスト(目次)";
 "SpeechViewButtonType_AddPageToOtherNovel" = "他の小説にこのページを追加する";
+"SpeechViewButtonType_ToggleFavoriteStory" = "この話をお気に入りに登録する";
+"SpeechViewButtonType_ToggleFavoriteStory_On" = "この話のお気に入り登録を外す";
+"SpeechViewButtonType_ToggleFavoriteStory_Off" = "この話をお気に入りに登録する";
 "AddPageToOtherNovel_ConfirmMessage" = "「%@」にこのページを追加しますか？";
 "AddPageToOtherNovel_Success" = "ページを追加しました。";
 "AddPageToOtherNovel_Failure" = "ページの追加に失敗しました。";

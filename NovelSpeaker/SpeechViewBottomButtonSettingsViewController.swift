@@ -180,6 +180,13 @@ class SpeechViewBottomButtonSettingsViewController: FormViewController {
                         $0.cell.imageView?.image = UIImage(systemName: "book.badge.plus")
                         $0.cell.textLabel?.numberOfLines = 0
                     }.onChange({_ in self.saveCurrentSetting()})
+                case .toggleFavoriteStory:
+                    section <<< SwitchRow(setting.type.rawValue) {
+                        $0.title = NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory", comment: "この話をお気に入りに登録する")
+                        $0.value = setting.isOn
+                        $0.cell.imageView?.image = UIImage(systemName: "star")
+                        $0.cell.textLabel?.numberOfLines = 0
+                    }.onChange({_ in self.saveCurrentSetting()})
                 }
             }
         }

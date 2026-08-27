@@ -223,6 +223,7 @@
 		21E6B41E246D55DC00605874 /* HeadlessHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E6B41D246D55DC00605874 /* HeadlessHTTPClient.swift */; };
 		21E76BF91FB487B1003C659F /* EasyDialogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E76BF81FB487B1003C659F /* EasyDialogs.swift */; };
 		21E76BFB1FB4D9A5003C659F /* SpeechModSettingsTableViewControllerSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E76BFA1FB4D9A5003C659F /* SpeechModSettingsTableViewControllerSwift.swift */; };
+		65D457A6695252F955A586AA /* FavoriteStoryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73A323E75CA82C11BE291C34 /* FavoriteStoryListViewController.swift */; };
 		21E975B622983D2F0027A0A0 /* NovelSpeakerUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E975B522983D2F0027A0A0 /* NovelSpeakerUtility.swift */; };
 		21E975B8229A8C8C0027A0A0 /* DefaultSpeechModList.json in Resources */ = {isa = PBXBuildFile; fileRef = 21E975B7229A8C8C0027A0A0 /* DefaultSpeechModList.json */; };
 		21E975BA22A06CC60027A0A0 /* MigrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E975B922A06CC60027A0A0 /* MigrationViewController.swift */; };
@@ -563,6 +564,7 @@
 		21E6B41D246D55DC00605874 /* HeadlessHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeadlessHTTPClient.swift; sourceTree = "<group>"; };
 		21E76BF81FB487B1003C659F /* EasyDialogs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EasyDialogs.swift; sourceTree = "<group>"; };
 		21E76BFA1FB4D9A5003C659F /* SpeechModSettingsTableViewControllerSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechModSettingsTableViewControllerSwift.swift; sourceTree = "<group>"; };
+		73A323E75CA82C11BE291C34 /* FavoriteStoryListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteStoryListViewController.swift; sourceTree = "<group>"; };
 		21E975B522983D2F0027A0A0 /* NovelSpeakerUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelSpeakerUtility.swift; sourceTree = "<group>"; };
 		21E975B7229A8C8C0027A0A0 /* DefaultSpeechModList.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultSpeechModList.json; sourceTree = "<group>"; };
 		21E975B922A06CC60027A0A0 /* MigrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MigrationViewController.swift; sourceTree = "<group>"; };
@@ -1059,6 +1061,7 @@
 				21515170000000000000F001 /* SiteInfoEditorViewController.swift */,
 				21647FF7228C947C00A183DF /* TextSizeSettingViewControllerSwift.swift */,
 				21E76BFA1FB4D9A5003C659F /* SpeechModSettingsTableViewControllerSwift.swift */,
+				73A323E75CA82C11BE291C34 /* FavoriteStoryListViewController.swift */,
 				21647FF9228CA82A00A183DF /* CreateSpeechModSettingViewControllerSwift.swift */,
 				21E975B922A06CC60027A0A0 /* MigrationViewController.swift */,
 				212EBDEC2289CD730063FEC0 /* SpeechWaitSettingViewController.swift */,
@@ -1723,6 +1726,7 @@
 				21A97B462F7BBFC800DF9236 /* EurekaSupport.swift in Sources */,
 				21E975B622983D2F0027A0A0 /* NovelSpeakerUtility.swift in Sources */,
 				21E76BFB1FB4D9A5003C659F /* SpeechModSettingsTableViewControllerSwift.swift in Sources */,
+				65D457A6695252F955A586AA /* FavoriteStoryListViewController.swift in Sources */,
 				21E26FEB260E066F009018B6 /* SafeModeViewController.swift in Sources */,
 				214141D01FC0A1C30076DEC2 /* NiftyUtility.swift in Sources */,
 				212EBDE52287F6EA0063FEC0 /* SpeakerSettingsViewController.swift in Sources */,

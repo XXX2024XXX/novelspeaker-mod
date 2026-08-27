@@ -171,6 +171,15 @@ class SpeechViewButtonSettingsViewController: FormViewController {
                         $0.value = setting.isOn
                         $0.cell.textLabel?.numberOfLines = 0
                     }.onChange({_ in self.saveCurrentSetting()})
+                case .toggleFavoriteStory:
+                    section <<< SwitchRow(setting.type.rawValue) {
+                        $0.title = NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory", comment: "この話をお気に入りに登録する")
+                        if #available(iOS 13.0, *) {
+                            $0.cell.imageView?.image = UIImage(systemName: "star")
+                        }
+                        $0.value = setting.isOn
+                        $0.cell.textLabel?.numberOfLines = 0
+                    }.onChange({_ in self.saveCurrentSetting()})
                 default:
                     continue
                 }

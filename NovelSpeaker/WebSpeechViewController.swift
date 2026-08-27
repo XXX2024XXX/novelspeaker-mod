@@ -1175,6 +1175,19 @@ body.NovelSpeakerBody {
                     accessibilityLabel: NSLocalizedString("SpeechViewButtonType_AddPageToOtherNovel", comment: "他の小説にこのページを追加する")
                 )
                 barButtonArray.append(button)
+            case .toggleFavoriteStory:
+                let storyID = StorySpeaker.shared.storyID
+                let isFavorite = RealmUtil.RealmBlock { (realm) -> Bool in
+                    return RealmBookmark.IsFavoriteStory(realm: realm, storyID: storyID)
+                }
+                let button = createBarButtonItem(
+                    image: UIImage(systemName: isFavorite ? "star.fill" : "star"),
+                    action: #selector(self.toggleFavoriteStoryButtonClicked(_:)),
+                    accessibilityLabel: isFavorite
+                        ? NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory_On", comment: "この話のお気に入り登録を外す")
+                        : NSLocalizedString("SpeechViewButtonType_ToggleFavoriteStory_Off", comment: "この話をお気に入りに登録する")
+                )
+                barButtonArray.append(button)
             case .speechStop:
                 let button = createBarButtonItem(image: UIImage(systemName: "play.fill"), action: #selector(self.startStopButtonClicked(_:)), accessibilityLabel: NSLocalizedString("SpeechViewController_Speak", comment: "Speak"))
                 if isForBottomBar { self.bottomStartStopButton = button } else { self.startStopButton = button }
@@ -1696,6 +1709,17 @@ body.NovelSpeakerBody {
         NovelSpeakerUtility.SearchStoryFor(selectedStoryID: StorySpeaker.shared.storyID, viewController: self, searchString: nil) { (story) in
             StorySpeaker.shared.SetStory(story: story, withUpdateReadDate: true)
         }
+    }
+
+    @objc func toggleFavoriteStoryButtonClicked(_ sender: Any) {
+        let storyID = StorySpeaker.shared.storyID
+        guard storyID.count > 0 else { return }
+        RealmUtil.Write { (realm) in
+            let isFavorite = RealmBookmark.IsFavoriteStory(realm: realm, storyID: storyID)
+            RealmBookmark.SetFavoriteStory(realm: realm, storyID: storyID, isFavorite: !isFavorite)
+        }
+        self.isUpperRightButtonsChanged = true
+        self.forceUpdateUpperButtons()
     }
 
     // 「他の小説にこのページを追加する」。通常の本文画面(SpeechViewController)と同一実装。

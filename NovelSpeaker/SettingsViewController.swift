@@ -573,6 +573,19 @@ class SettingsViewController: FormViewController, MFMailComposeViewControllerDel
             }
             section
             <<< ButtonRow() {
+                $0.title = NSLocalizedString("SettingTableViewController_FavoriteStoryList", comment:"お気に入りの話一覧")
+                $0.cell.textLabel?.numberOfLines = 0
+            }.onCellSelection({ (_, _) in
+                let nextViewController = FavoriteStoryListViewController()
+                self.navigationController?.pushViewController(nextViewController, animated: true)
+            }).cellUpdate({ (cell, button) in
+                cell.textLabel?.textAlignment = .left
+                cell.accessoryType = .disclosureIndicator
+                cell.editingAccessoryType = cell.accessoryType
+                cell.textLabel?.textColor = nil
+            })
+            section
+            <<< ButtonRow() {
                 $0.title = NSLocalizedString("SettingTableViewController_SettingOfTheTextSize", comment:"文字サイズの設定")
                 $0.presentationMode = .segueName(segueName: "textSizeSettingSegue", onDismiss: nil)
                 $0.cell.textLabel?.numberOfLines = 0

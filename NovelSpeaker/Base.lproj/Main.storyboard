@@ -1461,7 +1461,7 @@ THE SOFTWARE.
         <!--Web Speech View Controller-->
         <scene sceneID="lUG-Y3-yqC">
             <objects>
-                <viewController id="svA-Jn-EMv" customClass="WebSpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebSpeechViewController" id="svA-Jn-EMv" customClass="WebSpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="WkN-NK-AWW">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1481,7 +1481,7 @@ THE SOFTWARE.
         <!--Speech View Controller-->
         <scene sceneID="fJw-k5-rSc">
             <objects>
-                <viewController id="WIX-4N-ZvP" customClass="SpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SpeechViewController" id="WIX-4N-ZvP" customClass="SpeechViewController" customModule="NovelSpeaker" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="k6I-a5-mQk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

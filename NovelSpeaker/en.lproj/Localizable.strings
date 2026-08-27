@@ -69,6 +69,10 @@
 "SettingsTableViewController_Information_PastInformationTitle" = "Previous notifications";
 "SettingsTableViewController_SettingOfTheQualityOfVoice" = "Quality of reading voice";
 "SettingTableViewController_CorrectionOfTheReading" = "Corrections for pronounciation";
+"SettingTableViewController_FavoriteStoryList" = "Favorite chapters";
+"FavoriteStoryListViewController_Title" = "Favorite Chapters";
+"FavoriteStoryListViewController_EmptyMessage" = "No favorite chapters yet.\nUse the star button on the reading screen to add one.";
+"FavoriteStoryListViewController_RemoveFavorite" = "Remove";
 "SettingTableViewController_SettingOfTheTextSize" = "Text display settings";
 "SettingTableViewController_SettingOfTheSpeechDelay" = "Setting for punctuation delays";
 "SettingTableViewController_MaxSpeechTime" = "Maximum reading time limit";
@@ -936,6 +940,9 @@
 "SpeechViewButtonType_SkipForward" = "Advance a little (during playback)";
 "SpeechViewButtonType_ShowTableOfContents" = "Table of Contents";
 "SpeechViewButtonType_AddPageToOtherNovel" = "Add this page to another novel";
+"SpeechViewButtonType_ToggleFavoriteStory" = "Mark this chapter as favorite";
+"SpeechViewButtonType_ToggleFavoriteStory_On" = "Remove this chapter from favorites";
+"SpeechViewButtonType_ToggleFavoriteStory_Off" = "Mark this chapter as favorite";
 "AddPageToOtherNovel_ConfirmMessage" = "Add this page to \"%@\"?";
 "AddPageToOtherNovel_Success" = "The page was added.";
 "AddPageToOtherNovel_Failure" = "Failed to add the page.";
